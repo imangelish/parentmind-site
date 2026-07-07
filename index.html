@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ParentMind — Child development, one day at a time</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23FBF0F2' stroke='%23E8C4CC' stroke-width='1.5'/%3E%3C!-- decorative petals --%3E%3Ccircle cx='32' cy='4' r='3' fill='%23C97080' opacity='0.4'/%3E%3Ccircle cx='44' cy='8' r='2' fill='%23DFA0AD' opacity='0.4'/%3E%3Ccircle cx='20' cy='8' r='2' fill='%23C97080' opacity='0.4'/%3E%3Ccircle cx='55' cy='22' r='2.5' fill='%23DFA0AD' opacity='0.3'/%3E%3Ccircle cx='9' cy='22' r='2.5' fill='%23C97080' opacity='0.3'/%3E%3C!-- mother hair --%3E%3Cellipse cx='32' cy='18' rx='10' ry='10' fill='%23C8906A' opacity='0.85'/%3E%3C!-- mother face --%3E%3Cellipse cx='32' cy='22' rx='8' ry='7' fill='%23F5E6DC'/%3E%3C!-- closed eyes mother --%3E%3Cpath d='M27 21 Q29 20 31 21' stroke='%23A07060' stroke-width='0.8' fill='none' stroke-linecap='round'/%3E%3Cpath d='M33 21 Q35 20 37 21' stroke='%23A07060' stroke-width='0.8' fill='none' stroke-linecap='round'/%3E%3C!-- mother lips --%3E%3Cellipse cx='32' cy='25' rx='2.5' ry='1' fill='%23C97080' opacity='0.7'/%3E%3C!-- mother arms/body --%3E%3Cellipse cx='32' cy='40' rx='12' ry='10' fill='%23F5E6DC' opacity='0.9'/%3E%3C!-- child head --%3E%3Cellipse cx='27' cy='38' rx='6' ry='6' fill='%23956B4A' opacity='0.85'/%3E%3Cellipse cx='27' cy='40' rx='5' ry='5' fill='%23F5E6DC'/%3E%3C!-- child closed eyes --%3E%3Cpath d='M24 39.5 Q25.5 38.8 27 39.5' stroke='%23A07060' stroke-width='0.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M27 39.5 Q28.5 38.8 30 39.5' stroke='%23A07060' stroke-width='0.6' fill='none' stroke-linecap='round'/%3E%3C!-- embrace arms --%3E%3Cpath d='M20 42 Q24 48 32 50 Q40 48 44 42' stroke='%23F0D0C0' stroke-width='4' fill='none' stroke-linecap='round' opacity='0.7'/%3E%3C!-- floral ornament dots --%3E%3Ccircle cx='14' cy='36' r='2' fill='%23C97080' opacity='0.5'/%3E%3Ccircle cx='50' cy='36' r='2' fill='%23DFA0AD' opacity='0.5'/%3E%3Ccircle cx='12' cy='44' r='1.5' fill='%23E8B4A0' opacity='0.4'/%3E%3Ccircle cx='52' cy='44' r='1.5' fill='%23C97080' opacity='0.4'/%3E%3C/svg%3E">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --rose:#C97080;
+  --rose-soft:#DFA0AD;
+  --blush:#F0D0D6;
+  --petal:#FBF0F2;
+  --dust:#EDE0E3;
+  --charcoal:#2E2226;
+  --mid:#7A6068;
+  --light:#B09AA0;
+  --white:#FFFFFF;
+  --cream:#FDFAFA;
+  --gold:#C8906A;
+  --gold-light:#E8C4A0;
+}
+
+body.night{
+  --bg:#17100F;--surface:#221518;--border:#3A2428;
+  --text:#F0E0E4;--text-mid:#C09AA8;--text-light:#7A5865;
+}
+body:not(.night){
+  --bg:var(--cream);--surface:var(--white);--border:var(--dust);
+  --text:var(--charcoal);--text-mid:var(--mid);--text-light:var(--light);
+}
+
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .4s,color .4s;line-height:1.6;}
+
+/* ── KLIMT ICON SVG ── */
+.pm-icon{transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.pm-icon:hover{transform:scale(1.06);}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 48px;
+  background:rgba(253,250,250,0.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  transition:background .4s,border-color .4s;
+}
+body.night nav{background:rgba(23,16,15,0.94);}
+
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);letter-spacing:0.2px;font-weight:400;}
+.nav-logo-text span{color:var(--rose);}
+
+.nav-center{display:flex;gap:28px;}
+.nav-link{font-size:13px;color:var(--text-mid);text-decoration:none;transition:color .15s;}
+.nav-link:hover{color:var(--text);}
+
+.nav-right{display:flex;align-items:center;gap:12px;}
+.night-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:6px 13px;font-size:12px;color:var(--text-mid);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
+.night-btn:hover{border-color:var(--rose-soft);color:var(--text);}
+.nav-cta{background:none;border:1px solid var(--blush);border-radius:8px;padding:8px 18px;font-size:13px;color:var(--rose);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.nav-cta:hover{background:var(--petal);}
+
+/* ── HERO ── */
+.hero{max-width:820px;margin:0 auto;padding:80px 32px 56px;text-align:center;}
+
+.hero-kicker{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--rose);font-weight:500;margin-bottom:20px;}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;font-size:58px;line-height:1.08;
+  letter-spacing:-0.5px;color:var(--text);margin-bottom:18px;font-weight:300;
+}
+.hero h1 em{font-style:italic;color:var(--rose);}
+
+.hero-sub{font-size:17px;color:var(--text-mid);font-weight:300;max-width:500px;margin:0 auto 32px;line-height:1.7;}
+
+.night-hint{font-size:12px;color:var(--text-light);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:6px;}
+.night-dot{width:5px;height:5px;border-radius:50%;background:var(--rose-soft);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+/* ── CHAT BOX ── */
+.chat-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  max-width:640px;margin:0 auto 10px;overflow:hidden;
+  box-shadow:0 8px 40px rgba(201,112,128,.1);
+  transition:background .4s,border-color .4s;
+}
+
+.chat-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--petal);transition:background .4s;}
+body.night .chat-tabs{background:rgba(255,255,255,.03);}
+
+.chat-tab{flex:1;padding:11px 8px;font-size:12px;color:var(--text-light);cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;transition:all .15s;}
+.chat-tab.active{color:var(--rose);border-bottom-color:var(--rose);background:var(--surface);}
+
+.chat-messages{padding:20px;min-height:120px;display:flex;flex-direction:column;gap:12px;}
+
+.msg{display:flex;gap:10px;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+
+.msg.user{flex-direction:row-reverse;}
+.msg-bubble{max-width:80%;padding:11px 15px;border-radius:14px;font-size:13.5px;line-height:1.6;color:var(--text);}
+.msg.user .msg-bubble{background:var(--petal);border:1px solid var(--blush);border-top-right-radius:4px;}
+body.night .msg.user .msg-bubble{background:rgba(240,208,214,.08);border-color:rgba(240,208,214,.15);}
+.msg.ai .msg-bubble{background:var(--surface);border:1px solid var(--border);border-top-left-radius:4px;}
+.msg-bubble em{color:var(--rose);font-style:italic;}
+.msg-bubble strong{color:var(--text);font-weight:500;}
+
+.msg-avatar{width:28px;height:28px;flex-shrink:0;margin-top:2px;}
+
+.typing-indicator{display:flex;gap:4px;padding:11px 15px;background:var(--surface);border:1px solid var(--border);border-radius:14px;border-top-left-radius:4px;width:fit-content;}
+.typing-indicator span{width:5px;height:5px;border-radius:50%;background:var(--rose-soft);animation:bounce 1.2s infinite;}
+.typing-indicator span:nth-child(2){animation-delay:.2s;}
+.typing-indicator span:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+
+.chat-input-area{padding:14px 16px;border-top:1px solid var(--border);}
+.chat-input-row{display:flex;gap:8px;}
+.chat-textarea{
+  flex:1;border:1px solid var(--border);border-radius:12px;
+  padding:10px 13px;font-family:'Inter',sans-serif;font-size:13.5px;
+  color:var(--text);background:var(--bg);outline:none;resize:none;
+  line-height:1.5;min-height:42px;max-height:100px;
+  transition:border-color .15s,background .4s;
+}
+.chat-textarea:focus{border-color:var(--rose-soft);}
+.chat-textarea::placeholder{color:var(--text-light);}
+.chat-send{
+  background:var(--rose);color:white;border:none;border-radius:10px;
+  padding:10px 18px;font-size:13px;font-family:'Inter',sans-serif;
+  cursor:pointer;transition:background .15s;white-space:nowrap;align-self:flex-end;
+}
+.chat-send:hover{background:var(--rose-soft);}
+.chat-send:disabled{background:var(--border);cursor:not-allowed;}
+
+.chat-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.chat-footer-note{font-size:11px;color:var(--text-light);}
+.chat-sugg{display:flex;gap:6px;flex-wrap:wrap;}
+.sugg-pill{background:none;border:1px solid var(--dust);border-radius:20px;padding:4px 11px;font-size:11px;color:var(--text-mid);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.sugg-pill:hover{border-color:var(--rose-soft);color:var(--rose);}
+
+.hero-note{font-size:12px;color:var(--text-light);text-align:center;}
+
+/* ── DIVIDER ── */
+hr.div{border:none;border-top:1px solid var(--border);margin:0 48px;}
+
+/* ── CHILDREN SWITCHER ── */
+.switcher-wrap{max-width:820px;margin:0 auto;padding:0 32px 48px;}
+.switcher-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light);margin-bottom:12px;text-align:center;}
+.switcher-row{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:background .4s;}
+.sw-opt{flex:1;padding:13px 16px;background:none;border:none;border-right:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:8px;transition:all .15s;color:var(--text-mid);}
+.sw-opt:last-child{border-right:none;}
+.sw-opt.active{background:var(--petal);color:var(--charcoal);}
+body.night .sw-opt.active{background:rgba(240,208,214,.07);color:var(--text);}
+.sw-opt .sw-icon{font-size:16px;}
+.sw-opt .sw-t{font-size:13px;font-weight:500;}
+.sw-opt .sw-s{font-size:11px;color:var(--text-light);}
+.sw-panels{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.sw-panel{display:none;animation:fadeUp .25s ease;}
+.sw-panel.active{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.child-chip{background:var(--surface);border:1px solid var(--border);border-radius:30px;padding:7px 16px;font-size:13px;color:var(--text-mid);display:flex;align-items:center;gap:7px;cursor:pointer;transition:all .15s;}
+.child-chip:hover,.child-chip.active{border-color:var(--rose-soft);color:var(--text);}
+.chip-age{font-size:11px;color:var(--text-light);}
+.add-chip{background:none;border:1px dashed var(--border);border-radius:30px;padding:7px 16px;font-size:13px;color:var(--text-light);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.add-chip:hover{border-color:var(--rose-soft);color:var(--rose);}
+
+/* ── SECTION BASE ── */
+.section{padding:72px 48px;max-width:1100px;margin:0 auto;}
+.sec-eye{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);font-weight:500;margin-bottom:10px;}
+.sec-h2{font-family:'Cormorant Garamond',serif;font-size:38px;letter-spacing:-0.3px;color:var(--text);margin-bottom:10px;font-weight:400;}
+.sec-lead{font-size:15px;color:var(--text-mid);font-weight:300;line-height:1.65;max-width:480px;margin-bottom:40px;}
+
+/* ── CASES ── */
+.filter-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:28px;}
+.ftab{background:none;border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--text-mid);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.ftab.active{background:var(--petal);border-color:var(--rose-soft);color:var(--rose);}
+body.night .ftab.active{background:rgba(240,208,214,.08);}
+
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.case-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:10px;}
+.case-card:hover{border-color:var(--rose-soft);box-shadow:0 6px 24px rgba(201,112,128,.08);transform:translateY(-2px);}
+.case-card.expanded{border-color:var(--rose-soft);}
+.case-meta{display:flex;justify-content:space-between;}
+.case-tag{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--rose);font-weight:500;background:var(--petal);border:1px solid var(--blush);border-radius:20px;padding:3px 9px;}
+body.night .case-tag{background:rgba(240,208,214,.08);border-color:rgba(240,208,214,.2);}
+.case-age{font-size:11px;color:var(--text-light);}
+.case-title{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--text);line-height:1.3;font-weight:400;}
+.case-sit{font-size:12.5px;color:var(--text-mid);line-height:1.6;font-style:italic;border-left:2px solid var(--blush);padding-left:10px;}
+.expand-btn{font-size:12px;color:var(--rose);cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;padding:0;text-align:left;}
+
+.case-answer{display:none;flex-direction:column;gap:10px;border-top:1px solid var(--border);padding-top:14px;animation:fadeUp .25s ease;}
+.case-answer.open{display:flex;}
+.a-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--rose-soft);font-weight:500;}
+.a-why{font-size:13px;color:var(--text);line-height:1.65;}
+.a-steps{display:flex;flex-direction:column;gap:8px;}
+.a-step{display:flex;gap:10px;align-items:flex-start;}
+.a-bullet{width:20px;height:20px;background:var(--rose);color:white;border-radius:50%;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.a-step p{font-size:13px;color:var(--text);line-height:1.55;}
+.a-watch{background:var(--bg);border-radius:10px;padding:12px 14px;border:1px solid var(--border);}
+.w-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-light);margin-bottom:5px;}
+.w-text{font-size:12px;color:var(--text-mid);line-height:1.55;}
+.use-btn{background:none;border:1px solid var(--rose-soft);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--rose);cursor:pointer;font-family:'Inter',sans-serif;align-self:flex-start;transition:all .15s;}
+.use-btn:hover{background:var(--rose);color:white;}
+
+/* ── PRIVACY ── */
+.privacy-sect{background:var(--charcoal);padding:64px 48px;}
+body.night .privacy-sect{background:#0E080A;}
+.priv-inner{max-width:900px;margin:0 auto;}
+.priv-top{display:flex;align-items:flex-start;gap:32px;margin-bottom:32px;}
+.priv-icon{width:60px;height:60px;background:rgba(240,208,214,.1);border:1px solid rgba(240,208,214,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.priv-h{font-family:'Cormorant Garamond',serif;font-size:30px;color:white;margin-bottom:7px;font-weight:400;}
+.priv-sub{font-size:14px;color:#C09AA8;font-weight:300;line-height:1.65;}
+.priv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.priv-card{background:rgba(255,255,255,.04);border:1px solid rgba(240,208,214,.1);border-radius:12px;padding:18px;}
+.priv-card-icon{font-size:18px;margin-bottom:8px;}
+.priv-card h4{font-size:13px;font-weight:500;color:white;margin-bottom:5px;}
+.priv-card p{font-size:12px;color:#8A6A74;line-height:1.6;}
+
+/* ── HOW ── */
+.how-sect{background:var(--charcoal);padding:72px 48px;}
+body.night .how-sect{background:#0E080A;}
+.how-inner{max-width:860px;margin:0 auto;}
+.how-steps{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:40px;}
+.how-step{background:rgba(255,255,255,.04);border:1px solid rgba(240,208,214,.1);border-radius:12px;padding:22px;display:flex;gap:14px;}
+.how-num{font-family:'Cormorant Garamond',serif;font-size:32px;color:rgba(240,208,214,.25);line-height:1;flex-shrink:0;font-style:italic;}
+.how-step h4{font-size:14px;font-weight:500;color:white;margin-bottom:5px;}
+.how-step p{font-size:13px;color:#8A6A74;line-height:1.6;}
+
+/* ── SCHOOLS ── */
+.schools-sect{padding:72px 48px;}
+.schools-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.school-feats{display:flex;flex-direction:column;gap:10px;margin-top:28px;}
+.sf{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;transition:background .4s;}
+.sf-icon{font-size:18px;flex-shrink:0;}
+.sf h4{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.sf p{font-size:12px;color:var(--text-mid);line-height:1.5;}
+.sf a{color:var(--rose);text-decoration:none;}
+
+.class-vis{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:background .4s;}
+.class-vis-top{background:linear-gradient(135deg,#C97080,#DFA0AD);padding:18px 20px;display:flex;align-items:center;gap:12px;}
+.class-vis-top h3{font-family:'Cormorant Garamond',serif;font-size:18px;color:white;font-weight:400;}
+.class-vis-top p{font-size:12px;color:rgba(255,255,255,.75);margin-top:1px;}
+.class-vis-body{padding:16px;}
+.class-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.class-row:last-child{border-bottom:none;}
+.class-av{width:30px;height:30px;border-radius:50%;background:var(--petal);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.class-name{font-size:13px;font-weight:500;color:var(--text);flex:1;}
+.class-tag{font-size:10px;color:var(--rose);background:var(--petal);border:1px solid var(--blush);border-radius:20px;padding:2px 8px;}
+body.night .class-tag{background:rgba(240,208,214,.08);border-color:rgba(240,208,214,.2);}
+
+/* ── FREE PLAN ── */
+.free-sect{padding:72px 48px;max-width:860px;margin:0 auto;}
+.free-list{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--surface);transition:background .4s;}
+.free-item{display:flex;align-items:center;gap:14px;padding:15px 22px;border-bottom:1px solid var(--border);}
+.free-item:last-child{border-bottom:none;}
+.free-check{width:20px;height:20px;background:var(--petal);border:1px solid var(--blush);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--rose);flex-shrink:0;}
+.fi-t h4{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.fi-t p{font-size:12px;color:var(--text-light);}
+.fi-badge{margin-left:auto;font-size:10px;color:var(--rose);background:var(--petal);border:1px solid var(--blush);border-radius:20px;padding:3px 10px;white-space:nowrap;}
+.fi-badge.pro{color:var(--text-light);background:none;border-color:var(--border);}
+
+/* ── CTA ── */
+.cta-sect{background:var(--petal);border-top:1px solid var(--dust);border-bottom:1px solid var(--dust);padding:64px 48px;text-align:center;transition:background .4s;}
+body.night .cta-sect{background:rgba(240,208,214,.04);border-color:rgba(240,208,214,.08);}
+.cta-sect h2{font-family:'Cormorant Garamond',serif;font-size:38px;color:var(--text);letter-spacing:-0.3px;margin-bottom:10px;font-weight:400;}
+.cta-sect p{font-size:15px;color:var(--text-mid);margin-bottom:28px;font-weight:300;}
+.email-row{display:flex;gap:8px;justify-content:center;max-width:360px;margin:0 auto;}
+.email-in{flex:1;border:1px solid var(--border);border-radius:10px;padding:11px 16px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s,background .4s;}
+.email-in:focus{border-color:var(--rose-soft);}
+.email-in::placeholder{color:var(--text-light);}
+.email-btn{background:var(--charcoal);color:white;border:none;border-radius:10px;padding:11px 20px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s;white-space:nowrap;}
+.email-btn:hover{background:var(--rose);}
+
+/* ── FOOTER ── */
+footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text-mid);display:flex;align-items:center;gap:8px;font-weight:400;}
+.f-logo span{color:var(--rose);}
+.f-note{font-size:12px;color:var(--text-light);}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+  nav{padding:12px 20px;}
+  .nav-center{display:none;}
+  .hero{padding:48px 20px 36px;}
+  .hero h1{font-size:38px;}
+  .section,.free-sect{padding:48px 20px;}
+  .cases-grid{grid-template-columns:1fr;}
+  .privacy-sect,.how-sect,.schools-sect{padding:48px 20px;}
+  .priv-top{flex-direction:column;gap:16px;}
+  .priv-grid,.how-steps{grid-template-columns:1fr;}
+  .schools-inner{grid-template-columns:1fr;}
+  .email-row{flex-direction:column;}
+  footer{flex-direction:column;gap:12px;text-align:center;padding:24px 20px;}
+  .switcher-wrap{padding:0 20px 36px;}
+  .switcher-row{flex-direction:column;}
+  .sw-opt{border-right:none;border-bottom:1px solid var(--border);}
+  .sw-opt:last-child{border-bottom:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <!-- Klimt-inspired icon -->
+    <svg class="pm-icon" width="38" height="38" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="31" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1.5"/>
+      <!-- floral ornament dots around edge -->
+      <circle cx="32" cy="4.5" r="2.5" fill="#C97080" opacity="0.5"/>
+      <circle cx="44" cy="7" r="1.8" fill="#DFA0AD" opacity="0.45"/>
+      <circle cx="20" cy="7" r="1.8" fill="#C97080" opacity="0.45"/>
+      <circle cx="54" cy="20" r="2" fill="#E8C4A0" opacity="0.4"/>
+      <circle cx="10" cy="20" r="2" fill="#C97080" opacity="0.4"/>
+      <circle cx="57" cy="34" r="1.5" fill="#DFA0AD" opacity="0.3"/>
+      <circle cx="7" cy="34" r="1.5" fill="#C97080" opacity="0.3"/>
+      <!-- mother hair / head warm tones -->
+      <ellipse cx="32" cy="15" rx="11" ry="11" fill="#C8906A" opacity="0.9"/>
+      <ellipse cx="24" cy="12" rx="5" ry="4" fill="#B07A50" opacity="0.6"/>
+      <ellipse cx="40" cy="12" rx="4" ry="3.5" fill="#C8906A" opacity="0.5"/>
+      <!-- mother face -->
+      <ellipse cx="32" cy="18" rx="8.5" ry="7.5" fill="#F5E6DC"/>
+      <!-- mother closed eyes -->
+      <path d="M26.5 16.5 Q28.5 15.5 30.5 16.5" stroke="#8A6050" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+      <path d="M33.5 16.5 Q35.5 15.5 37.5 16.5" stroke="#8A6050" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+      <!-- mother lips -->
+      <ellipse cx="32" cy="20.5" rx="2.8" ry="1.1" fill="#C97080" opacity="0.75"/>
+      <!-- mother neck/body -->
+      <rect x="29" y="24" width="6" height="5" fill="#F5E6DC"/>
+      <!-- child head — dark curly hair -->
+      <ellipse cx="28" cy="36" rx="7" ry="6.5" fill="#6B4535" opacity="0.9"/>
+      <ellipse cx="25" cy="33" rx="3.5" ry="3" fill="#5A3828" opacity="0.6"/>
+      <ellipse cx="31" cy="33" rx="2.5" ry="2.5" fill="#6B4535" opacity="0.5"/>
+      <!-- child face -->
+      <ellipse cx="28" cy="38" rx="5.5" ry="5" fill="#F5E6DC"/>
+      <!-- child closed eyes -->
+      <path d="M24 37 Q25.5 36.2 27 37" stroke="#8A6050" stroke-width="0.75" fill="none" stroke-linecap="round"/>
+      <path d="M29 37 Q30.5 36.2 32 37" stroke="#8A6050" stroke-width="0.75" fill="none" stroke-linecap="round"/>
+      <!-- child rosy cheeks -->
+      <ellipse cx="24" cy="39" rx="2" ry="1.2" fill="#C97080" opacity="0.2"/>
+      <ellipse cx="32" cy="39" rx="2" ry="1.2" fill="#C97080" opacity="0.2"/>
+      <!-- embrace — mother's arms -->
+      <path d="M18 42 Q20 50 32 52 Q44 50 46 42" stroke="#F0D0C0" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.75"/>
+      <path d="M20 40 Q22 30 32 28 Q42 30 44 40" stroke="#F5E6DC" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <!-- ornamental dots — gold/teal Klimt motif -->
+      <circle cx="14" cy="38" r="2.2" fill="#C97080" opacity="0.5"/>
+      <circle cx="50" cy="38" r="2.2" fill="#DFA0AD" opacity="0.5"/>
+      <circle cx="12" cy="46" r="1.6" fill="#C8906A" opacity="0.45"/>
+      <circle cx="52" cy="46" r="1.6" fill="#C97080" opacity="0.45"/>
+      <circle cx="16" cy="52" r="1.4" fill="#DFA0AD" opacity="0.35"/>
+      <circle cx="48" cy="52" r="1.4" fill="#C97080" opacity="0.35"/>
+      <!-- small flower dots on mother hair -->
+      <circle cx="23" cy="9" r="1.2" fill="#FAF0F2" opacity="0.7"/>
+      <circle cx="28" cy="7" r="1" fill="#E8C4CC" opacity="0.8"/>
+      <circle cx="36" cy="7" r="1" fill="#FAF0F2" opacity="0.7"/>
+      <circle cx="41" cy="9" r="1.2" fill="#E8C4CC" opacity="0.6"/>
+    </svg>
+    <span class="nav-logo-text">Parent<span>Mind</span></span>
+  </a>
+
+  <div class="nav-center">
+    <a href="#cases" class="nav-link">Cases</a>
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#schools" class="nav-link">For Schools</a>
+    <a href="#free" class="nav-link">Free plan</a>
+  </div>
+
+  <div class="nav-right">
+    <button class="night-btn" onclick="toggleNight()" id="nbtn">🌙 Night</button>
+    <button class="nav-cta">Open app →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-kicker">Child development · Free to start</p>
+  <h1>Understand your child<br>before you need a <em>psychologist.</em></h1>
+  <p class="hero-sub">Describe what happened today. ParentMind explains why, tells you what to do, and builds a picture of your child over time.</p>
+
+  <div class="night-hint">
+    <div class="night-dot"></div>
+    Writing at 2am because something felt off? Try night mode ↑
+  </div>
+
+  <!-- LIVE CHAT -->
+  <div class="chat-box">
+    <div class="chat-tabs">
+      <button class="chat-tab active" onclick="setChild('Minho','4',this)">👦 Minho, 4</button>
+      <button class="chat-tab" onclick="setChild('Sora','7',this)">👧 Sora, 7</button>
+      <button class="chat-tab" onclick="setChild('Your child','?',this)">+ Your child</button>
+    </div>
+
+    <div class="chat-messages" id="messages">
+      <div class="msg ai">
+        <svg class="msg-avatar" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13.5" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1"/><ellipse cx="14" cy="9" rx="4.5" ry="4.5" fill="#C8906A" opacity="0.9"/><ellipse cx="14" cy="11" rx="3.8" ry="3.2" fill="#F5E6DC"/><ellipse cx="12" cy="18" rx="3" ry="2.8" fill="#6B4535" opacity="0.85"/><ellipse cx="12" cy="19" rx="2.5" ry="2.3" fill="#F5E6DC"/><path d="M8 22 Q11 25 14 25.5 Q17 25 20 22" stroke="#F0D0C0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/></svg>
+        <div class="msg-bubble">Hello. I'm here to help you understand <strong>Minho</strong> — describe anything that happened today, in your own words. There's no right way to start.</div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="chat-input-row">
+        <textarea class="chat-textarea" id="userInput" placeholder="What happened today with your child..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button class="chat-send" id="sendBtn" onclick="sendMessage()">Send →</button>
+      </div>
+      <div class="chat-footer">
+        <span class="chat-footer-note">🔒 Private · not stored</span>
+        <div class="chat-sugg">
+          <button class="sugg-pill" onclick="fillSugg('He had a huge meltdown at the supermarket')">Meltdown</button>
+          <button class="sugg-pill" onclick="fillSugg('She refuses to go to kindergarten every morning')">Refuses school</button>
+          <button class="sugg-pill" onclick="fillSugg('Won\\'t sleep alone, needs me in the room')">Sleep issues</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="hero-note">No account needed. Free forever for basic use.</p>
+</section>
+
+<!-- CHILDREN SWITCHER -->
+<div class="switcher-wrap">
+  <p class="switcher-label">Tracking one child or more?</p>
+  <div class="switcher-row">
+    <button class="sw-opt active" onclick="swChildren(0,this)"><span class="sw-icon">👶</span><span><span class="sw-t">One child</span><br><span class="sw-s">Full free plan</span></span></button>
+    <button class="sw-opt" onclick="swChildren(1,this)"><span class="sw-icon">👧👦</span><span><span class="sw-t">Two children</span><br><span class="sw-s">Free + one extra</span></span></button>
+    <button class="sw-opt" onclick="swChildren(2,this)"><span class="sw-icon">👨‍👩‍👧‍👦</span><span><span class="sw-t">Three or more</span><br><span class="sw-s">Pro plan</span></span></button>
+  </div>
+  <div class="sw-panels">
+    <div class="sw-panel active" id="sw0"><div class="child-chip active">👦 Minho <span class="chip-age">4y</span></div><button class="add-chip">+ Add child</button></div>
+    <div class="sw-panel" id="sw1"><div class="child-chip active">👦 Minho <span class="chip-age">4y</span></div><div class="child-chip">👧 Sora <span class="chip-age">7y</span></div><button class="add-chip">+ Add child</button></div>
+    <div class="sw-panel" id="sw2"><div class="child-chip active">👦 Minho <span class="chip-age">4y</span></div><div class="child-chip">👧 Sora <span class="chip-age">7y</span></div><div class="child-chip">👶 Jiho <span class="chip-age">1y</span></div><button class="add-chip">+ Add child</button></div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- CASES -->
+<section class="section" id="cases">
+  <p class="sec-eye">Solved cases</p>
+  <h2 class="sec-h2">Real situations. Real guidance.</h2>
+  <p class="sec-lead">Read the full psychology before creating an account. Trust is built before we ask for your email.</p>
+
+  <div class="filter-tabs">
+    <button class="ftab active" onclick="filterCases('all',this)">All ages</button>
+    <button class="ftab" onclick="filterCases('toddler',this)">Toddler 2–4</button>
+    <button class="ftab" onclick="filterCases('preschool',this)">Preschool 4–6</button>
+    <button class="ftab" onclick="filterCases('school',this)">School age 6–10</button>
+    <button class="ftab" onclick="filterCases('emotions',this)">Emotions</button>
+    <button class="ftab" onclick="filterCases('sleep',this)">Sleep</button>
+  </div>
+
+  <div class="cases-grid" id="cases-grid">
+    <div class="case-card" data-tags="toddler preschool emotions">
+      <div class="case-meta"><span class="case-tag">Emotions</span><span class="case-age">Age 3–5</span></div>
+      <div class="case-title">Meltdown in a public place — nothing works</div>
+      <div class="case-sit">"He screamed for 20 minutes in the supermarket. People were staring."</div>
+      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-answer">
+        <div class="a-label">Why this happens</div>
+        <div class="a-why">At 3–5, the prefrontal cortex is still largely undeveloped. When a child hears "no," the emotional brain floods before any rational processing can happen. This is a neurological event, not defiance.</div>
+        <div class="a-label">What to do</div>
+        <div class="a-steps">
+          <div class="a-step"><div class="a-bullet">1</div><p>Do not reason or negotiate. Get low — crouch to their level.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p>Name the feeling: <em>"You really wanted that. You're so disappointed."</em></p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p>Create safety, not shame. Move somewhere quieter if possible.</p></div>
+        </div>
+        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Meltdowns lasting 30+ min or daily — flag for pediatric assessment.</div></div>
+        <button class="use-btn">Log this in ParentMind</button>
+      </div>
+    </div>
+
+    <div class="case-card" data-tags="preschool school emotions">
+      <div class="case-meta"><span class="case-tag">Behavior</span><span class="case-age">Age 4–7</span></div>
+      <div class="case-title">Refuses kindergarten — cries every morning</div>
+      <div class="case-sit">"She holds onto the door. Teacher says she's fine 10 minutes after I leave."</div>
+      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-answer">
+        <div class="a-label">Why this happens</div>
+        <div class="a-why">Separation anxiety is developmentally normal. The stomach ache is real — anxiety activates the gut-brain axis. Settling quickly after you leave is a good sign: she has a secure base.</div>
+        <div class="a-label">What to do</div>
+        <div class="a-steps">
+          <div class="a-step"><div class="a-bullet">1</div><p>Create a consistent goodbye ritual — same words, same hug, every day.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p>Do not linger. A long goodbye signals something is wrong.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p>Give her something of yours to hold during the day.</p></div>
+        </div>
+        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Escalating avoidance after 4+ weeks of consistent routine.</div></div>
+        <button class="use-btn">Log this in ParentMind</button>
+      </div>
+    </div>
+
+    <div class="case-card" data-tags="toddler preschool sleep">
+      <div class="case-meta"><span class="case-tag">Sleep</span><span class="case-age">Age 2–6</span></div>
+      <div class="case-title">Won't sleep alone — needs a parent in the room</div>
+      <div class="case-sit">"He's 5 and still can't fall asleep unless I'm sitting next to him."</div>
+      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-answer">
+        <div class="a-label">Why this happens</div>
+        <div class="a-why">Sleep is neurologically the most vulnerable state for a child. His nervous system needs co-regulation — a calm adult presence to downshift. This is not manipulation.</div>
+        <div class="a-label">What to do</div>
+        <div class="a-steps">
+          <div class="a-step"><div class="a-bullet">1</div><p>Gradual distancing: next to bed → doorway → outside. Move one step every 3–5 nights.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p>Introduce 10-min "worry time" before bed — named fears sleep better.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p>Give him agency: choose nightlight color, blanket. Control reduces anxiety.</p></div>
+        </div>
+        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Night terrors (screaming but unresponsive) have a separate protocol — flag separately.</div></div>
+        <button class="use-btn">Log this in ParentMind</button>
+      </div>
+    </div>
+
+    <div class="case-card" data-tags="school emotions">
+      <div class="case-meta"><span class="case-tag">Self-esteem</span><span class="case-age">Age 6–10</span></div>
+      <div class="case-title">"I hate myself" — said after one wrong answer</div>
+      <div class="case-sit">"My son got one answer wrong and said 'I'm so stupid, I hate myself.'"</div>
+      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-answer">
+        <div class="a-label">Why this happens</div>
+        <div class="a-why">School-age children are in Erikson's Industry vs. Inferiority stage — testing "am I competent?" A failure can feel existential. "I hate myself" is catastrophizing but deserves a serious response.</div>
+        <div class="a-label">What to do</div>
+        <div class="a-steps">
+          <div class="a-step"><div class="a-bullet">1</div><p>Don't immediately correct. First: <em>"That feels really awful."</em></p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p>Separate event from identity: <em>"Getting one wrong doesn't say anything about who you are."</em></p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p>Share your own failure story — normalizing struggle is one of the most evidence-based resilience builders.</p></div>
+        </div>
+        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Frequent self-critical language or withdrawal from activities — consider a school counselor.</div></div>
+        <button class="use-btn">Log this in ParentMind</button>
+      </div>
+    </div>
+
+    <div class="case-card" data-tags="toddler preschool emotions">
+      <div class="case-meta"><span class="case-tag">Behavior</span><span class="case-age">Age 2–5</span></div>
+      <div class="case-title">Hits other children — especially at daycare</div>
+      <div class="case-sit">"My daughter hit another child twice this week. We don't hit at home."</div>
+      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-answer">
+        <div class="a-label">Why this happens</div>
+        <div class="a-why">Before age 5, hitting is almost always a language limitation, not aggression. The child has a feeling they cannot verbalize fast enough. Daycare amplifies this — high stimulation, low control.</div>
+        <div class="a-label">What to do</div>
+        <div class="a-steps">
+          <div class="a-step"><div class="a-bullet">1</div><p>Respond calmly: <em>"Hitting hurts. When you're angry, use your words."</em></p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p>Practice missing words at home during calm moments — give her vocabulary before she needs it.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p>Notice the pattern — before lunch? At pickup? Hunger and fatigue amplify this significantly.</p></div>
+        </div>
+        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">If hitting is accompanied by biting or seems to give visible pleasure — warrants a closer look.</div></div>
+        <button class="use-btn">Log this in ParentMind</button>
+      </div>
+    </div>
+
+    <div class="case-card" data-tags="toddler preschool emotions">
+      <div class="case-meta"><span class="case-tag">Boundaries</span><span class="case-age">Age 3–6</span></div>
+      <div class="case-title">Extreme reaction to "no" — every single time</div>
+      <div class="case-sit">"I've started avoiding saying no just to have peace."</div>
+      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-answer">
+        <div class="a-label">Why this happens</div>
+        <div class="a-why">Some children have a lower frustration tolerance threshold — partly temperament, partly developmental. Avoiding "no" teaches that intensity = outcome, which can entrench the behavior.</div>
+        <div class="a-label">What to do</div>
+        <div class="a-steps">
+          <div class="a-step"><div class="a-bullet">1</div><p>Reintroduce low-stakes "nos" consistently. Build her tolerance in small doses.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p>Offer "yes, later" when possible — validates desire while holding the boundary.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p>After the storm: <em>"What could you do next time when that feeling comes?"</em></p></div>
+        </div>
+        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Consistent parental avoidance of limit-setting is worth exploring with a family therapist.</div></div>
+        <button class="use-btn">Log this in ParentMind</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- PRIVACY -->
+<section class="privacy-sect">
+  <div class="priv-inner">
+    <div class="priv-top">
+      <div class="priv-icon">🔒</div>
+      <div>
+        <h2 class="priv-h">Your child's data stays private.</h2>
+        <p class="priv-sub">You're sharing sensitive information about your child. We take that seriously — not just legally, but as a core design principle.</p>
+      </div>
+    </div>
+    <div class="priv-grid">
+      <div class="priv-card"><div class="priv-card-icon">🚫</div><h4>Never sold or shared</h4><p>Your child's profile and entries are never shared with third parties, advertisers, or researchers. Ever.</p></div>
+      <div class="priv-card"><div class="priv-card-icon">🏠</div><h4>Encrypted, no human reads</h4><p>AI processing happens server-side but your profile data is encrypted and only accessible by your account.</p></div>
+      <div class="priv-card"><div class="priv-card-icon">🗑️</div><h4>Delete anytime</h4><p>Export or permanently delete your child's entire profile at any time. Your data disappears completely.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-sect" id="how">
+  <div class="how-inner">
+    <p class="sec-eye" style="color:#DFA0AD;">How it works</p>
+    <h2 class="sec-h2" style="color:white;">Not advice. Memory.</h2>
+    <p class="sec-lead" style="color:#9A7A84;max-width:480px;">The difference between ParentMind and reading an article is that ParentMind remembers your child — and comes back to check.</p>
+    <div class="how-steps">
+      <div class="how-step"><div class="how-num">1</div><div><h4>Describe in your words</h4><p>Write what happened however feels natural. No forms, no checkboxes — just your words.</p></div></div>
+      <div class="how-step"><div class="how-num">2</div><div><h4>Get specific guidance</h4><p>Not generic articles. Guidance specific to your child's age, history, and what's happening right now.</p></div></div>
+      <div class="how-step"><div class="how-num">3</div><div><h4>Everything is saved</h4><p>Each entry builds your child's portfolio — a developmental picture that grows clearer over time.</p></div></div>
+      <div class="how-step"><div class="how-num">4</div><div><h4>ParentMind follows up</h4><p>Two weeks later: "How is the morning routine going?" This continuity separates tracking from understanding.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOOLS -->
+<section class="schools-sect" id="schools">
+  <div class="schools-inner">
+    <div>
+      <p class="sec-eye">For Schools & Kindergartens</p>
+      <h2 class="sec-h2">Every classroom. Every child.</h2>
+      <p class="sec-lead">ParentMind can be licensed as a standard tool for early childhood education — giving teachers context they've never had before.</p>
+      <div class="school-feats">
+        <div class="sf"><span class="sf-icon">📋</span><div><h4>Child portfolio per student</h4><p>Teachers see each child's emotional baseline and known triggers before the first day.</p></div></div>
+        <div class="sf"><span class="sf-icon">👨‍👩‍👧</span><div><h4>Parent-teacher coordination</h4><p>Both sides log observations. AI synthesizes patterns across home and school.</p></div></div>
+        <div class="sf"><span class="sf-icon">🏫</span><div><h4>Class-level insights</h4><p>Anonymized patterns across a classroom help teachers identify systemic issues.</p></div></div>
+        <div class="sf"><span class="sf-icon">📬</span><div><h4>Interested in licensing?</h4><p><a href="#">Contact us →</a> We work with kindergartens and primary schools directly.</p></div></div>
+      </div>
+    </div>
+    <div class="class-vis">
+      <div class="class-vis-top">
+        <svg width="28" height="28" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><ellipse cx="32" cy="18" rx="10" ry="10" fill="rgba(255,255,255,.5)"/><ellipse cx="32" cy="20" rx="8" ry="7" fill="rgba(255,255,255,.8)"/><ellipse cx="26" cy="38" rx="6" ry="6" fill="rgba(255,255,255,.4)"/><ellipse cx="26" cy="40" rx="5" ry="5" fill="rgba(255,255,255,.7)"/><path d="M18 44 Q22 50 32 52 Q42 50 46 44" stroke="rgba(255,255,255,.5)" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+        <div><h3>Classroom view</h3><p>Haeundae Preschool · Group A</p></div>
+      </div>
+      <div class="class-vis-body">
+        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Minho</span><span class="class-tag">Transition sensitive</span></div>
+        <div class="class-row"><div class="class-av">👧</div><span class="class-name">Sora</span><span class="class-tag">Separation anxiety ↓</span></div>
+        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Jiho</span><span class="class-tag">High energy · needs structure</span></div>
+        <div class="class-row"><div class="class-av">👧</div><span class="class-name">Yuna</span><span class="class-tag">Thriving ✓</span></div>
+        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Taemin</span><span class="class-tag">New — monitoring</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- FREE PLAN -->
+<section class="free-sect" id="free">
+  <p class="sec-eye">Free plan</p>
+  <h2 class="sec-h2">Start without paying anything.</h2>
+  <p class="sec-lead" style="margin-bottom:28px;">Good psychological guidance shouldn't be a luxury. The core of ParentMind is free.</p>
+  <div class="free-list">
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Unlimited questions</h4><p>Describe any situation, get full psychological explanation and actionable steps</p></div><div class="fi-badge">Always free</div></div>
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Full cases library</h4><p>Browse all solved cases with evidence-based responses</p></div><div class="fi-badge">Always free</div></div>
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Child portfolio — 1 child</h4><p>All entries saved, milestones tracked, patterns noted</p></div><div class="fi-badge">Always free</div></div>
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Follow-up reminders</h4><p>ParentMind checks back on unresolved situations after 2 weeks</p></div><div class="fi-badge">Always free</div></div>
+    <div class="free-item" style="opacity:.5"><div class="free-check" style="color:#ccc;border-color:#eee;">—</div><div class="fi-t"><h4>Multiple children + school sharing</h4><p>Share portfolio with teachers and pediatricians</p></div><div class="fi-badge pro">Pro plan</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sect">
+  <h2>Start today. It's free.</h2>
+  <p>No credit card. No commitment. Just a better understanding of your child.</p>
+  <div class="email-row">
+    <input class="email-in" type="email" placeholder="your@email.com">
+    <button class="email-btn">Create account</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">
+    <svg width="24" height="24" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1.5"/><ellipse cx="32" cy="15" rx="10" ry="10" fill="#C8906A" opacity="0.85"/><ellipse cx="32" cy="18" rx="8" ry="7" fill="#F5E6DC"/><ellipse cx="28" cy="36" rx="6.5" ry="6" fill="#6B4535" opacity="0.9"/><ellipse cx="28" cy="38" rx="5.5" ry="5" fill="#F5E6DC"/><path d="M18 42 Q22 50 32 52 Q42 50 46 42" stroke="#F0D0C0" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.75"/><circle cx="14" cy="38" r="2" fill="#C97080" opacity="0.45"/><circle cx="50" cy="38" r="2" fill="#DFA0AD" opacity="0.45"/></svg>
+    Parent<span>Mind</span>
+  </div>
+  <div class="f-note">Built on child developmental psychology · Private by design · © 2026</div>
+</footer>
+
+<script>
+// ── STATE ──
+let currentChild = { name: 'Minho', age: '4' };
+const history = [];
+
+const SYSTEM = (name, age) => `You are ParentMind — a warm, knowledgeable AI parenting assistant with expertise in child developmental psychology. You're currently helping a parent understand their child ${name}, who is ${age} years old.
+
+Your role:
+- Explain the psychology behind what the parent describes (clearly, without jargon)
+- Give 2-3 specific, actionable things they can do tonight or this week
+- Note what to observe going forward
+- Be warm, non-judgmental, and concise (150-220 words)
+- Use *asterisks* for italic emphasis and **double asterisks** for key terms
+- End with one gentle follow-up question
+
+Speak like a knowledgeable friend who happens to be a child psychologist. Never be clinical or cold.`;
+
+// ── NIGHT MODE ──
+function toggleNight() {
+  document.body.classList.toggle('night');
+  const isNight = document.body.classList.contains('night');
+  document.getElementById('nbtn').textContent = isNight ? '☀️ Day' : '🌙 Night';
+}
+
+// ── CHILD TABS ──
+function setChild(name, age, btn) {
+  currentChild = { name, age };
+  document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const msgs = document.getElementById('messages');
+  msgs.innerHTML = `<div class="msg ai">
+    ${avatarSVG()}
+    <div class="msg-bubble">Hello. I'm here to help you understand <strong>${name}</strong> — describe anything that happened today, in your own words.</div>
+  </div>`;
+  history.length = 0;
+}
+
+// ── AVATAR SVG ──
+function avatarSVG() {
+  return `<svg class="msg-avatar" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13.5" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1"/><ellipse cx="14" cy="9" rx="4.5" ry="4.5" fill="#C8906A" opacity="0.9"/><ellipse cx="14" cy="11" rx="3.8" ry="3.2" fill="#F5E6DC"/><ellipse cx="12" cy="18" rx="3" ry="2.8" fill="#6B4535" opacity="0.85"/><ellipse cx="12" cy="19" rx="2.5" ry="2.3" fill="#F5E6DC"/><path d="M8 22 Q11 25 14 25.5 Q17 25 20 22" stroke="#F0D0C0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/></svg>`;
+}
+
+function userAvatarSVG() {
+  return `<div style="width:28px;height:28px;border-radius:50%;background:var(--petal);border:1px solid var(--blush);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px;">👩</div>`;
+}
+
+// ── SUGGESTIONS ──
+function fillSugg(text) {
+  document.getElementById('userInput').value = text;
+  document.getElementById('userInput').focus();
+}
+
+// ── SEND ──
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const btn = document.getElementById('sendBtn');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMsg('user', text);
+  history.push({ role: 'user', content: text });
+  input.value = '';
+  btn.disabled = true;
+
+  // typing
+  const typingId = addTyping();
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: SYSTEM(currentChild.name, currentChild.age),
+        messages: history
+      })
+    });
+    const data = await res.json();
+    const reply = data.reply;
+    removeTyping(typingId);
+    addMsg('ai', reply);
+    history.push({ role: 'assistant', content: reply });
+  } catch(err) {
+    removeTyping(typingId);
+    addMsg('ai', 'Something went wrong. Please try again.');
+  }
+
+  btn.disabled = false;
+  input.focus();
+}
+
+function addMsg(role, text) {
+  const msgs = document.getElementById('messages');
+  const wrap = document.createElement('div');
+  wrap.className = `msg ${role}`;
+
+  const avatar = role === 'ai' ? avatarSVG() : userAvatarSVG();
+
+  // format text: **bold** and *italic*
+  const formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+  wrap.innerHTML = `${avatar}<div class="msg-bubble">${formatted}</div>`;
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addTyping() {
+  const msgs = document.getElementById('messages');
+  const id = 'typing-' + Date.now();
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ai';
+  wrap.id = id;
+  wrap.innerHTML = `${avatarSVG()}<div class="typing-indicator"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(wrap);
+  msgs.scrollTop = msgs.scrollHeight;
+  return id;
+}
+
+function removeTyping(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+// ── CHILDREN SWITCHER ──
+function swChildren(i, btn) {
+  document.querySelectorAll('.sw-opt').forEach(o => o.classList.remove('active'));
+  document.querySelectorAll('.sw-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sw' + i).classList.add('active');
+}
+
+// ── CASES ──
+function filterCases(tag, btn) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.case-card').forEach(c => {
+    c.style.display = (tag === 'all' || (c.dataset.tags||'').includes(tag)) ? '' : 'none';
+  });
+}
+
+function toggleCase(btn) {
+  const card = btn.closest('.case-card');
+  const ans = card.querySelector('.case-answer');
+  const open = ans.classList.contains('open');
+  ans.classList.toggle('open', !open);
+  card.classList.toggle('expanded', !open);
+  btn.textContent = open ? 'Read the psychology →' : 'Close ↑';
+}
+</script>
+</body>
+</html>
