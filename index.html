@@ -722,7 +722,7 @@ function resetChat(profile) {
   saveHistory(history);
   const msgs = document.getElementById('messages');
   msgs.innerHTML = '';
-  addMsg('ai', 'Hello — I'm here to help you understand <strong>' + profile.name + '</strong>. Describe anything that happened today, in your own words. There's no right way to start.');
+  addMsg('ai', `Hello — I'm here to help you understand <strong>${profile.name}</strong>. Describe anything that happened today, in your own words. There's no right way to start.`);
 }
 
 // ══════════════════════════════════════
