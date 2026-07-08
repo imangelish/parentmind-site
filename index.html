@@ -666,7 +666,7 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
     <svg width="24" height="24" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1.5"/><ellipse cx="32" cy="15" rx="10" ry="10" fill="#C8906A" opacity="0.85"/><ellipse cx="32" cy="18" rx="8" ry="7" fill="#F5E6DC"/><ellipse cx="28" cy="36" rx="6.5" ry="6" fill="#6B4535" opacity="0.9"/><ellipse cx="28" cy="38" rx="5.5" ry="5" fill="#F5E6DC"/><path d="M18 42 Q22 50 32 52 Q42 50 46 42" stroke="#F0D0C0" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.75"/><circle cx="14" cy="38" r="2" fill="#C97080" opacity="0.45"/><circle cx="50" cy="38" r="2" fill="#DFA0AD" opacity="0.45"/></svg>
     Parent<span>Mind</span>
   </div>
-  <div class="f-note">Built on child developmental psychology · Private by design · © 2026</div>
+  <div class="f-note">Made by Angelish · Built on child developmental psychology · © 2026</div>
 </footer>
 
 <script>
@@ -741,16 +741,19 @@ async function sendMessage() {
   const typingId = addTyping();
 
   try {
-    const res = await fetch('/api/chat', {
+    const TONE = `You are ParentMind — a warm, calm AI assistant for parents. Speak like a trusted friend who has a psychology degree. Always acknowledge the parent feeling first. Short paragraphs, no bullet points. Never make parent feel judged. End with one gentle question. Under 200 words. Child: ${currentChild.name}, age ${currentChild.age}.`;
+    const contents = [
+      { role: 'user', parts: [{ text: TONE }] },
+      { role: 'model', parts: [{ text: 'Understood.' }] },
+      ...history.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] }))
+    ];
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyAQ_Ab8RN6Kum7cnhUvlMyDlaBWCkYcFhtOVAhJT8c4porthE0ZKzA', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system: SYSTEM(currentChild.name, currentChild.age),
-        messages: history
-      })
+      body: JSON.stringify({ contents, generationConfig: { temperature: 0.75, maxOutputTokens: 400 } })
     });
     const data = await res.json();
-    const reply = data.reply;
+    const reply = data.candidates[0].content.parts[0].text;
     removeTyping(typingId);
     addMsg('ai', reply);
     history.push({ role: 'assistant', content: reply });
