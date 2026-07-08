@@ -372,7 +372,7 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 
   <div class="nav-right">
     <button class="night-btn" onclick="toggleNight()" id="nbtn">🌙 Night</button>
-    <button class="nav-cta">Open app →</button>
+    
   </div>
 </nav>
 
@@ -389,16 +389,15 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 
   <!-- LIVE CHAT -->
   <div class="chat-box">
-    <div class="chat-tabs">
-      <button class="chat-tab active" onclick="setChild('Minho','4',this)">👦 Minho, 4</button>
-      <button class="chat-tab" onclick="setChild('Sora','7',this)">👧 Sora, 7</button>
-      <button class="chat-tab" onclick="setChild('Your child','?',this)">+ Your child</button>
+    <div class="chat-tabs" id="chat-tabs">
+      <button class="chat-tab active" id="main-child-tab">👶 Your child</button>
+      <button class="chat-tab" onclick="showProfile()">⚙️ Profile</button>
     </div>
 
     <div class="chat-messages" id="messages">
       <div class="msg ai">
         <svg class="msg-avatar" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13.5" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1"/><ellipse cx="14" cy="9" rx="4.5" ry="4.5" fill="#C8906A" opacity="0.9"/><ellipse cx="14" cy="11" rx="3.8" ry="3.2" fill="#F5E6DC"/><ellipse cx="12" cy="18" rx="3" ry="2.8" fill="#6B4535" opacity="0.85"/><ellipse cx="12" cy="19" rx="2.5" ry="2.3" fill="#F5E6DC"/><path d="M8 22 Q11 25 14 25.5 Q17 25 20 22" stroke="#F0D0C0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/></svg>
-        <div class="msg-bubble">Hello. I'm here to help you understand <strong>Minho</strong> — describe anything that happened today, in your own words. There's no right way to start.</div>
+        <div class="msg-bubble" id="welcome-msg">Hello — I'm here to help you understand your child. Describe anything that happened today, in your own words. There's no right way to start.</div>
       </div>
     </div>
 
@@ -420,20 +419,7 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
   <p class="hero-note">No account needed. Free forever for basic use.</p>
 </section>
 
-<!-- CHILDREN SWITCHER -->
-<div class="switcher-wrap">
-  <p class="switcher-label">Tracking one child or more?</p>
-  <div class="switcher-row">
-    <button class="sw-opt active" onclick="swChildren(0,this)"><span class="sw-icon">👶</span><span><span class="sw-t">One child</span><br><span class="sw-s">Full free plan</span></span></button>
-    <button class="sw-opt" onclick="swChildren(1,this)"><span class="sw-icon">👧👦</span><span><span class="sw-t">Two children</span><br><span class="sw-s">Free + one extra</span></span></button>
-    <button class="sw-opt" onclick="swChildren(2,this)"><span class="sw-icon">👨‍👩‍👧‍👦</span><span><span class="sw-t">Three or more</span><br><span class="sw-s">Pro plan</span></span></button>
-  </div>
-  <div class="sw-panels">
-    <div class="sw-panel active" id="sw0"><div class="child-chip active">👦 Minho <span class="chip-age">4y</span></div><button class="add-chip">+ Add child</button></div>
-    <div class="sw-panel" id="sw1"><div class="child-chip active">👦 Minho <span class="chip-age">4y</span></div><div class="child-chip">👧 Sora <span class="chip-age">7y</span></div><button class="add-chip">+ Add child</button></div>
-    <div class="sw-panel" id="sw2"><div class="child-chip active">👦 Minho <span class="chip-age">4y</span></div><div class="child-chip">👧 Sora <span class="chip-age">7y</span></div><div class="child-chip">👶 Jiho <span class="chip-age">1y</span></div><button class="add-chip">+ Add child</button></div>
-  </div>
-</div>
+
 
 <hr class="div">
 
@@ -652,12 +638,9 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 
 <!-- CTA -->
 <section class="cta-sect">
-  <h2>Start today. It's free.</h2>
-  <p>No credit card. No commitment. Just a better understanding of your child.</p>
-  <div class="email-row">
-    <input class="email-in" type="email" placeholder="your@email.com">
-    <button class="email-btn">Create account</button>
-  </div>
+  <h2>Ready to understand your child better?</h2>
+  <p>Start a conversation right now — no account, no credit card.</p>
+  <button class="email-btn" onclick="document.getElementById('messages').scrollIntoView({behavior:'smooth'})" style="margin:0 auto;display:block;padding:14px 32px;font-size:15px;">Talk to ParentMind →</button>
 </section>
 
 <!-- FOOTER -->
@@ -670,40 +653,129 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 </footer>
 
 <script>
+// ══════════════════════════════════════
+// LOCALSTORAGE — profile & chat memory
+// ══════════════════════════════════════
+
+const STORAGE_KEY = 'parentmind_profile';
+const HISTORY_KEY = 'parentmind_history';
+
+function saveProfile(profile) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+}
+
+function loadProfile() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; }
+}
+
+function saveHistory(h) {
+  // keep last 20 messages to avoid bloat
+  const trimmed = h.slice(-20);
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
+}
+
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; } catch { return []; }
+}
+
 // ── STATE ──
-let currentChild = { name: 'Minho', age: '4' };
-const history = [];
+let currentChild = { name: 'your child', age: '?' };
+let history = loadHistory();
 
-const SYSTEM = (name, age) => `You are ParentMind — a warm, knowledgeable AI parenting assistant with expertise in child developmental psychology. You're currently helping a parent understand their child ${name}, who is ${age} years old.
+// ══════════════════════════════════════
+// ONBOARDING MODAL
+// ══════════════════════════════════════
 
-Your role:
-- Explain the psychology behind what the parent describes (clearly, without jargon)
-- Give 2-3 specific, actionable things they can do tonight or this week
-- Note what to observe going forward
-- Be warm, non-judgmental, and concise (150-220 words)
-- Use *asterisks* for italic emphasis and **double asterisks** for key terms
-- End with one gentle follow-up question
+function showOnboarding() {
+  const modal = document.getElementById('onboarding-modal');
+  modal.style.display = 'flex';
+}
 
-Speak like a knowledgeable friend who happens to be a child psychologist. Never be clinical or cold.`;
+function closeOnboarding() {
+  const name = document.getElementById('ob-name').value.trim();
+  const age = document.getElementById('ob-age').value.trim();
+  const notes = document.getElementById('ob-notes').value.trim();
+  if (!name) { document.getElementById('ob-name').focus(); return; }
+  const profile = { name, age: age || '?', notes, emoji: getEmoji(age) };
+  saveProfile(profile);
+  applyProfile(profile);
+  document.getElementById('onboarding-modal').style.display = 'none';
+}
+
+function getEmoji(age) {
+  const a = parseInt(age);
+  if (a <= 2) return '👶';
+  if (a <= 5) return '🧒';
+  if (a <= 10) return '👦';
+  return '🧑';
+}
+
+function applyProfile(profile) {
+  currentChild = { name: profile.name, age: profile.age };
+  const tab = document.getElementById('main-child-tab');
+  if (tab) tab.textContent = profile.emoji + ' ' + profile.name + ', ' + profile.age;
+  resetChat(profile);
+}
+
+function resetChat(profile) {
+  history = [];
+  saveHistory(history);
+  const msgs = document.getElementById('messages');
+  msgs.innerHTML = '';
+  addMsg('ai', 'Hello — I'm here to help you understand <strong>' + profile.name + '</strong>. Describe anything that happened today, in your own words. There's no right way to start.');
+}
+
+// ══════════════════════════════════════
+// PROFILE PAGE
+// ══════════════════════════════════════
+
+function showProfile() {
+  document.getElementById('profile-modal').style.display = 'flex';
+  const p = loadProfile();
+  if (p) {
+    document.getElementById('pr-name').value = p.name || '';
+    document.getElementById('pr-age').value = p.age || '';
+    document.getElementById('pr-notes').value = p.notes || '';
+    document.getElementById('pr-interests').value = p.interests || '';
+    document.getElementById('pr-triggers').value = p.triggers || '';
+    document.getElementById('pr-strengths').value = p.strengths || '';
+  }
+}
+
+function saveProfileModal() {
+  const p = {
+    name: document.getElementById('pr-name').value.trim(),
+    age: document.getElementById('pr-age').value.trim(),
+    notes: document.getElementById('pr-notes').value.trim(),
+    interests: document.getElementById('pr-interests').value.trim(),
+    triggers: document.getElementById('pr-triggers').value.trim(),
+    strengths: document.getElementById('pr-strengths').value.trim(),
+    emoji: getEmoji(document.getElementById('pr-age').value)
+  };
+  saveProfile(p);
+  applyProfile(p);
+  document.getElementById('profile-modal').style.display = 'none';
+}
+
+function closeProfileModal() {
+  document.getElementById('profile-modal').style.display = 'none';
+}
+
+function clearHistory() {
+  if (confirm('Clear all chat history?')) {
+    history = [];
+    saveHistory([]);
+    const p = loadProfile();
+    if (p) resetChat(p);
+  }
+}
 
 // ── NIGHT MODE ──
 function toggleNight() {
   document.body.classList.toggle('night');
   const isNight = document.body.classList.contains('night');
   document.getElementById('nbtn').textContent = isNight ? '☀️ Day' : '🌙 Night';
-}
-
-// ── CHILD TABS ──
-function setChild(name, age, btn) {
-  currentChild = { name, age };
-  document.querySelectorAll('.chat-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  const msgs = document.getElementById('messages');
-  msgs.innerHTML = `<div class="msg ai">
-    ${avatarSVG()}
-    <div class="msg-bubble">Hello. I'm here to help you understand <strong>${name}</strong> — describe anything that happened today, in your own words.</div>
-  </div>`;
-  history.length = 0;
+  localStorage.setItem('parentmind_night', isNight ? '1' : '0');
 }
 
 // ── AVATAR SVG ──
@@ -734,14 +806,22 @@ async function sendMessage() {
 
   addMsg('user', text);
   history.push({ role: 'user', content: text });
+  saveHistory(history);
   input.value = '';
   btn.disabled = true;
 
-  // typing
   const typingId = addTyping();
 
+  const profile = loadProfile();
+  const profileContext = profile && profile.notes ? `
+Extra context about ${profile.name}: ${profile.notes}` +
+    (profile.interests ? ` Interests: ${profile.interests}.` : '') +
+    (profile.triggers ? ` Known triggers: ${profile.triggers}.` : '') +
+    (profile.strengths ? ` Strengths: ${profile.strengths}.` : '') : '';
+
   try {
-    const TONE = `You are ParentMind — a warm, calm AI assistant for parents. Speak like a trusted friend who has a psychology degree. Always acknowledge the parent feeling first. Short paragraphs, no bullet points. Never make parent feel judged. End with one gentle question. Under 200 words. Child: ${currentChild.name}, age ${currentChild.age}.`;
+    const TONE = `You are ParentMind — a warm, calm AI assistant for parents. Speak like a trusted friend who has a psychology degree. Always acknowledge the parent feeling first before giving advice. Short paragraphs, no bullet points, no walls of text. Never make parent feel judged or like they failed. End with one gentle question. Under 200 words. You are helping a parent understand their child ${currentChild.name}, who is ${currentChild.age} years old.${profileContext}`;
+
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -752,7 +832,7 @@ async function sendMessage() {
         model: 'llama-3.1-8b-instant',
         messages: [
           { role: 'system', content: TONE },
-          ...history
+          ...history.slice(-10)
         ],
         temperature: 0.75,
         max_tokens: 400
@@ -763,6 +843,7 @@ async function sendMessage() {
     removeTyping(typingId);
     addMsg('ai', reply);
     history.push({ role: 'assistant', content: reply });
+    saveHistory(history);
   } catch(err) {
     removeTyping(typingId);
     addMsg('ai', 'Something went wrong. Please try again.');
@@ -776,14 +857,10 @@ function addMsg(role, text) {
   const msgs = document.getElementById('messages');
   const wrap = document.createElement('div');
   wrap.className = `msg ${role}`;
-
   const avatar = role === 'ai' ? avatarSVG() : userAvatarSVG();
-
-  // format text: **bold** and *italic*
   const formatted = text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>');
-
   wrap.innerHTML = `${avatar}<div class="msg-bubble">${formatted}</div>`;
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
@@ -806,14 +883,6 @@ function removeTyping(id) {
   if (el) el.remove();
 }
 
-// ── CHILDREN SWITCHER ──
-function swChildren(i, btn) {
-  document.querySelectorAll('.sw-opt').forEach(o => o.classList.remove('active'));
-  document.querySelectorAll('.sw-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sw' + i).classList.add('active');
-}
-
 // ── CASES ──
 function filterCases(tag, btn) {
   document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
@@ -831,6 +900,103 @@ function toggleCase(btn) {
   card.classList.toggle('expanded', !open);
   btn.textContent = open ? 'Read the psychology →' : 'Close ↑';
 }
+
+// ══════════════════════════════════════
+// INIT on page load
+// ══════════════════════════════════════
+window.addEventListener('load', () => {
+  // night mode
+  if (localStorage.getItem('parentmind_night') === '1') {
+    document.body.classList.add('night');
+    const btn = document.getElementById('nbtn');
+    if (btn) btn.textContent = '☀️ Day';
+  }
+
+  const profile = loadProfile();
+  if (!profile) {
+    // first visit — show onboarding
+    showOnboarding();
+  } else {
+    applyProfile(profile);
+    // restore chat history
+    const savedHistory = loadHistory();
+    if (savedHistory.length > 0) {
+      history = savedHistory;
+      const msgs = document.getElementById('messages');
+      msgs.innerHTML = '';
+      history.forEach(m => addMsg(m.role === 'assistant' ? 'ai' : 'user', m.content));
+    }
+  }
+});
 </script>
+
+<!-- ONBOARDING MODAL -->
+<div id="onboarding-modal" style="display:none;position:fixed;inset:0;background:rgba(46,34,38,0.7);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+  <div style="background:var(--surface,#fff);border-radius:20px;padding:36px;max-width:420px;width:90%;border:1px solid var(--border,#EDE0E3);">
+    <div style="text-align:center;margin-bottom:24px;">
+      <svg width="48" height="48" viewBox="0 0 64 64" fill="none" style="margin:0 auto 12px;display:block;"><circle cx="32" cy="32" r="31" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1.5"/><ellipse cx="32" cy="15" rx="10" ry="10" fill="#C8906A" opacity="0.85"/><ellipse cx="32" cy="18" rx="8" ry="7" fill="#F5E6DC"/><ellipse cx="28" cy="36" rx="6.5" ry="6" fill="#6B4535" opacity="0.9"/><ellipse cx="28" cy="38" rx="5.5" ry="5" fill="#F5E6DC"/><path d="M18 42 Q22 50 32 52 Q42 50 46 42" stroke="#F0D0C0" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.75"/></svg>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--text,#2E2226);margin-bottom:6px;">Welcome to ParentMind</h2>
+      <p style="font-size:14px;color:var(--text-mid,#7A6068);line-height:1.6;">Tell us about your child so we can give you personalized guidance.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Child's name *</label>
+        <input id="ob-name" type="text" placeholder="e.g. Sofia" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+      </div>
+      <div>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Age</label>
+        <input id="ob-age" type="number" placeholder="e.g. 4" min="0" max="18" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+      </div>
+      <div>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Anything ParentMind should know? (optional)</label>
+        <textarea id="ob-notes" placeholder="e.g. very sensitive, slow to warm up to new places..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:70px;line-height:1.5;"></textarea>
+      </div>
+      <button onclick="closeOnboarding()" style="background:#C97080;color:white;border:none;border-radius:10px;padding:13px;font-size:15px;font-family:'Inter',sans-serif;cursor:pointer;margin-top:4px;">Start →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profile-modal" style="display:none;position:fixed;inset:0;background:rgba(46,34,38,0.7);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);overflow-y:auto;">
+  <div style="background:var(--surface,#fff);border-radius:20px;padding:32px;max-width:480px;width:90%;border:1px solid var(--border,#EDE0E3);margin:20px auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text,#2E2226);">Child Profile</h2>
+      <button onclick="closeProfileModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-light,#B09AA0);">×</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Name</label>
+          <input id="pr-name" type="text" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+        </div>
+        <div>
+          <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Age</label>
+          <input id="pr-age" type="number" min="0" max="18" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+        </div>
+      </div>
+      <div>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">General notes & context</label>
+        <textarea id="pr-notes" placeholder="Temperament, family situation, recent changes..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:70px;line-height:1.5;"></textarea>
+      </div>
+      <div>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Interests & what calms them</label>
+        <textarea id="pr-interests" placeholder="e.g. Legos, drawing, water play, music..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
+      </div>
+      <div>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Known triggers</label>
+        <textarea id="pr-triggers" placeholder="e.g. transitions, loud sounds, hunger..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
+      </div>
+      <div>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Strengths you've noticed</label>
+        <textarea id="pr-strengths" placeholder="e.g. empathy, creativity, persistence..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:4px;">
+        <button onclick="clearHistory()" style="flex:1;background:none;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;color:var(--text-mid,#7A6068);">Clear chat history</button>
+        <button onclick="saveProfileModal()" style="flex:2;background:#C97080;color:white;border:none;border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Save profile</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
