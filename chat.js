@@ -9,6 +9,11 @@ export default async function handler(req, res) {
   const { messages, system } = req.body;
   if (!messages) return res.status(400).json({ error: 'Invalid request' });
 
+  if (!process.env.GROQ_API_KEY) {
+    // Missing env var is the #1 cause of silent failures on Vercel
+    return res.status(500).json({ error: 'GROQ_API_KEY is not set on the server (check Vercel → Project → Settings → Environment Variables, and redeploy after adding it).' });
+  }
+
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -28,10 +33,19 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+
+    // Surface the REAL error from Groq instead of swallowing it
+    if (!response.ok || !data.choices || !data.choices[0]) {
+      const groqMessage = data?.error?.message || JSON.stringify(data);
+      return res.status(response.status || 500).json({
+        error: `Groq API error (${response.status}): ${groqMessage}`
+      });
+    }
+
     const reply = data.choices[0].message.content;
     return res.status(200).json({ reply });
 
   } catch (error) {
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(500).json({ error: `Server exception: ${error.message}` });
   }
 }
