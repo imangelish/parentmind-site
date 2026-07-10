@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -376,6 +375,7 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
     <a href="#how" class="nav-link" data-i18n="nav_how">How it works</a>
     <a href="#schools" class="nav-link" data-i18n="nav_schools">For Schools</a>
     <a href="#free" class="nav-link" data-i18n="nav_free">Free plan</a>
+    <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
   </div>
 
   <div class="nav-right">
@@ -404,33 +404,40 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
   <!-- LIVE CHAT -->
   <div class="chat-box">
     <div class="chat-tabs" id="chat-tabs">
-      <button class="chat-tab active" id="main-child-tab" data-i18n="chat_tab_child">👶 Your child</button>
+      <button class="chat-tab active" id="main-child-tab" onclick="showChildTab()" data-i18n="chat_tab_child">👶 Your child</button>
+      <button class="chat-tab" id="diary-tab" onclick="showDiary()" data-i18n="chat_tab_diary">📔 Diary</button>
       <button class="chat-tab" onclick="showProfile()" data-i18n="chat_tab_profile">⚙️ Profile</button>
     </div>
 
-    <div style="padding:8px 14px;border-bottom:1px solid var(--border,#EDE0E3);">
+    <div style="padding:8px 14px;border-bottom:1px solid var(--border,#EDE0E3);" id="chat-search-row">
       <input id="chat-search" type="text" oninput="searchChatHistory(this.value)" placeholder="🔍 Search this conversation..." data-i18n-placeholder="search_placeholder" style="width:100%;border:none;background:none;font-size:13px;font-family:'Inter',sans-serif;color:var(--text,#2E2226);outline:none;">
     </div>
 
-    <div class="chat-messages" id="messages">
-      <div class="msg ai">
-        <svg class="msg-avatar" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13.5" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1"/><ellipse cx="14" cy="9" rx="4.5" ry="4.5" fill="#C8906A" opacity="0.9"/><ellipse cx="14" cy="11" rx="3.8" ry="3.2" fill="#F5E6DC"/><ellipse cx="12" cy="18" rx="3" ry="2.8" fill="#6B4535" opacity="0.85"/><ellipse cx="12" cy="19" rx="2.5" ry="2.3" fill="#F5E6DC"/><path d="M8 22 Q11 25 14 25.5 Q17 25 20 22" stroke="#F0D0C0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/></svg>
-        <div class="msg-bubble" id="welcome-msg">Hello — I'm here to help you understand your child. Describe anything that happened today, in your own words. There's no right way to start.</div>
-      </div>
+    <div id="diary-view" style="display:none;">
+      <div id="diary-list" style="min-height:340px;max-height:420px;overflow-y:auto;padding:16px;"></div>
     </div>
 
-    <div class="chat-input-area">
-      <div class="chat-input-row">
-        <textarea class="chat-textarea" id="userInput" data-i18n-placeholder="input_placeholder" placeholder="What happened today with your child..." rows="1" onkeydown="handleKey(event)"></textarea>
-        <button class="chat-send" id="micBtn" onclick="toggleVoiceInput()" title="Voice input" style="background:none;border:1px solid var(--border,#EDE0E3);color:var(--rose,#C97080);padding:0 14px;">🎤</button>
-        <button class="chat-send" id="sendBtn" onclick="sendMessage()" data-i18n="send_btn">Send →</button>
+    <div id="chat-main-view">
+      <div class="chat-messages" id="messages">
+        <div class="msg ai">
+          <svg class="msg-avatar" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13.5" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1"/><ellipse cx="14" cy="9" rx="4.5" ry="4.5" fill="#C8906A" opacity="0.9"/><ellipse cx="14" cy="11" rx="3.8" ry="3.2" fill="#F5E6DC"/><ellipse cx="12" cy="18" rx="3" ry="2.8" fill="#6B4535" opacity="0.85"/><ellipse cx="12" cy="19" rx="2.5" ry="2.3" fill="#F5E6DC"/><path d="M8 22 Q11 25 14 25.5 Q17 25 20 22" stroke="#F0D0C0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/></svg>
+          <div class="msg-bubble" id="welcome-msg">Hello — I'm here to help you understand your child. Describe anything that happened today, in your own words. There's no right way to start.</div>
+        </div>
       </div>
-      <div class="chat-footer">
-        <span class="chat-footer-note" data-i18n="footer_note">🔒 Saved securely to your account</span>
-        <div class="chat-sugg">
-          <button class="sugg-pill" onclick="fillSugg('He had a huge meltdown at the supermarket')" data-i18n="pill_meltdown">Meltdown</button>
-          <button class="sugg-pill" onclick="fillSugg('She refuses to go to kindergarten every morning')" data-i18n="pill_refuses_school">Refuses school</button>
-          <button class="sugg-pill" onclick="fillSugg('Won\\'t sleep alone, needs me in the room')" data-i18n="pill_sleep_issues">Sleep issues</button>
+
+      <div class="chat-input-area">
+        <div class="chat-input-row">
+          <textarea class="chat-textarea" id="userInput" data-i18n-placeholder="input_placeholder" placeholder="What happened today with your child..." rows="1" onkeydown="handleKey(event)"></textarea>
+          <button class="chat-send" id="micBtn" onclick="toggleVoiceInput()" title="Voice input" style="background:none;border:1px solid var(--border,#EDE0E3);color:var(--rose,#C97080);padding:0 14px;">🎤</button>
+          <button class="chat-send" id="sendBtn" onclick="sendMessage()" data-i18n="send_btn">Send →</button>
+        </div>
+        <div class="chat-footer">
+          <span class="chat-footer-note" data-i18n="footer_note">🔒 Saved securely to your account</span>
+          <div class="chat-sugg">
+            <button class="sugg-pill" onclick="fillSugg('He had a huge meltdown at the supermarket')" data-i18n="pill_meltdown">Meltdown</button>
+            <button class="sugg-pill" onclick="fillSugg('She refuses to go to kindergarten every morning')" data-i18n="pill_refuses_school">Refuses school</button>
+            <button class="sugg-pill" onclick="fillSugg('Won\\'t sleep alone, needs me in the room')" data-i18n="pill_sleep_issues">Sleep issues</button>
+          </div>
         </div>
       </div>
     </div>
@@ -656,6 +663,16 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 </section>
 
 <!-- CTA -->
+<!-- ABOUT -->
+<section class="section" id="about" style="max-width:720px;">
+  <p class="sec-eye" data-i18n="about_eyebrow">About ParentMind</p>
+  <h2 class="sec-h2" data-i18n="about_h2">Why this exists</h2>
+  <div style="font-size:15px;line-height:1.8;color:var(--text-mid,#7A6068);margin-top:20px;" data-i18n="about_body">
+    I'm a child psychologist by training — specifically a pedagogue-psychologist focused on early childhood education. Every six months I do supervised placements in schools and kindergartens, working directly with children. But I'm not a mother — parenting itself is something I haven't lived, and I don't want to pretend otherwise. ParentMind is my attempt to bring together what I know professionally with real respect for what I haven't experienced myself.
+  </div>
+  <p style="margin-top:20px;font-size:13px;color:var(--text-light,#B09AA0);" data-i18n="about_signature">— Angelish, founder</p>
+</section>
+
 <section class="cta-sect">
   <h2 data-i18n="cta_h2">Ready to understand your child better?</h2>
   <p data-i18n="cta_p">Start a conversation right now — no account, no credit card.</p>
@@ -848,7 +865,21 @@ const translations = {
     school_name_placeholder: 'Your name', school_org_placeholder: 'School / kindergarten name',
     school_message_placeholder: 'Tell us about your school (optional)',
     school_submit_btn: 'Send inquiry', school_success_msg: "Thank you! We'll be in touch soon.",
-    auth_forgot_link: 'Forgot password?'
+    auth_forgot_link: 'Forgot password?',
+
+    nav_about: 'About',
+    chat_tab_diary: '📔 Diary',
+    diary_loading: 'Loading your saved insights...',
+    diary_login_required: 'Log in to see your diary.',
+    diary_empty: 'Nothing saved yet — tap ⭐ under any response to keep it here.',
+    diary_remove_btn: 'Remove',
+    quick_tell_more: 'Tell me more',
+    quick_right_now: 'What do I do right now',
+    quick_when_worry: 'When should I worry',
+    about_eyebrow: 'About ParentMind',
+    about_h2: 'Why this exists',
+    about_body: "I'm a child psychologist by training — specifically a pedagogue-psychologist focused on early childhood education. Every six months I do supervised placements in schools and kindergartens, working directly with children — I see meltdowns, refusals, and separation anxiety play out in real life, not just in textbooks, over and over. But I'm not a mother. I understand the psychology of parenting deeply, but living it myself, around the clock, without a day off, is something I haven't experienced. Honestly, I'm not sure I could handle it. Parenting is an enormous kind of strength, and I don't want to pretend I fully know what it costs. ParentMind is my attempt to bring together what I know professionally with real respect for what I haven't lived myself. Alongside psychology, I studied Python development at Novosibirsk State University and earned a law degree from the North-West Institute of Management, RANEPA. I'm currently in my second year at Khakass State University, studying to become a pedagogue-psychologist and journalist. In whatever time is left, I work through my own mental health and write books. I live in Seoul, South Korea.",
+    about_signature: '— Angelish, founder'
   },
   ru: {
     nav_cases: 'Кейсы', nav_how: 'Как это работает', nav_schools: 'Для школ', nav_free: 'Бесплатно',
@@ -983,7 +1014,21 @@ const translations = {
     school_name_placeholder: 'Ваше имя', school_org_placeholder: 'Название школы / сада',
     school_message_placeholder: 'Расскажите о вашей школе (необязательно)',
     school_submit_btn: 'Отправить заявку', school_success_msg: 'Спасибо! Мы скоро свяжемся с вами.',
-    auth_forgot_link: 'Забыли пароль?'
+    auth_forgot_link: 'Забыли пароль?',
+
+    nav_about: 'О нас',
+    chat_tab_diary: '📔 Дневник',
+    diary_loading: 'Загружаю сохранённые инсайты...',
+    diary_login_required: 'Войдите, чтобы увидеть дневник.',
+    diary_empty: 'Пока ничего не сохранено — нажмите ⭐ под любым ответом, чтобы оставить его здесь.',
+    diary_remove_btn: 'Удалить',
+    quick_tell_more: 'Расскажи подробнее',
+    quick_right_now: 'Что делать прямо сейчас',
+    quick_when_worry: 'Когда стоит беспокоиться',
+    about_eyebrow: 'О ParentMind',
+    about_h2: 'Почему это существует',
+    about_body: 'Я — педагог-психолог по образованию, специализируюсь на детской психологии и дошкольном образовании. Каждые полгода я прохожу практику в учебных учреждениях и напрямую работаю с детьми — вижу истерики, отказы, тревогу расставания не в учебниках, а в реальной жизни, снова и снова. Но я не мать. Я прекрасно понимаю психологическую сторону воспитания, а вот прожить это самой, круглосуточно, без выходных — не пробовала. Честно говоря, не уверена, что смогла бы это выдержать. Родительство — это огромная сила, и я не хочу делать вид, что знаю о ней всё. ParentMind — это попытка объединить то, что я знаю профессионально, с искренним уважением к тому, чего я не проживала сама. Помимо психологии, я закончила Новосибирский государственный университет как Python-разработчик и получила юридическое образование в СЗИУ РАНХиГС. Сейчас учусь в ХГПУ на педагога-психолога и журналиста — только что закончила второй курс. В свободное время разбираюсь с собственными психическими особенностями и пишу книги. Живу в Сеуле, Южная Корея.',
+    about_signature: '— Angelish, основатель'
   },
   ko: {
     nav_cases: '사례', nav_how: '이용 방법', nav_schools: '학교용', nav_free: '무료 플랜',
@@ -1118,7 +1163,21 @@ const translations = {
     school_name_placeholder: '이름', school_org_placeholder: '학교/유치원 이름',
     school_message_placeholder: '학교에 대해 알려주세요 (선택 사항)',
     school_submit_btn: '문의 보내기', school_success_msg: '감사합니다! 곧 연락드리겠습니다.',
-    auth_forgot_link: '비밀번호를 잊으셨나요?'
+    auth_forgot_link: '비밀번호를 잊으셨나요?',
+
+    nav_about: '소개',
+    chat_tab_diary: '📔 다이어리',
+    diary_loading: '저장된 인사이트를 불러오는 중...',
+    diary_login_required: '다이어리를 보려면 로그인하세요.',
+    diary_empty: '아직 저장된 내용이 없어요 — 답변 아래 ⭐를 눌러 여기에 보관하세요.',
+    diary_remove_btn: '삭제',
+    quick_tell_more: '더 자세히 알려줘',
+    quick_right_now: '지금 뭘 해야 할까',
+    quick_when_worry: '언제 걱정해야 할까',
+    about_eyebrow: 'ParentMind 소개',
+    about_h2: '이것이 존재하는 이유',
+    about_body: '저는 훈련받은 아동 심리학자입니다 — 정확히는 유아교육을 전공한 교육심리사입니다. 6개월마다 교육기관에서 실습을 하며 아이들과 직접 일합니다 — 떼쓰기, 거부, 분리불안을 교과서가 아닌 실제 삶 속에서 반복해서 마주합니다. 하지만 저는 엄마가 아닙니다. 육아의 심리적인 측면은 깊이 이해하지만, 하루 종일, 쉬는 날 없이 그것을 직접 겪어보지는 못했습니다. 솔직히 제가 그걸 버틸 수 있을지 잘 모르겠습니다. 육아는 엄청난 힘이며, 저는 그 무게를 다 안다고 가장하고 싶지 않습니다. ParentMind는 제가 전문적으로 아는 것과, 제가 직접 살아보지 못한 것에 대한 진심 어린 존중을 함께 담으려는 시도입니다. 심리학 외에도 저는 노보시비르스크 국립대학교에서 파이썬 개발을 공부했고, 러시아 대통령 행정아카데미 산하 북서경영대학원(SZIU RANEPA)에서 법학 학위를 받았습니다. 지금은 하카시야 국립사범대학교에서 교육심리사이자 저널리스트가 되기 위해 공부 중이며, 얼마 전 2학년을 마쳤습니다. 남는 시간에는 제 자신의 정신 건강 문제를 다루고, 책을 씁니다. 저는 한국 서울에 살고 있습니다.',
+    about_signature: '— Angelish, 창립자'
   }
 };
 
@@ -1372,6 +1431,56 @@ async function resetChat(profile, alsoClearSaved = true) {
 // PROFILE PAGE
 // ══════════════════════════════════════
 
+// ══════════════════════════════════════
+// DIARY
+// ══════════════════════════════════════
+function showChildTab() {
+  document.getElementById('chat-main-view').style.display = '';
+  document.getElementById('chat-search-row').style.display = '';
+  document.getElementById('diary-view').style.display = 'none';
+  document.getElementById('main-child-tab').classList.add('active');
+  document.getElementById('diary-tab').classList.remove('active');
+}
+
+async function showDiary() {
+  document.getElementById('chat-main-view').style.display = 'none';
+  document.getElementById('chat-search-row').style.display = 'none';
+  document.getElementById('diary-view').style.display = 'block';
+  document.getElementById('main-child-tab').classList.remove('active');
+  document.getElementById('diary-tab').classList.add('active');
+
+  const listEl = document.getElementById('diary-list');
+  listEl.innerHTML = `<p style="text-align:center;color:var(--text-light,#B09AA0);font-size:13px;padding:40px 0;">${t('diary_loading')}</p>`;
+
+  if (!currentUser) {
+    listEl.innerHTML = `<p style="text-align:center;color:var(--text-light,#B09AA0);font-size:13px;padding:40px 0;">${t('diary_login_required')}</p>`;
+    return;
+  }
+
+  try {
+    const { data, error } = await sb.from('bookmarks').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
+    if (error) throw error;
+    if (!data || data.length === 0) {
+      listEl.innerHTML = `<p style="text-align:center;color:var(--text-light,#B09AA0);font-size:13px;padding:40px 0;">${t('diary_empty')}</p>`;
+      return;
+    }
+    listEl.innerHTML = data.map(entry => `
+      <div style="background:var(--petal,#FBF0F2);border-radius:12px;padding:14px 16px;margin-bottom:10px;">
+        <div style="font-size:11px;color:var(--text-light,#B09AA0);margin-bottom:6px;">${new Date(entry.created_at).toLocaleDateString()}</div>
+        <div style="font-size:13.5px;line-height:1.6;color:var(--text,#2E2226);">${entry.content.replace(/</g,'&lt;')}</div>
+        <button onclick="deleteDiaryEntry('${entry.id}')" style="background:none;border:none;color:var(--text-light,#B09AA0);font-size:11px;cursor:pointer;margin-top:8px;text-decoration:underline;">${t('diary_remove_btn')}</button>
+      </div>
+    `).join('');
+  } catch (e) {
+    listEl.innerHTML = `<p style="text-align:center;color:#C0392B;font-size:13px;padding:40px 0;">${e.message}</p>`;
+  }
+}
+
+async function deleteDiaryEntry(id) {
+  await sb.from('bookmarks').delete().eq('id', id);
+  showDiary();
+}
+
 async function showProfile() {
   document.getElementById('profile-modal').style.display = 'flex';
   const p = await loadProfile();
@@ -1601,7 +1710,7 @@ Extra context about ${profile.name}: ${profile.notes}` +
     }
     const reply = data.reply;
     removeTyping(typingId);
-    addMsg('ai', reply);
+    addMsg('ai', reply, true);
     history.push({ role: 'assistant', content: reply });
     await saveHistory(history);
   } catch(err) {
@@ -1613,7 +1722,7 @@ Extra context about ${profile.name}: ${profile.notes}` +
   input.focus();
 }
 
-function addMsg(role, text) {
+function addMsg(role, text, withQuickReplies) {
   const msgs = document.getElementById('messages');
   const wrap = document.createElement('div');
   wrap.className = `msg ${role}`;
@@ -1624,18 +1733,37 @@ function addMsg(role, text) {
 
   let actionsHtml = '';
   if (role === 'ai') {
-    const msgId = 'msg-' + Date.now() + '-' + Math.floor(Math.random()*10000);
     actionsHtml = `
       <div class="msg-actions" style="display:flex;gap:6px;margin-top:6px;">
-        <button onclick="toggleBookmark(this, ${JSON.stringify(text)})" title="Save this response" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:.55;">⭐</button>
+        <button onclick="toggleBookmark(this, ${JSON.stringify(text)})" title="Save to diary" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:.55;">⭐</button>
         <button onclick="sendFeedback(this, 1, ${JSON.stringify(text)})" title="Helpful" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:.55;">👍</button>
         <button onclick="sendFeedback(this, -1, ${JSON.stringify(text)})" title="Not helpful" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:.55;">👎</button>
       </div>`;
+    if (withQuickReplies) {
+      actionsHtml += `
+      <div class="quick-replies" style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+        <button class="sugg-pill" onclick="sendQuickReply(this,'tell_more')" data-i18n="quick_tell_more">Tell me more</button>
+        <button class="sugg-pill" onclick="sendQuickReply(this,'right_now')" data-i18n="quick_right_now">What do I do right now</button>
+        <button class="sugg-pill" onclick="sendQuickReply(this,'when_worry')" data-i18n="quick_when_worry">When should I worry</button>
+      </div>`;
+    }
   }
 
   wrap.innerHTML = `${avatar}<div><div class="msg-bubble">${formatted}</div>${actionsHtml}</div>`;
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendQuickReply(btn, kind) {
+  const prompts = {
+    tell_more: { en: 'Tell me more about this.', ru: 'Расскажи подробнее об этом.', ko: '이것에 대해 더 자세히 알려주세요.' },
+    right_now: { en: 'What should I do right now, in this exact moment?', ru: 'Что мне делать прямо сейчас, в этот самый момент?', ko: '지금 이 순간, 당장 무엇을 해야 할까요?' },
+    when_worry: { en: 'When should I actually worry about this?', ru: 'Когда мне действительно стоит начать беспокоиться?', ko: '언제부터 정말 걱정해야 할까요?' }
+  };
+  const wrap = btn.closest('.quick-replies');
+  if (wrap) wrap.style.display = 'none';
+  document.getElementById('userInput').value = prompts[kind][currentLang] || prompts[kind].en;
+  sendMessage();
 }
 
 async function toggleBookmark(btn, text) {
