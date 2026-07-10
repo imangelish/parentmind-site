@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,6 +119,10 @@ body.night .msg.user .msg-bubble{background:rgba(240,208,214,.08);border-color:r
 .typing-indicator span{width:5px;height:5px;border-radius:50%;background:var(--rose-soft);animation:bounce 1.2s infinite;}
 .typing-indicator span:nth-child(2){animation-delay:.2s;}
 .typing-indicator span:nth-child(3){animation-delay:.4s;}
+.skeleton-bubble{padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;border-top-left-radius:4px;width:220px;display:flex;flex-direction:column;gap:8px;}
+.skeleton-line{height:9px;border-radius:5px;background:linear-gradient(90deg,var(--border) 25%,var(--petal,#f3e2e6) 50%,var(--border) 75%);background-size:200% 100%;animation:skeleton-shimmer 1.4s ease-in-out infinite;}
+.skeleton-line.short{width:60%;}
+@keyframes skeleton-shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 @keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
 
 .chat-input-area{padding:14px 16px;border-top:1px solid var(--border);}
@@ -403,6 +408,10 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
       <button class="chat-tab" onclick="showProfile()" data-i18n="chat_tab_profile">⚙️ Profile</button>
     </div>
 
+    <div style="padding:8px 14px;border-bottom:1px solid var(--border,#EDE0E3);">
+      <input id="chat-search" type="text" oninput="searchChatHistory(this.value)" placeholder="🔍 Search this conversation..." data-i18n-placeholder="search_placeholder" style="width:100%;border:none;background:none;font-size:13px;font-family:'Inter',sans-serif;color:var(--text,#2E2226);outline:none;">
+    </div>
+
     <div class="chat-messages" id="messages">
       <div class="msg ai">
         <svg class="msg-avatar" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13.5" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1"/><ellipse cx="14" cy="9" rx="4.5" ry="4.5" fill="#C8906A" opacity="0.9"/><ellipse cx="14" cy="11" rx="3.8" ry="3.2" fill="#F5E6DC"/><ellipse cx="12" cy="18" rx="3" ry="2.8" fill="#6B4535" opacity="0.85"/><ellipse cx="12" cy="19" rx="2.5" ry="2.3" fill="#F5E6DC"/><path d="M8 22 Q11 25 14 25.5 Q17 25 20 22" stroke="#F0D0C0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/></svg>
@@ -413,6 +422,7 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
     <div class="chat-input-area">
       <div class="chat-input-row">
         <textarea class="chat-textarea" id="userInput" data-i18n-placeholder="input_placeholder" placeholder="What happened today with your child..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button class="chat-send" id="micBtn" onclick="toggleVoiceInput()" title="Voice input" style="background:none;border:1px solid var(--border,#EDE0E3);color:var(--rose,#C97080);padding:0 14px;">🎤</button>
         <button class="chat-send" id="sendBtn" onclick="sendMessage()" data-i18n="send_btn">Send →</button>
       </div>
       <div class="chat-footer">
@@ -610,7 +620,7 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
         <div class="sf"><span class="sf-icon">📋</span><div><h4 data-i18n="sf1_h">Child portfolio per student</h4><p data-i18n="sf1_p">Teachers see each child's emotional baseline and known triggers before the first day.</p></div></div>
         <div class="sf"><span class="sf-icon">👨‍👩‍👧</span><div><h4 data-i18n="sf2_h">Parent-teacher coordination</h4><p data-i18n="sf2_p">Both sides log observations. AI synthesizes patterns across home and school.</p></div></div>
         <div class="sf"><span class="sf-icon">🏫</span><div><h4 data-i18n="sf3_h">Class-level insights</h4><p data-i18n="sf3_p">Anonymized patterns across a classroom help teachers identify systemic issues.</p></div></div>
-        <div class="sf"><span class="sf-icon">📬</span><div><h4 data-i18n="sf4_h">Interested in licensing?</h4><p data-i18n-html="sf4_p"><a href="#">Contact us →</a> We work with kindergartens and primary schools directly.</p></div></div>
+        <div class="sf"><span class="sf-icon">📬</span><div><h4 data-i18n="sf4_h">Interested in licensing?</h4><p data-i18n-html="sf4_p"><a href="javascript:void(0)" onclick="document.getElementById('school-modal').style.display='flex'">Contact us →</a> We work with kindergartens and primary schools directly.</p></div></div>
       </div>
     </div>
     <div class="class-vis">
@@ -659,7 +669,40 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
     Parent<span>Mind</span>
   </div>
   <div class="f-note" data-i18n="footer_credit">Made by Angelish · Built on child developmental psychology · © 2026</div>
+  <a href="javascript:void(0)" onclick="document.getElementById('privacy-modal').style.display='flex'" style="font-size:12px;color:var(--text-light,#B09AA0);text-decoration:underline;margin-top:6px;display:inline-block;" data-i18n="footer_privacy_link">Privacy Policy</a>
 </footer>
+
+<!-- SCHOOL LEAD MODAL -->
+<div id="school-modal" style="display:none;position:fixed;inset:0;background:rgba(46,34,38,0.7);z-index:400;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+  <div style="background:var(--surface,#fff);border-radius:20px;padding:32px;max-width:420px;width:90%;border:1px solid var(--border,#EDE0E3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text,#2E2226);" data-i18n="school_modal_title">For Schools & Kindergartens</h2>
+      <button onclick="document.getElementById('school-modal').style.display='none'" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-light,#B09AA0);">×</button>
+    </div>
+    <div id="school-form-fields" style="display:flex;flex-direction:column;gap:12px;">
+      <input id="school-name" type="text" data-i18n-placeholder="school_name_placeholder" placeholder="Your name" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+      <input id="school-org" type="text" data-i18n-placeholder="school_org_placeholder" placeholder="School / kindergarten name" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+      <input id="school-email" type="email" placeholder="you@school.com" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+      <textarea id="school-message" data-i18n-placeholder="school_message_placeholder" placeholder="Tell us about your school (optional)" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:70px;"></textarea>
+      <p id="school-form-error" style="font-size:12.5px;color:#C0392B;display:none;"></p>
+      <button onclick="submitSchoolLead()" style="background:#C97080;color:white;border:none;border-radius:10px;padding:13px;font-size:15px;font-family:'Inter',sans-serif;cursor:pointer;" data-i18n="school_submit_btn">Send inquiry</button>
+    </div>
+    <p id="school-form-success" style="display:none;text-align:center;font-size:14px;color:var(--text,#2E2226);padding:20px 0;" data-i18n="school_success_msg">Thank you! We'll be in touch soon.</p>
+  </div>
+</div>
+
+<!-- PRIVACY POLICY MODAL -->
+<div id="privacy-modal" style="display:none;position:fixed;inset:0;background:rgba(46,34,38,0.7);z-index:400;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+  <div style="background:var(--surface,#fff);border-radius:20px;padding:32px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto;border:1px solid var(--border,#EDE0E3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text,#2E2226);" data-i18n="privacy_modal_title">Privacy Policy</h2>
+      <button onclick="document.getElementById('privacy-modal').style.display='none'" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-light,#B09AA0);">×</button>
+    </div>
+    <div style="font-size:13.5px;line-height:1.7;color:var(--text-mid,#7A6068);" data-i18n="privacy_modal_body">
+      ParentMind collects the information you provide about your child (name, age, notes, chat messages) solely to give you personalized guidance. This data is stored securely and encrypted, and is never sold or shared with advertisers or third parties. AI processing of your messages happens through Google Gemini and Groq — providers bound by their own data-processing agreements — solely to generate a response. You can export or permanently delete your data at any time from the Profile screen. If you have questions, contact us via the link on the homepage.
+    </div>
+  </div>
+</div>
 
 <script>
 // ══════════════════════════════════════
@@ -779,7 +822,7 @@ const translations = {
     sf1_h: 'Child portfolio per student', sf1_p: "Teachers see each child's emotional baseline and known triggers before the first day.",
     sf2_h: 'Parent-teacher coordination', sf2_p: 'Both sides log observations. AI synthesizes patterns across home and school.',
     sf3_h: 'Class-level insights', sf3_p: 'Anonymized patterns across a classroom help teachers identify systemic issues.',
-    sf4_h: 'Interested in licensing?', sf4_p: '<a href="#">Contact us →</a> We work with kindergartens and primary schools directly.',
+    sf4_h: 'Interested in licensing?', sf4_p: '<a href="javascript:void(0)" onclick="document.getElementById(\'school-modal\').style.display=\'flex\'">Contact us →</a> We work with kindergartens and primary schools directly.',
     classroom_title: 'Classroom view',
     class_tag1: 'Transition sensitive', class_tag2: 'Separation anxiety ↓', class_tag3: 'High energy · needs structure',
     class_tag4: 'Thriving ✓', class_tag5: 'New — monitoring',
@@ -795,7 +838,17 @@ const translations = {
 
     cta_h2: 'Ready to understand your child better?', cta_p: 'Start a conversation right now — no account, no credit card.',
     cta_btn: 'Talk to ParentMind →',
-    footer_credit: 'Made by Angelish · Built on child developmental psychology · © 2026'
+    footer_credit: 'Made by Angelish · Built on child developmental psychology · © 2026',
+    search_placeholder: '🔍 Search this conversation...',
+    pr_export_btn: 'Export as PDF',
+    footer_privacy_link: 'Privacy Policy',
+    privacy_modal_title: 'Privacy Policy',
+    privacy_modal_body: "ParentMind collects the information you provide about your child (name, age, notes, chat messages) solely to give you personalized guidance. This data is stored securely and encrypted, and is never sold or shared with advertisers or third parties. AI processing of your messages happens through Google Gemini and Groq — providers bound by their own data-processing agreements — solely to generate a response. You can export or permanently delete your data at any time from the Profile screen. If you have questions, contact us via the link on the homepage.",
+    school_modal_title: 'For Schools & Kindergartens',
+    school_name_placeholder: 'Your name', school_org_placeholder: 'School / kindergarten name',
+    school_message_placeholder: 'Tell us about your school (optional)',
+    school_submit_btn: 'Send inquiry', school_success_msg: "Thank you! We'll be in touch soon.",
+    auth_forgot_link: 'Forgot password?'
   },
   ru: {
     nav_cases: 'Кейсы', nav_how: 'Как это работает', nav_schools: 'Для школ', nav_free: 'Бесплатно',
@@ -904,7 +957,7 @@ const translations = {
     sf1_h: 'Портфолио на каждого ученика', sf1_p: 'Учителя видят эмоциональный фон и известные триггеры каждого ребёнка ещё до первого дня.',
     sf2_h: 'Координация родитель–учитель', sf2_p: 'Обе стороны записывают наблюдения. ИИ находит закономерности между домом и школой.',
     sf3_h: 'Аналитика по классу', sf3_p: 'Обезличенные закономерности по классу помогают учителям выявлять системные проблемы.',
-    sf4_h: 'Интересует лицензирование?', sf4_p: '<a href="#">Свяжитесь с нами →</a> Мы работаем напрямую с детскими садами и начальными школами.',
+    sf4_h: 'Интересует лицензирование?', sf4_p: '<a href="javascript:void(0)" onclick="document.getElementById(\'school-modal\').style.display=\'flex\'">Свяжитесь с нами →</a> Мы работаем напрямую с детскими садами и начальными школами.',
     classroom_title: 'Вид по классу',
     class_tag1: 'Чувствителен к переходам', class_tag2: 'Тревога расставания ↓', class_tag3: 'Высокая энергия · нужна структура',
     class_tag4: 'Прогрессирует ✓', class_tag5: 'Новенький(ая) — наблюдение',
@@ -920,7 +973,17 @@ const translations = {
 
     cta_h2: 'Готовы лучше понимать своего ребёнка?', cta_p: 'Начните разговор прямо сейчас — без аккаунта, без карты.',
     cta_btn: 'Написать в ParentMind →',
-    footer_credit: 'Сделано Angelish · Основано на детской психологии развития · © 2026'
+    footer_credit: 'Сделано Angelish · Основано на детской психологии развития · © 2026',
+    search_placeholder: '🔍 Поиск по этому разговору...',
+    pr_export_btn: 'Экспорт в PDF',
+    footer_privacy_link: 'Политика конфиденциальности',
+    privacy_modal_title: 'Политика конфиденциальности',
+    privacy_modal_body: 'ParentMind собирает информацию, которую вы предоставляете о своём ребёнке (имя, возраст, заметки, сообщения в чате), исключительно чтобы давать вам персональные советы. Эти данные хранятся надёжно и в зашифрованном виде и никогда не продаются и не передаются рекламодателям или третьим лицам. Обработка ваших сообщений ИИ происходит через Google Gemini и Groq — провайдеров, связанных собственными соглашениями об обработке данных — исключительно для генерации ответа. Вы можете экспортировать или навсегда удалить свои данные в любой момент на странице профиля. Если у вас есть вопросы, свяжитесь с нами по ссылке на главной странице.',
+    school_modal_title: 'Для школ и садов',
+    school_name_placeholder: 'Ваше имя', school_org_placeholder: 'Название школы / сада',
+    school_message_placeholder: 'Расскажите о вашей школе (необязательно)',
+    school_submit_btn: 'Отправить заявку', school_success_msg: 'Спасибо! Мы скоро свяжемся с вами.',
+    auth_forgot_link: 'Забыли пароль?'
   },
   ko: {
     nav_cases: '사례', nav_how: '이용 방법', nav_schools: '학교용', nav_free: '무료 플랜',
@@ -1029,7 +1092,7 @@ const translations = {
     sf1_h: '학생별 아이 포트폴리오', sf1_p: '교사는 첫날이 되기 전에 각 아이의 정서적 기준선과 알려진 트리거를 확인할 수 있습니다.',
     sf2_h: '부모-교사 협력', sf2_p: '양쪽 모두 관찰 내용을 기록합니다. AI가 가정과 학교의 패턴을 종합합니다.',
     sf3_h: '학급 단위 인사이트', sf3_p: '학급 전체의 익명화된 패턴이 교사가 시스템적 문제를 파악하는 데 도움을 줍니다.',
-    sf4_h: '라이선스에 관심이 있으신가요?', sf4_p: '<a href="#">문의하기 →</a> 저희는 유치원 및 초등학교와 직접 협력합니다.',
+    sf4_h: '라이선스에 관심이 있으신가요?', sf4_p: '<a href="javascript:void(0)" onclick="document.getElementById(\'school-modal\').style.display=\'flex\'">문의하기 →</a> 저희는 유치원 및 초등학교와 직접 협력합니다.',
     classroom_title: '학급 보기',
     class_tag1: '전환에 민감함', class_tag2: '분리 불안 ↓', class_tag3: '에너지 높음 · 구조 필요',
     class_tag4: '잘 지내고 있음 ✓', class_tag5: '신입 — 관찰 중',
@@ -1045,7 +1108,17 @@ const translations = {
 
     cta_h2: '아이를 더 잘 이해할 준비가 되셨나요?', cta_p: '지금 바로 대화를 시작하세요 — 계정도, 카드도 필요 없어요.',
     cta_btn: 'ParentMind와 대화하기 →',
-    footer_credit: 'Angelish 제작 · 아동 발달 심리학 기반 · © 2026'
+    footer_credit: 'Angelish 제작 · 아동 발달 심리학 기반 · © 2026',
+    search_placeholder: '🔍 이 대화 검색...',
+    pr_export_btn: 'PDF로 내보내기',
+    footer_privacy_link: '개인정보처리방침',
+    privacy_modal_title: '개인정보처리방침',
+    privacy_modal_body: 'ParentMind는 맞춤 조언을 제공하기 위한 목적으로만 아이에 대한 정보(이름, 나이, 메모, 대화 내용)를 수집합니다. 이 데이터는 안전하게 암호화되어 저장되며, 광고주나 제3자에게 판매되거나 공유되지 않습니다. 메시지의 AI 처리는 Google Gemini와 Groq를 통해 이루어지며, 이들은 자체 데이터 처리 계약에 따라 오직 응답 생성 목적으로만 사용됩니다. 프로필 화면에서 언제든지 데이터를 내보내거나 영구적으로 삭제할 수 있습니다. 문의사항은 홈페이지의 링크를 통해 연락해 주세요.',
+    school_modal_title: '학교 및 유치원용',
+    school_name_placeholder: '이름', school_org_placeholder: '학교/유치원 이름',
+    school_message_placeholder: '학교에 대해 알려주세요 (선택 사항)',
+    school_submit_btn: '문의 보내기', school_success_msg: '감사합니다! 곧 연락드리겠습니다.',
+    auth_forgot_link: '비밀번호를 잊으셨나요?'
   }
 };
 
@@ -1190,6 +1263,39 @@ async function handleAuthSubmit() {
   await afterLogin();
 }
 
+async function handleForgotPassword() {
+  const email = document.getElementById('auth-email').value.trim();
+  const successEl = document.getElementById('auth-success');
+  const errEl = document.getElementById('auth-error');
+  errEl.style.display = 'none';
+  if (!email) {
+    errEl.textContent = 'Enter your email above first, then click "Forgot password?".';
+    errEl.style.display = 'block';
+    return;
+  }
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
+  if (error) {
+    errEl.textContent = error.message;
+    errEl.style.display = 'block';
+    return;
+  }
+  successEl.textContent = 'Check your email for a password reset link.';
+  successEl.style.display = 'block';
+}
+
+// Listen for the recovery link redirect and prompt for a new password
+sb.auth.onAuthStateChange((event, session) => {
+  if (event === 'PASSWORD_RECOVERY') {
+    const newPassword = prompt('Enter a new password (min 6 characters):');
+    if (newPassword && newPassword.length >= 6) {
+      sb.auth.updateUser({ password: newPassword }).then(({ error }) => {
+        if (error) alert('Could not update password: ' + error.message);
+        else alert('Password updated! You are now logged in.');
+      });
+    }
+  }
+});
+
 async function signOut() {
   await sb.auth.signOut();
   currentUser = null;
@@ -1325,6 +1431,122 @@ function userAvatarSVG() {
 }
 
 // ── SUGGESTIONS ──
+// ══════════════════════════════════════
+// VOICE INPUT (Web Speech API)
+// ══════════════════════════════════════
+let recognizer = null;
+let isRecording = false;
+
+function toggleVoiceInput() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const micBtn = document.getElementById('micBtn');
+  if (!SpeechRecognition) {
+    alert('Voice input is not supported in this browser. Try Chrome or Safari.');
+    return;
+  }
+  if (isRecording) {
+    recognizer.stop();
+    return;
+  }
+  recognizer = new SpeechRecognition();
+  recognizer.lang = currentLang === 'ru' ? 'ru-RU' : currentLang === 'ko' ? 'ko-KR' : 'en-US';
+  recognizer.interimResults = false;
+  recognizer.maxAlternatives = 1;
+
+  recognizer.onstart = () => {
+    isRecording = true;
+    micBtn.style.background = '#C97080';
+    micBtn.style.color = '#fff';
+    micBtn.textContent = '⏹️';
+  };
+  recognizer.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const input = document.getElementById('userInput');
+    input.value = (input.value ? input.value + ' ' : '') + transcript;
+    input.focus();
+  };
+  recognizer.onerror = () => {
+    stopRecordingUI();
+  };
+  recognizer.onend = () => {
+    stopRecordingUI();
+  };
+  recognizer.start();
+}
+
+function stopRecordingUI() {
+  isRecording = false;
+  const micBtn = document.getElementById('micBtn');
+  if (micBtn) {
+    micBtn.style.background = 'none';
+    micBtn.style.color = 'var(--rose,#C97080)';
+    micBtn.textContent = '🎤';
+  }
+}
+
+function searchChatHistory(query) {
+  const q = query.trim().toLowerCase();
+  const msgs = document.querySelectorAll('#messages .msg');
+  msgs.forEach(m => {
+    if (!q) { m.style.display = ''; return; }
+    const text = m.textContent.toLowerCase();
+    m.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+
+async function submitSchoolLead() {
+  const name = document.getElementById('school-name').value.trim();
+  const org = document.getElementById('school-org').value.trim();
+  const email = document.getElementById('school-email').value.trim();
+  const message = document.getElementById('school-message').value.trim();
+  const errEl = document.getElementById('school-form-error');
+
+  if (!name || !org || !email) {
+    errEl.textContent = 'Please fill in your name, school name, and email.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  try {
+    const { error } = await sb.from('school_leads').insert({ name, org, email, message });
+    if (error) throw error;
+    document.getElementById('school-form-fields').style.display = 'none';
+    document.getElementById('school-form-success').style.display = 'block';
+  } catch (e) {
+    errEl.textContent = 'Something went wrong. Please try again or email us directly.';
+    errEl.style.display = 'block';
+  }
+}
+
+async function exportProfilePDF() {
+  const p = await loadProfile();
+  if (!p) { alert('No profile to export yet.'); return; }
+  const win = window.open('', '_blank');
+  const historyHtml = (history || []).map(m =>
+    `<p style="margin:6px 0;"><strong>${m.role === 'user' ? 'Parent' : 'ParentMind'}:</strong> ${(m.content || '').replace(/</g,'&lt;')}</p>`
+  ).join('');
+  win.document.write(`
+    <html><head><title>${p.name} — ParentMind Profile</title>
+    <style>
+      body{font-family:Georgia,serif;padding:40px;color:#2E2226;max-width:700px;margin:0 auto;}
+      h1{font-size:26px;border-bottom:2px solid #C97080;padding-bottom:10px;}
+      h3{color:#C97080;margin-top:24px;}
+      p{line-height:1.6;}
+    </style></head><body>
+      <h1>${p.name}, age ${p.age}</h1>
+      <h3>General notes</h3><p>${p.notes || '—'}</p>
+      <h3>Interests & what calms them</h3><p>${p.interests || '—'}</p>
+      <h3>Known triggers</h3><p>${p.triggers || '—'}</p>
+      <h3>Strengths</h3><p>${p.strengths || '—'}</p>
+      <h3>Recent conversation history</h3>${historyHtml || '<p>—</p>'}
+      <p style="margin-top:40px;color:#999;font-size:12px;">Exported from ParentMind on ${new Date().toLocaleDateString()}</p>
+    </body></html>
+  `);
+  win.document.close();
+  win.focus();
+  win.print();
+}
+
 function fillSugg(text) {
   document.getElementById('userInput').value = text;
   document.getElementById('userInput').focus();
@@ -1399,9 +1621,46 @@ function addMsg(role, text) {
   const formatted = text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>');
-  wrap.innerHTML = `${avatar}<div class="msg-bubble">${formatted}</div>`;
+
+  let actionsHtml = '';
+  if (role === 'ai') {
+    const msgId = 'msg-' + Date.now() + '-' + Math.floor(Math.random()*10000);
+    actionsHtml = `
+      <div class="msg-actions" style="display:flex;gap:6px;margin-top:6px;">
+        <button onclick="toggleBookmark(this, ${JSON.stringify(text)})" title="Save this response" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:.55;">⭐</button>
+        <button onclick="sendFeedback(this, 1, ${JSON.stringify(text)})" title="Helpful" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:.55;">👍</button>
+        <button onclick="sendFeedback(this, -1, ${JSON.stringify(text)})" title="Not helpful" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:.55;">👎</button>
+      </div>`;
+  }
+
+  wrap.innerHTML = `${avatar}<div><div class="msg-bubble">${formatted}</div>${actionsHtml}</div>`;
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
+}
+
+async function toggleBookmark(btn, text) {
+  if (!currentUser) return;
+  const saved = btn.dataset.saved === '1';
+  if (saved) {
+    btn.dataset.saved = '0';
+    btn.style.opacity = '.55';
+    return;
+  }
+  btn.dataset.saved = '1';
+  btn.style.opacity = '1';
+  try {
+    await sb.from('bookmarks').insert({ user_id: currentUser.id, content: text });
+  } catch (e) { console.error('bookmark error', e); }
+}
+
+async function sendFeedback(btn, rating, text) {
+  const row = btn.parentElement;
+  row.querySelectorAll('button').forEach(b => b.style.opacity = '.55');
+  btn.style.opacity = '1';
+  if (!currentUser) return;
+  try {
+    await sb.from('feedback').insert({ user_id: currentUser.id, content: text, rating });
+  } catch (e) { console.error('feedback error', e); }
 }
 
 function addTyping() {
@@ -1410,7 +1669,7 @@ function addTyping() {
   const wrap = document.createElement('div');
   wrap.className = 'msg ai';
   wrap.id = id;
-  wrap.innerHTML = `${avatarSVG()}<div class="typing-indicator"><span></span><span></span><span></span></div>`;
+  wrap.innerHTML = `${avatarSVG()}<div class="skeleton-bubble"><div class="skeleton-line"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>`;
   msgs.appendChild(wrap);
   msgs.scrollTop = msgs.scrollHeight;
   return id;
@@ -1482,7 +1741,11 @@ window.addEventListener('load', async () => {
         <input id="auth-password" type="password" data-i18n-placeholder="auth_password_placeholder" placeholder="At least 6 characters" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
       </div>
       <p id="auth-error" style="font-size:12.5px;color:#C0392B;display:none;"></p>
+      <p id="auth-success" style="font-size:12.5px;color:#3A7D5C;display:none;"></p>
       <button onclick="handleAuthSubmit()" id="auth-submit-btn" style="background:#C97080;color:white;border:none;border-radius:10px;padding:13px;font-size:15px;font-family:'Inter',sans-serif;cursor:pointer;margin-top:4px;">Log in</button>
+      <p id="auth-forgot-row" style="text-align:center;font-size:12px;margin-top:-4px;">
+        <a href="javascript:void(0)" onclick="handleForgotPassword()" style="color:var(--text-light,#B09AA0);text-decoration:underline;" data-i18n="auth_forgot_link">Forgot password?</a>
+      </p>
       <p style="text-align:center;font-size:12.5px;color:var(--text-mid,#7A6068);margin-top:2px;">
         <span id="auth-toggle-text">Don't have an account?</span>
         <a href="javascript:void(0)" onclick="toggleAuthMode()" style="color:var(--rose);text-decoration:none;font-weight:500;" id="auth-toggle-link">Sign up</a>
@@ -1553,6 +1816,7 @@ window.addEventListener('load', async () => {
       </div>
       <div style="display:flex;gap:10px;margin-top:4px;">
         <button onclick="clearHistory()" style="flex:1;background:none;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;color:var(--text-mid,#7A6068);" data-i18n="pr_clear_btn">Clear chat history</button>
+        <button onclick="exportProfilePDF()" style="flex:1;background:none;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;color:var(--text-mid,#7A6068);" data-i18n="pr_export_btn">Export as PDF</button>
         <button onclick="saveProfileModal()" style="flex:2;background:#C97080;color:white;border:none;border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;" data-i18n="pr_save_btn">Save profile</button>
       </div>
     </div>
