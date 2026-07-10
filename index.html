@@ -66,6 +66,7 @@ body.night nav{background:rgba(23,16,15,0.94);}
 .night-btn:hover{border-color:var(--rose-soft);color:var(--text);}
 .nav-cta{background:none;border:1px solid var(--blush);border-radius:8px;padding:8px 18px;font-size:13px;color:var(--rose);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
 .nav-cta:hover{background:var(--petal);}
+.lang-btn.active{background:#fff;color:var(--rose,#C97080)!important;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,0.08);}
 
 /* ── HERO ── */
 .hero{max-width:820px;margin:0 auto;padding:80px 32px 56px;text-align:center;}
@@ -366,13 +367,18 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
   </a>
 
   <div class="nav-center">
-    <a href="#cases" class="nav-link">Cases</a>
-    <a href="#how" class="nav-link">How it works</a>
-    <a href="#schools" class="nav-link">For Schools</a>
-    <a href="#free" class="nav-link">Free plan</a>
+    <a href="#cases" class="nav-link" data-i18n="nav_cases">Cases</a>
+    <a href="#how" class="nav-link" data-i18n="nav_how">How it works</a>
+    <a href="#schools" class="nav-link" data-i18n="nav_schools">For Schools</a>
+    <a href="#free" class="nav-link" data-i18n="nav_free">Free plan</a>
   </div>
 
   <div class="nav-right">
+    <div class="lang-switch" style="display:flex;gap:4px;background:var(--petal,#FBF0F2);border-radius:8px;padding:3px;">
+      <button class="lang-btn" data-lang="en" onclick="applyLanguage('en')" style="border:none;background:none;padding:5px 9px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;color:var(--text-mid,#7A6068);">EN</button>
+      <button class="lang-btn" data-lang="ru" onclick="applyLanguage('ru')" style="border:none;background:none;padding:5px 9px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;color:var(--text-mid,#7A6068);">RU</button>
+      <button class="lang-btn" data-lang="ko" onclick="applyLanguage('ko')" style="border:none;background:none;padding:5px 9px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;color:var(--text-mid,#7A6068);">KO</button>
+    </div>
     <span id="user-email-badge" style="font-size:12px;color:var(--text-light);display:none;"></span>
     <button class="night-btn" onclick="toggleNight()" id="nbtn">🌙 Night</button>
     <button class="nav-cta" onclick="signOut()" id="logout-btn" style="display:none;">Log out</button>
@@ -381,20 +387,20 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-kicker">Child development · Free to start</p>
-  <h1>Understand your child<br>before you need a <em>psychologist.</em></h1>
-  <p class="hero-sub">Describe what happened today. ParentMind explains why, tells you what to do, and builds a picture of your child over time.</p>
+  <p class="hero-kicker" data-i18n="hero_kicker">Child development · Free to start</p>
+  <h1 data-i18n-html="hero_title">Understand your child<br>before you need a <em>psychologist.</em></h1>
+  <p class="hero-sub" data-i18n="hero_sub">Describe what happened today. ParentMind explains why, tells you what to do, and builds a picture of your child over time.</p>
 
   <div class="night-hint">
     <div class="night-dot"></div>
-    Writing at 2am because something felt off? Try night mode ↑
+    <span data-i18n="night_hint">Writing at 2am because something felt off? Try night mode ↑</span>
   </div>
 
   <!-- LIVE CHAT -->
   <div class="chat-box">
     <div class="chat-tabs" id="chat-tabs">
-      <button class="chat-tab active" id="main-child-tab">👶 Your child</button>
-      <button class="chat-tab" onclick="showProfile()">⚙️ Profile</button>
+      <button class="chat-tab active" id="main-child-tab" data-i18n="chat_tab_child">👶 Your child</button>
+      <button class="chat-tab" onclick="showProfile()" data-i18n="chat_tab_profile">⚙️ Profile</button>
     </div>
 
     <div class="chat-messages" id="messages">
@@ -406,20 +412,20 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 
     <div class="chat-input-area">
       <div class="chat-input-row">
-        <textarea class="chat-textarea" id="userInput" placeholder="What happened today with your child..." rows="1" onkeydown="handleKey(event)"></textarea>
-        <button class="chat-send" id="sendBtn" onclick="sendMessage()">Send →</button>
+        <textarea class="chat-textarea" id="userInput" data-i18n-placeholder="input_placeholder" placeholder="What happened today with your child..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button class="chat-send" id="sendBtn" onclick="sendMessage()" data-i18n="send_btn">Send →</button>
       </div>
       <div class="chat-footer">
-        <span class="chat-footer-note">🔒 Saved securely to your account</span>
+        <span class="chat-footer-note" data-i18n="footer_note">🔒 Saved securely to your account</span>
         <div class="chat-sugg">
-          <button class="sugg-pill" onclick="fillSugg('He had a huge meltdown at the supermarket')">Meltdown</button>
-          <button class="sugg-pill" onclick="fillSugg('She refuses to go to kindergarten every morning')">Refuses school</button>
-          <button class="sugg-pill" onclick="fillSugg('Won\\'t sleep alone, needs me in the room')">Sleep issues</button>
+          <button class="sugg-pill" onclick="fillSugg('He had a huge meltdown at the supermarket')" data-i18n="pill_meltdown">Meltdown</button>
+          <button class="sugg-pill" onclick="fillSugg('She refuses to go to kindergarten every morning')" data-i18n="pill_refuses_school">Refuses school</button>
+          <button class="sugg-pill" onclick="fillSugg('Won\\'t sleep alone, needs me in the room')" data-i18n="pill_sleep_issues">Sleep issues</button>
         </div>
       </div>
     </div>
   </div>
-  <p class="hero-note">No account needed. Free forever for basic use.</p>
+  <p class="hero-note" data-i18n="hero_note">No account needed. Free forever for basic use.</p>
 </section>
 
 
@@ -428,131 +434,131 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 
 <!-- CASES -->
 <section class="section" id="cases">
-  <p class="sec-eye">Solved cases</p>
-  <h2 class="sec-h2">Real situations. Real guidance.</h2>
-  <p class="sec-lead">Read the full psychology before creating an account. Trust is built before we ask for your email.</p>
+  <p class="sec-eye" data-i18n="cases_eyebrow">Solved cases</p>
+  <h2 class="sec-h2" data-i18n="cases_h2">Real situations. Real guidance.</h2>
+  <p class="sec-lead" data-i18n="cases_lead">Read the full psychology before creating an account. Trust is built before we ask for your email.</p>
 
   <div class="filter-tabs">
-    <button class="ftab active" onclick="filterCases('all',this)">All ages</button>
-    <button class="ftab" onclick="filterCases('toddler',this)">Toddler 2–4</button>
-    <button class="ftab" onclick="filterCases('preschool',this)">Preschool 4–6</button>
-    <button class="ftab" onclick="filterCases('school',this)">School age 6–10</button>
-    <button class="ftab" onclick="filterCases('emotions',this)">Emotions</button>
-    <button class="ftab" onclick="filterCases('sleep',this)">Sleep</button>
+    <button class="ftab active" onclick="filterCases('all',this)" data-i18n="filter_all">All ages</button>
+    <button class="ftab" onclick="filterCases('toddler',this)" data-i18n="filter_toddler">Toddler 2–4</button>
+    <button class="ftab" onclick="filterCases('preschool',this)" data-i18n="filter_preschool">Preschool 4–6</button>
+    <button class="ftab" onclick="filterCases('school',this)" data-i18n="filter_school">School age 6–10</button>
+    <button class="ftab" onclick="filterCases('emotions',this)" data-i18n="filter_emotions">Emotions</button>
+    <button class="ftab" onclick="filterCases('sleep',this)" data-i18n="filter_sleep">Sleep</button>
   </div>
 
   <div class="cases-grid" id="cases-grid">
     <div class="case-card" data-tags="toddler preschool emotions">
-      <div class="case-meta"><span class="case-tag">Emotions</span><span class="case-age">Age 3–5</span></div>
-      <div class="case-title">Meltdown in a public place — nothing works</div>
-      <div class="case-sit">"He screamed for 20 minutes in the supermarket. People were staring."</div>
-      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-meta"><span class="case-tag" data-i18n="case1_tag">Emotions</span><span class="case-age" data-i18n="case1_age">Age 3–5</span></div>
+      <div class="case-title" data-i18n="case1_title">Meltdown in a public place — nothing works</div>
+      <div class="case-sit" data-i18n="case1_sit">"He screamed for 20 minutes in the supermarket. People were staring."</div>
+      <button class="expand-btn" onclick="toggleCase(this)" data-i18n="case_read_btn">Read the psychology →</button>
       <div class="case-answer">
-        <div class="a-label">Why this happens</div>
-        <div class="a-why">At 3–5, the prefrontal cortex is still largely undeveloped. When a child hears "no," the emotional brain floods before any rational processing can happen. This is a neurological event, not defiance.</div>
-        <div class="a-label">What to do</div>
+        <div class="a-label" data-i18n="case_why_label">Why this happens</div>
+        <div class="a-why" data-i18n="case1_why">At 3–5, the prefrontal cortex is still largely undeveloped. When a child hears "no," the emotional brain floods before any rational processing can happen. This is a neurological event, not defiance.</div>
+        <div class="a-label" data-i18n="case_what_label">What to do</div>
         <div class="a-steps">
-          <div class="a-step"><div class="a-bullet">1</div><p>Do not reason or negotiate. Get low — crouch to their level.</p></div>
-          <div class="a-step"><div class="a-bullet">2</div><p>Name the feeling: <em>"You really wanted that. You're so disappointed."</em></p></div>
-          <div class="a-step"><div class="a-bullet">3</div><p>Create safety, not shame. Move somewhere quieter if possible.</p></div>
+          <div class="a-step"><div class="a-bullet">1</div><p data-i18n-html="case1_step1">Do not reason or negotiate. Get low — crouch to their level.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p data-i18n-html="case1_step2">Name the feeling: <em>"You really wanted that. You're so disappointed."</em></p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p data-i18n-html="case1_step3">Create safety, not shame. Move somewhere quieter if possible.</p></div>
         </div>
-        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Meltdowns lasting 30+ min or daily — flag for pediatric assessment.</div></div>
-        <button class="use-btn">Log this in ParentMind</button>
+        <div class="a-watch"><div class="w-label" data-i18n="case_watch_label">Watch for</div><div class="w-text" data-i18n="case1_watch">Meltdowns lasting 30+ min or daily — flag for pediatric assessment.</div></div>
+        <button class="use-btn" data-i18n="case_log_btn">Log this in ParentMind</button>
       </div>
     </div>
 
     <div class="case-card" data-tags="preschool school emotions">
-      <div class="case-meta"><span class="case-tag">Behavior</span><span class="case-age">Age 4–7</span></div>
-      <div class="case-title">Refuses kindergarten — cries every morning</div>
-      <div class="case-sit">"She holds onto the door. Teacher says she's fine 10 minutes after I leave."</div>
-      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-meta"><span class="case-tag" data-i18n="case2_tag">Behavior</span><span class="case-age" data-i18n="case2_age">Age 4–7</span></div>
+      <div class="case-title" data-i18n="case2_title">Refuses kindergarten — cries every morning</div>
+      <div class="case-sit" data-i18n="case2_sit">"She holds onto the door. Teacher says she's fine 10 minutes after I leave."</div>
+      <button class="expand-btn" onclick="toggleCase(this)" data-i18n="case_read_btn">Read the psychology →</button>
       <div class="case-answer">
-        <div class="a-label">Why this happens</div>
-        <div class="a-why">Separation anxiety is developmentally normal. The stomach ache is real — anxiety activates the gut-brain axis. Settling quickly after you leave is a good sign: she has a secure base.</div>
-        <div class="a-label">What to do</div>
+        <div class="a-label" data-i18n="case_why_label">Why this happens</div>
+        <div class="a-why" data-i18n="case2_why">Separation anxiety is developmentally normal. The stomach ache is real — anxiety activates the gut-brain axis. Settling quickly after you leave is a good sign: she has a secure base.</div>
+        <div class="a-label" data-i18n="case_what_label">What to do</div>
         <div class="a-steps">
-          <div class="a-step"><div class="a-bullet">1</div><p>Create a consistent goodbye ritual — same words, same hug, every day.</p></div>
-          <div class="a-step"><div class="a-bullet">2</div><p>Do not linger. A long goodbye signals something is wrong.</p></div>
-          <div class="a-step"><div class="a-bullet">3</div><p>Give her something of yours to hold during the day.</p></div>
+          <div class="a-step"><div class="a-bullet">1</div><p data-i18n-html="case2_step1">Create a consistent goodbye ritual — same words, same hug, every day.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p data-i18n-html="case2_step2">Do not linger. A long goodbye signals something is wrong.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p data-i18n-html="case2_step3">Give her something of yours to hold during the day.</p></div>
         </div>
-        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Escalating avoidance after 4+ weeks of consistent routine.</div></div>
-        <button class="use-btn">Log this in ParentMind</button>
+        <div class="a-watch"><div class="w-label" data-i18n="case_watch_label">Watch for</div><div class="w-text" data-i18n="case2_watch">Escalating avoidance after 4+ weeks of consistent routine.</div></div>
+        <button class="use-btn" data-i18n="case_log_btn">Log this in ParentMind</button>
       </div>
     </div>
 
     <div class="case-card" data-tags="toddler preschool sleep">
-      <div class="case-meta"><span class="case-tag">Sleep</span><span class="case-age">Age 2–6</span></div>
-      <div class="case-title">Won't sleep alone — needs a parent in the room</div>
-      <div class="case-sit">"He's 5 and still can't fall asleep unless I'm sitting next to him."</div>
-      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-meta"><span class="case-tag" data-i18n="case3_tag">Sleep</span><span class="case-age" data-i18n="case3_age">Age 2–6</span></div>
+      <div class="case-title" data-i18n="case3_title">Won't sleep alone — needs a parent in the room</div>
+      <div class="case-sit" data-i18n="case3_sit">"He's 5 and still can't fall asleep unless I'm sitting next to him."</div>
+      <button class="expand-btn" onclick="toggleCase(this)" data-i18n="case_read_btn">Read the psychology →</button>
       <div class="case-answer">
-        <div class="a-label">Why this happens</div>
-        <div class="a-why">Sleep is neurologically the most vulnerable state for a child. His nervous system needs co-regulation — a calm adult presence to downshift. This is not manipulation.</div>
-        <div class="a-label">What to do</div>
+        <div class="a-label" data-i18n="case_why_label">Why this happens</div>
+        <div class="a-why" data-i18n="case3_why">Sleep is neurologically the most vulnerable state for a child. His nervous system needs co-regulation — a calm adult presence to downshift. This is not manipulation.</div>
+        <div class="a-label" data-i18n="case_what_label">What to do</div>
         <div class="a-steps">
-          <div class="a-step"><div class="a-bullet">1</div><p>Gradual distancing: next to bed → doorway → outside. Move one step every 3–5 nights.</p></div>
-          <div class="a-step"><div class="a-bullet">2</div><p>Introduce 10-min "worry time" before bed — named fears sleep better.</p></div>
-          <div class="a-step"><div class="a-bullet">3</div><p>Give him agency: choose nightlight color, blanket. Control reduces anxiety.</p></div>
+          <div class="a-step"><div class="a-bullet">1</div><p data-i18n-html="case3_step1">Gradual distancing: next to bed → doorway → outside. Move one step every 3–5 nights.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p data-i18n-html="case3_step2">Introduce 10-min "worry time" before bed — named fears sleep better.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p data-i18n-html="case3_step3">Give him agency: choose nightlight color, blanket. Control reduces anxiety.</p></div>
         </div>
-        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Night terrors (screaming but unresponsive) have a separate protocol — flag separately.</div></div>
-        <button class="use-btn">Log this in ParentMind</button>
+        <div class="a-watch"><div class="w-label" data-i18n="case_watch_label">Watch for</div><div class="w-text" data-i18n="case3_watch">Night terrors (screaming but unresponsive) have a separate protocol — flag separately.</div></div>
+        <button class="use-btn" data-i18n="case_log_btn">Log this in ParentMind</button>
       </div>
     </div>
 
     <div class="case-card" data-tags="school emotions">
-      <div class="case-meta"><span class="case-tag">Self-esteem</span><span class="case-age">Age 6–10</span></div>
-      <div class="case-title">"I hate myself" — said after one wrong answer</div>
-      <div class="case-sit">"My son got one answer wrong and said 'I'm so stupid, I hate myself.'"</div>
-      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-meta"><span class="case-tag" data-i18n="case4_tag">Self-esteem</span><span class="case-age" data-i18n="case4_age">Age 6–10</span></div>
+      <div class="case-title" data-i18n="case4_title">"I hate myself" — said after one wrong answer</div>
+      <div class="case-sit" data-i18n="case4_sit">"My son got one answer wrong and said 'I'm so stupid, I hate myself.'"</div>
+      <button class="expand-btn" onclick="toggleCase(this)" data-i18n="case_read_btn">Read the psychology →</button>
       <div class="case-answer">
-        <div class="a-label">Why this happens</div>
-        <div class="a-why">School-age children are in Erikson's Industry vs. Inferiority stage — testing "am I competent?" A failure can feel existential. "I hate myself" is catastrophizing but deserves a serious response.</div>
-        <div class="a-label">What to do</div>
+        <div class="a-label" data-i18n="case_why_label">Why this happens</div>
+        <div class="a-why" data-i18n="case4_why">School-age children are in Erikson's Industry vs. Inferiority stage — testing "am I competent?" A failure can feel existential. "I hate myself" is catastrophizing but deserves a serious response.</div>
+        <div class="a-label" data-i18n="case_what_label">What to do</div>
         <div class="a-steps">
-          <div class="a-step"><div class="a-bullet">1</div><p>Don't immediately correct. First: <em>"That feels really awful."</em></p></div>
-          <div class="a-step"><div class="a-bullet">2</div><p>Separate event from identity: <em>"Getting one wrong doesn't say anything about who you are."</em></p></div>
-          <div class="a-step"><div class="a-bullet">3</div><p>Share your own failure story — normalizing struggle is one of the most evidence-based resilience builders.</p></div>
+          <div class="a-step"><div class="a-bullet">1</div><p data-i18n-html="case4_step1">Don't immediately correct. First: <em>"That feels really awful."</em></p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p data-i18n-html="case4_step2">Separate event from identity: <em>"Getting one wrong doesn't say anything about who you are."</em></p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p data-i18n-html="case4_step3">Share your own failure story — normalizing struggle is one of the most evidence-based resilience builders.</p></div>
         </div>
-        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Frequent self-critical language or withdrawal from activities — consider a school counselor.</div></div>
-        <button class="use-btn">Log this in ParentMind</button>
+        <div class="a-watch"><div class="w-label" data-i18n="case_watch_label">Watch for</div><div class="w-text" data-i18n="case4_watch">Frequent self-critical language or withdrawal from activities — consider a school counselor.</div></div>
+        <button class="use-btn" data-i18n="case_log_btn">Log this in ParentMind</button>
       </div>
     </div>
 
     <div class="case-card" data-tags="toddler preschool emotions">
-      <div class="case-meta"><span class="case-tag">Behavior</span><span class="case-age">Age 2–5</span></div>
-      <div class="case-title">Hits other children — especially at daycare</div>
-      <div class="case-sit">"My daughter hit another child twice this week. We don't hit at home."</div>
-      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-meta"><span class="case-tag" data-i18n="case5_tag">Behavior</span><span class="case-age" data-i18n="case5_age">Age 2–5</span></div>
+      <div class="case-title" data-i18n="case5_title">Hits other children — especially at daycare</div>
+      <div class="case-sit" data-i18n="case5_sit">"My daughter hit another child twice this week. We don't hit at home."</div>
+      <button class="expand-btn" onclick="toggleCase(this)" data-i18n="case_read_btn">Read the psychology →</button>
       <div class="case-answer">
-        <div class="a-label">Why this happens</div>
-        <div class="a-why">Before age 5, hitting is almost always a language limitation, not aggression. The child has a feeling they cannot verbalize fast enough. Daycare amplifies this — high stimulation, low control.</div>
-        <div class="a-label">What to do</div>
+        <div class="a-label" data-i18n="case_why_label">Why this happens</div>
+        <div class="a-why" data-i18n="case5_why">Before age 5, hitting is almost always a language limitation, not aggression. The child has a feeling they cannot verbalize fast enough. Daycare amplifies this — high stimulation, low control.</div>
+        <div class="a-label" data-i18n="case_what_label">What to do</div>
         <div class="a-steps">
-          <div class="a-step"><div class="a-bullet">1</div><p>Respond calmly: <em>"Hitting hurts. When you're angry, use your words."</em></p></div>
-          <div class="a-step"><div class="a-bullet">2</div><p>Practice missing words at home during calm moments — give her vocabulary before she needs it.</p></div>
-          <div class="a-step"><div class="a-bullet">3</div><p>Notice the pattern — before lunch? At pickup? Hunger and fatigue amplify this significantly.</p></div>
+          <div class="a-step"><div class="a-bullet">1</div><p data-i18n-html="case5_step1">Respond calmly: <em>"Hitting hurts. When you're angry, use your words."</em></p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p data-i18n-html="case5_step2">Practice missing words at home during calm moments — give her vocabulary before she needs it.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p data-i18n-html="case5_step3">Notice the pattern — before lunch? At pickup? Hunger and fatigue amplify this significantly.</p></div>
         </div>
-        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">If hitting is accompanied by biting or seems to give visible pleasure — warrants a closer look.</div></div>
-        <button class="use-btn">Log this in ParentMind</button>
+        <div class="a-watch"><div class="w-label" data-i18n="case_watch_label">Watch for</div><div class="w-text" data-i18n="case5_watch">If hitting is accompanied by biting or seems to give visible pleasure — warrants a closer look.</div></div>
+        <button class="use-btn" data-i18n="case_log_btn">Log this in ParentMind</button>
       </div>
     </div>
 
     <div class="case-card" data-tags="toddler preschool emotions">
-      <div class="case-meta"><span class="case-tag">Boundaries</span><span class="case-age">Age 3–6</span></div>
-      <div class="case-title">Extreme reaction to "no" — every single time</div>
-      <div class="case-sit">"I've started avoiding saying no just to have peace."</div>
-      <button class="expand-btn" onclick="toggleCase(this)">Read the psychology →</button>
+      <div class="case-meta"><span class="case-tag" data-i18n="case6_tag">Boundaries</span><span class="case-age" data-i18n="case6_age">Age 3–6</span></div>
+      <div class="case-title" data-i18n="case6_title">Extreme reaction to "no" — every single time</div>
+      <div class="case-sit" data-i18n="case6_sit">"I've started avoiding saying no just to have peace."</div>
+      <button class="expand-btn" onclick="toggleCase(this)" data-i18n="case_read_btn">Read the psychology →</button>
       <div class="case-answer">
-        <div class="a-label">Why this happens</div>
-        <div class="a-why">Some children have a lower frustration tolerance threshold — partly temperament, partly developmental. Avoiding "no" teaches that intensity = outcome, which can entrench the behavior.</div>
-        <div class="a-label">What to do</div>
+        <div class="a-label" data-i18n="case_why_label">Why this happens</div>
+        <div class="a-why" data-i18n="case6_why">Some children have a lower frustration tolerance threshold — partly temperament, partly developmental. Avoiding "no" teaches that intensity = outcome, which can entrench the behavior.</div>
+        <div class="a-label" data-i18n="case_what_label">What to do</div>
         <div class="a-steps">
-          <div class="a-step"><div class="a-bullet">1</div><p>Reintroduce low-stakes "nos" consistently. Build her tolerance in small doses.</p></div>
-          <div class="a-step"><div class="a-bullet">2</div><p>Offer "yes, later" when possible — validates desire while holding the boundary.</p></div>
-          <div class="a-step"><div class="a-bullet">3</div><p>After the storm: <em>"What could you do next time when that feeling comes?"</em></p></div>
+          <div class="a-step"><div class="a-bullet">1</div><p data-i18n-html="case6_step1">Reintroduce low-stakes "nos" consistently. Build her tolerance in small doses.</p></div>
+          <div class="a-step"><div class="a-bullet">2</div><p data-i18n-html="case6_step2">Offer "yes, later" when possible — validates desire while holding the boundary.</p></div>
+          <div class="a-step"><div class="a-bullet">3</div><p data-i18n-html="case6_step3">After the storm: <em>"What could you do next time when that feeling comes?"</em></p></div>
         </div>
-        <div class="a-watch"><div class="w-label">Watch for</div><div class="w-text">Consistent parental avoidance of limit-setting is worth exploring with a family therapist.</div></div>
-        <button class="use-btn">Log this in ParentMind</button>
+        <div class="a-watch"><div class="w-label" data-i18n="case_watch_label">Watch for</div><div class="w-text" data-i18n="case6_watch">Consistent parental avoidance of limit-setting is worth exploring with a family therapist.</div></div>
+        <button class="use-btn" data-i18n="case_log_btn">Log this in ParentMind</button>
       </div>
     </div>
   </div>
@@ -566,14 +572,14 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
     <div class="priv-top">
       <div class="priv-icon">🔒</div>
       <div>
-        <h2 class="priv-h">Your child's data stays private.</h2>
-        <p class="priv-sub">You're sharing sensitive information about your child. We take that seriously — not just legally, but as a core design principle.</p>
+        <h2 class="priv-h" data-i18n="privacy_h">Your child's data stays private.</h2>
+        <p class="priv-sub" data-i18n="privacy_sub">You're sharing sensitive information about your child. We take that seriously — not just legally, but as a core design principle.</p>
       </div>
     </div>
     <div class="priv-grid">
-      <div class="priv-card"><div class="priv-card-icon">🚫</div><h4>Never sold or shared</h4><p>Your child's profile and entries are never shared with third parties, advertisers, or researchers. Ever.</p></div>
-      <div class="priv-card"><div class="priv-card-icon">🏠</div><h4>Encrypted, no human reads</h4><p>AI processing happens server-side but your profile data is encrypted and only accessible by your account.</p></div>
-      <div class="priv-card"><div class="priv-card-icon">🗑️</div><h4>Delete anytime</h4><p>Export or permanently delete your child's entire profile at any time. Your data disappears completely.</p></div>
+      <div class="priv-card"><div class="priv-card-icon">🚫</div><h4 data-i18n="privacy_card1_h">Never sold or shared</h4><p data-i18n="privacy_card1_p">Your child's profile and entries are never shared with third parties, advertisers, or researchers. Ever.</p></div>
+      <div class="priv-card"><div class="priv-card-icon">🏠</div><h4 data-i18n="privacy_card2_h">Encrypted, no human reads</h4><p data-i18n="privacy_card2_p">AI processing happens server-side but your profile data is encrypted and only accessible by your account.</p></div>
+      <div class="priv-card"><div class="priv-card-icon">🗑️</div><h4 data-i18n="privacy_card3_h">Delete anytime</h4><p data-i18n="privacy_card3_p">Export or permanently delete your child's entire profile at any time. Your data disappears completely.</p></div>
     </div>
   </div>
 </section>
@@ -581,14 +587,14 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 <!-- HOW IT WORKS -->
 <section class="how-sect" id="how">
   <div class="how-inner">
-    <p class="sec-eye" style="color:#DFA0AD;">How it works</p>
-    <h2 class="sec-h2" style="color:white;">Not advice. Memory.</h2>
-    <p class="sec-lead" style="color:#9A7A84;max-width:480px;">The difference between ParentMind and reading an article is that ParentMind remembers your child — and comes back to check.</p>
+    <p class="sec-eye" style="color:#DFA0AD;" data-i18n="how_eyebrow">How it works</p>
+    <h2 class="sec-h2" style="color:white;" data-i18n="how_h2">Not advice. Memory.</h2>
+    <p class="sec-lead" style="color:#9A7A84;max-width:480px;" data-i18n="how_lead">The difference between ParentMind and reading an article is that ParentMind remembers your child — and comes back to check.</p>
     <div class="how-steps">
-      <div class="how-step"><div class="how-num">1</div><div><h4>Describe in your words</h4><p>Write what happened however feels natural. No forms, no checkboxes — just your words.</p></div></div>
-      <div class="how-step"><div class="how-num">2</div><div><h4>Get specific guidance</h4><p>Not generic articles. Guidance specific to your child's age, history, and what's happening right now.</p></div></div>
-      <div class="how-step"><div class="how-num">3</div><div><h4>Everything is saved</h4><p>Each entry builds your child's portfolio — a developmental picture that grows clearer over time.</p></div></div>
-      <div class="how-step"><div class="how-num">4</div><div><h4>ParentMind follows up</h4><p>Two weeks later: "How is the morning routine going?" This continuity separates tracking from understanding.</p></div></div>
+      <div class="how-step"><div class="how-num">1</div><div><h4 data-i18n="how_step1_h">Describe in your words</h4><p data-i18n="how_step1_p">Write what happened however feels natural. No forms, no checkboxes — just your words.</p></div></div>
+      <div class="how-step"><div class="how-num">2</div><div><h4 data-i18n="how_step2_h">Get specific guidance</h4><p data-i18n="how_step2_p">Not generic articles. Guidance specific to your child's age, history, and what's happening right now.</p></div></div>
+      <div class="how-step"><div class="how-num">3</div><div><h4 data-i18n="how_step3_h">Everything is saved</h4><p data-i18n="how_step3_p">Each entry builds your child's portfolio — a developmental picture that grows clearer over time.</p></div></div>
+      <div class="how-step"><div class="how-num">4</div><div><h4 data-i18n="how_step4_h">ParentMind follows up</h4><p data-i18n="how_step4_p">Two weeks later: "How is the morning routine going?" This continuity separates tracking from understanding.</p></div></div>
     </div>
   </div>
 </section>
@@ -597,27 +603,27 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 <section class="schools-sect" id="schools">
   <div class="schools-inner">
     <div>
-      <p class="sec-eye">For Schools & Kindergartens</p>
-      <h2 class="sec-h2">Every classroom. Every child.</h2>
-      <p class="sec-lead">ParentMind can be licensed as a standard tool for early childhood education — giving teachers context they've never had before.</p>
+      <p class="sec-eye" data-i18n="schools_eyebrow">For Schools & Kindergartens</p>
+      <h2 class="sec-h2" data-i18n="schools_h2">Every classroom. Every child.</h2>
+      <p class="sec-lead" data-i18n="schools_lead">ParentMind can be licensed as a standard tool for early childhood education — giving teachers context they've never had before.</p>
       <div class="school-feats">
-        <div class="sf"><span class="sf-icon">📋</span><div><h4>Child portfolio per student</h4><p>Teachers see each child's emotional baseline and known triggers before the first day.</p></div></div>
-        <div class="sf"><span class="sf-icon">👨‍👩‍👧</span><div><h4>Parent-teacher coordination</h4><p>Both sides log observations. AI synthesizes patterns across home and school.</p></div></div>
-        <div class="sf"><span class="sf-icon">🏫</span><div><h4>Class-level insights</h4><p>Anonymized patterns across a classroom help teachers identify systemic issues.</p></div></div>
-        <div class="sf"><span class="sf-icon">📬</span><div><h4>Interested in licensing?</h4><p><a href="#">Contact us →</a> We work with kindergartens and primary schools directly.</p></div></div>
+        <div class="sf"><span class="sf-icon">📋</span><div><h4 data-i18n="sf1_h">Child portfolio per student</h4><p data-i18n="sf1_p">Teachers see each child's emotional baseline and known triggers before the first day.</p></div></div>
+        <div class="sf"><span class="sf-icon">👨‍👩‍👧</span><div><h4 data-i18n="sf2_h">Parent-teacher coordination</h4><p data-i18n="sf2_p">Both sides log observations. AI synthesizes patterns across home and school.</p></div></div>
+        <div class="sf"><span class="sf-icon">🏫</span><div><h4 data-i18n="sf3_h">Class-level insights</h4><p data-i18n="sf3_p">Anonymized patterns across a classroom help teachers identify systemic issues.</p></div></div>
+        <div class="sf"><span class="sf-icon">📬</span><div><h4 data-i18n="sf4_h">Interested in licensing?</h4><p data-i18n-html="sf4_p"><a href="#">Contact us →</a> We work with kindergartens and primary schools directly.</p></div></div>
       </div>
     </div>
     <div class="class-vis">
       <div class="class-vis-top">
         <svg width="28" height="28" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><ellipse cx="32" cy="18" rx="10" ry="10" fill="rgba(255,255,255,.5)"/><ellipse cx="32" cy="20" rx="8" ry="7" fill="rgba(255,255,255,.8)"/><ellipse cx="26" cy="38" rx="6" ry="6" fill="rgba(255,255,255,.4)"/><ellipse cx="26" cy="40" rx="5" ry="5" fill="rgba(255,255,255,.7)"/><path d="M18 44 Q22 50 32 52 Q42 50 46 44" stroke="rgba(255,255,255,.5)" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
-        <div><h3>Classroom view</h3><p>Haeundae Preschool · Group A</p></div>
+        <div><h3 data-i18n="classroom_title">Classroom view</h3><p>Haeundae Preschool · Group A</p></div>
       </div>
       <div class="class-vis-body">
-        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Minho</span><span class="class-tag">Transition sensitive</span></div>
-        <div class="class-row"><div class="class-av">👧</div><span class="class-name">Sora</span><span class="class-tag">Separation anxiety ↓</span></div>
-        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Jiho</span><span class="class-tag">High energy · needs structure</span></div>
-        <div class="class-row"><div class="class-av">👧</div><span class="class-name">Yuna</span><span class="class-tag">Thriving ✓</span></div>
-        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Taemin</span><span class="class-tag">New — monitoring</span></div>
+        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Minho</span><span class="class-tag" data-i18n="class_tag1">Transition sensitive</span></div>
+        <div class="class-row"><div class="class-av">👧</div><span class="class-name">Sora</span><span class="class-tag" data-i18n="class_tag2">Separation anxiety ↓</span></div>
+        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Jiho</span><span class="class-tag" data-i18n="class_tag3">High energy · needs structure</span></div>
+        <div class="class-row"><div class="class-av">👧</div><span class="class-name">Yuna</span><span class="class-tag" data-i18n="class_tag4">Thriving ✓</span></div>
+        <div class="class-row"><div class="class-av">👦</div><span class="class-name">Taemin</span><span class="class-tag" data-i18n="class_tag5">New — monitoring</span></div>
       </div>
     </div>
   </div>
@@ -627,23 +633,23 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
 
 <!-- FREE PLAN -->
 <section class="free-sect" id="free">
-  <p class="sec-eye">Free plan</p>
-  <h2 class="sec-h2">Start without paying anything.</h2>
-  <p class="sec-lead" style="margin-bottom:28px;">Good psychological guidance shouldn't be a luxury. The core of ParentMind is free.</p>
+  <p class="sec-eye" data-i18n="free_eyebrow">Free plan</p>
+  <h2 class="sec-h2" data-i18n="free_h2">Start without paying anything.</h2>
+  <p class="sec-lead" style="margin-bottom:28px;" data-i18n="free_lead">Good psychological guidance shouldn't be a luxury. The core of ParentMind is free.</p>
   <div class="free-list">
-    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Unlimited questions</h4><p>Describe any situation, get full psychological explanation and actionable steps</p></div><div class="fi-badge">Always free</div></div>
-    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Full cases library</h4><p>Browse all solved cases with evidence-based responses</p></div><div class="fi-badge">Always free</div></div>
-    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Child portfolio — 1 child</h4><p>All entries saved, milestones tracked, patterns noted</p></div><div class="fi-badge">Always free</div></div>
-    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4>Follow-up reminders</h4><p>ParentMind checks back on unresolved situations after 2 weeks</p></div><div class="fi-badge">Always free</div></div>
-    <div class="free-item" style="opacity:.5"><div class="free-check" style="color:#ccc;border-color:#eee;">—</div><div class="fi-t"><h4>Multiple children + school sharing</h4><p>Share portfolio with teachers and pediatricians</p></div><div class="fi-badge pro">Pro plan</div></div>
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4 data-i18n="free_item1_h">Unlimited questions</h4><p data-i18n="free_item1_p">Describe any situation, get full psychological explanation and actionable steps</p></div><div class="fi-badge" data-i18n="free_always_badge">Always free</div></div>
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4 data-i18n="free_item2_h">Full cases library</h4><p data-i18n="free_item2_p">Browse all solved cases with evidence-based responses</p></div><div class="fi-badge" data-i18n="free_always_badge">Always free</div></div>
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4 data-i18n="free_item3_h">Child portfolio — 1 child</h4><p data-i18n="free_item3_p">All entries saved, milestones tracked, patterns noted</p></div><div class="fi-badge" data-i18n="free_always_badge">Always free</div></div>
+    <div class="free-item"><div class="free-check">✓</div><div class="fi-t"><h4 data-i18n="free_item4_h">Follow-up reminders</h4><p data-i18n="free_item4_p">ParentMind checks back on unresolved situations after 2 weeks</p></div><div class="fi-badge" data-i18n="free_always_badge">Always free</div></div>
+    <div class="free-item" style="opacity:.5"><div class="free-check" style="color:#ccc;border-color:#eee;">—</div><div class="fi-t"><h4 data-i18n="free_item5_h">Multiple children + school sharing</h4><p data-i18n="free_item5_p">Share portfolio with teachers and pediatricians</p></div><div class="fi-badge pro" data-i18n="free_pro_badge">Pro plan</div></div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-sect">
-  <h2>Ready to understand your child better?</h2>
-  <p>Start a conversation right now — no account, no credit card.</p>
-  <button class="email-btn" onclick="document.getElementById('messages').scrollIntoView({behavior:'smooth'})" style="margin:0 auto;display:block;padding:14px 32px;font-size:15px;">Talk to ParentMind →</button>
+  <h2 data-i18n="cta_h2">Ready to understand your child better?</h2>
+  <p data-i18n="cta_p">Start a conversation right now — no account, no credit card.</p>
+  <button class="email-btn" onclick="document.getElementById('messages').scrollIntoView({behavior:'smooth'})" style="margin:0 auto;display:block;padding:14px 32px;font-size:15px;" data-i18n="cta_btn">Talk to ParentMind →</button>
 </section>
 
 <!-- FOOTER -->
@@ -652,13 +658,434 @@ footer{padding:32px 48px;display:flex;align-items:center;justify-content:space-b
     <svg width="24" height="24" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1.5"/><ellipse cx="32" cy="15" rx="10" ry="10" fill="#C8906A" opacity="0.85"/><ellipse cx="32" cy="18" rx="8" ry="7" fill="#F5E6DC"/><ellipse cx="28" cy="36" rx="6.5" ry="6" fill="#6B4535" opacity="0.9"/><ellipse cx="28" cy="38" rx="5.5" ry="5" fill="#F5E6DC"/><path d="M18 42 Q22 50 32 52 Q42 50 46 42" stroke="#F0D0C0" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.75"/><circle cx="14" cy="38" r="2" fill="#C97080" opacity="0.45"/><circle cx="50" cy="38" r="2" fill="#DFA0AD" opacity="0.45"/></svg>
     Parent<span>Mind</span>
   </div>
-  <div class="f-note">Made by Angelish · Built on child developmental psychology · © 2026</div>
+  <div class="f-note" data-i18n="footer_credit">Made by Angelish · Built on child developmental psychology · © 2026</div>
 </footer>
 
 <script>
 // ══════════════════════════════════════
 // LOCALSTORAGE — profile & chat memory
 // ══════════════════════════════════════
+
+// ══════════════════════════════════════
+// i18n — EN / RU / KO
+// ══════════════════════════════════════
+let currentLang = localStorage.getItem('parentmind_lang') || 'en';
+
+const translations = {
+  en: {
+    nav_cases: 'Cases', nav_how: 'How it works', nav_schools: 'For Schools', nav_free: 'Free plan',
+    hero_kicker: 'Child development · Free to start',
+    hero_title: `Understand your child<br>before you need a <em>psychologist.</em>`,
+    hero_sub: 'Describe what happened today. ParentMind explains why, tells you what to do, and builds a picture of your child over time.',
+    night_hint: 'Writing at 2am because something felt off? Try night mode ↑',
+    chat_tab_child: '👶 Your child', chat_tab_profile: '⚙️ Profile',
+    input_placeholder: 'What happened today with your child...', send_btn: 'Send →',
+    footer_note: '🔒 Saved securely to your account',
+    pill_meltdown: 'Meltdown', pill_refuses_school: 'Refuses school', pill_sleep_issues: 'Sleep issues',
+    hero_note: 'No account needed. Free forever for basic use.',
+    filter_all: 'All ages', filter_toddler: 'Toddler 2–4', filter_preschool: 'Preschool 4–6',
+    filter_school: 'School age 6–10', filter_emotions: 'Emotions', filter_sleep: 'Sleep',
+    auth_title_login: 'Welcome back', auth_title_signup: 'Create your account',
+    auth_subtitle_login: 'Log in to see your saved profile and chat history.',
+    auth_subtitle_signup: 'Save your profile and chat history across devices.',
+    auth_email_label: 'Email', auth_password_label: 'Password',
+    auth_password_placeholder: 'At least 6 characters',
+    auth_submit_login: 'Log in', auth_submit_signup: 'Sign up',
+    auth_toggle_text_login: "Don't have an account?", auth_toggle_text_signup: 'Already have an account?',
+    auth_toggle_link_login: 'Sign up', auth_toggle_link_signup: 'Log in',
+    onboarding_title: 'Welcome to ParentMind',
+    onboarding_subtitle: 'Tell us about your child so we can give you personalized guidance.',
+    ob_name_label: "Child's name *", ob_name_placeholder: 'e.g. Sofia',
+    ob_age_label: 'Age', ob_age_placeholder: 'e.g. 4',
+    ob_notes_label: 'Anything ParentMind should know? (optional)',
+    ob_notes_placeholder: 'e.g. very sensitive, slow to warm up to new places...',
+    ob_start_btn: 'Start →',
+    profile_title: 'Child Profile', pr_name_label: 'Name', pr_age_label: 'Age',
+    pr_notes_label: 'General notes & context', pr_notes_placeholder: 'Temperament, family situation, recent changes...',
+    pr_interests_label: 'Interests & what calms them', pr_interests_placeholder: 'e.g. Legos, drawing, water play, music...',
+    pr_triggers_label: 'Known triggers', pr_triggers_placeholder: 'e.g. transitions, loud sounds, hunger...',
+    pr_strengths_label: "Strengths you've noticed", pr_strengths_placeholder: 'e.g. empathy, creativity, persistence...',
+    pr_clear_btn: 'Clear chat history', pr_save_btn: 'Save profile',
+    greeting_template: `Hello — I'm here to help you understand {name}. Describe anything that happened today, in your own words. There's no right way to start.`,
+
+    cases_eyebrow: 'Solved cases', cases_h2: 'Real situations. Real guidance.',
+    cases_lead: 'Read the full psychology before creating an account. Trust is built before we ask for your email.',
+    case_why_label: 'Why this happens', case_what_label: 'What to do', case_watch_label: 'Watch for',
+    case_read_btn: 'Read the psychology →', case_log_btn: 'Log this in ParentMind',
+
+    case1_tag: 'Emotions', case1_age: 'Age 3–5', case1_title: 'Meltdown in a public place — nothing works',
+    case1_sit: '"He screamed for 20 minutes in the supermarket. People were staring."',
+    case1_why: 'At 3–5, the prefrontal cortex is still largely undeveloped. When a child hears "no," the emotional brain floods before any rational processing can happen. This is a neurological event, not defiance.',
+    case1_step1: 'Do not reason or negotiate. Get low — crouch to their level.',
+    case1_step2: `Name the feeling: <em>"You really wanted that. You're so disappointed."</em>`,
+    case1_step3: 'Create safety, not shame. Move somewhere quieter if possible.',
+    case1_watch: 'Meltdowns lasting 30+ min or daily — flag for pediatric assessment.',
+
+    case2_tag: 'Behavior', case2_age: 'Age 4–7', case2_title: 'Refuses kindergarten — cries every morning',
+    case2_sit: '"She holds onto the door. Teacher says she\'s fine 10 minutes after I leave."',
+    case2_why: 'Separation anxiety is developmentally normal. The stomach ache is real — anxiety activates the gut-brain axis. Settling quickly after you leave is a good sign: she has a secure base.',
+    case2_step1: 'Create a consistent goodbye ritual — same words, same hug, every day.',
+    case2_step2: 'Do not linger. A long goodbye signals something is wrong.',
+    case2_step3: 'Give her something of yours to hold during the day.',
+    case2_watch: 'Escalating avoidance after 4+ weeks of consistent routine.',
+
+    case3_tag: 'Sleep', case3_age: 'Age 2–6', case3_title: "Won't sleep alone — needs a parent in the room",
+    case3_sit: '"He\'s 5 and still can\'t fall asleep unless I\'m sitting next to him."',
+    case3_why: 'Sleep is neurologically the most vulnerable state for a child. His nervous system needs co-regulation — a calm adult presence to downshift. This is not manipulation.',
+    case3_step1: 'Gradual distancing: next to bed → doorway → outside. Move one step every 3–5 nights.',
+    case3_step2: 'Introduce 10-min "worry time" before bed — named fears sleep better.',
+    case3_step3: 'Give him agency: choose nightlight color, blanket. Control reduces anxiety.',
+    case3_watch: 'Night terrors (screaming but unresponsive) have a separate protocol — flag separately.',
+
+    case4_tag: 'Self-esteem', case4_age: 'Age 6–10', case4_title: '"I hate myself" — said after one wrong answer',
+    case4_sit: '"My son got one answer wrong and said \'I\'m so stupid, I hate myself.\'"',
+    case4_why: `School-age children are in Erikson's Industry vs. Inferiority stage — testing "am I competent?" A failure can feel existential. "I hate myself" is catastrophizing but deserves a serious response.`,
+    case4_step1: `Don't immediately correct. First: <em>"That feels really awful."</em>`,
+    case4_step2: `Separate event from identity: <em>"Getting one wrong doesn't say anything about who you are."</em>`,
+    case4_step3: 'Share your own failure story — normalizing struggle is one of the most evidence-based resilience builders.',
+    case4_watch: 'Frequent self-critical language or withdrawal from activities — consider a school counselor.',
+
+    case5_tag: 'Behavior', case5_age: 'Age 2–5', case5_title: 'Hits other children — especially at daycare',
+    case5_sit: '"My daughter hit another child twice this week. We don\'t hit at home."',
+    case5_why: 'Before age 5, hitting is almost always a language limitation, not aggression. The child has a feeling they cannot verbalize fast enough. Daycare amplifies this — high stimulation, low control.',
+    case5_step1: `Respond calmly: <em>"Hitting hurts. When you're angry, use your words."</em>`,
+    case5_step2: 'Practice missing words at home during calm moments — give her vocabulary before she needs it.',
+    case5_step3: 'Notice the pattern — before lunch? At pickup? Hunger and fatigue amplify this significantly.',
+    case5_watch: 'If hitting is accompanied by biting or seems to give visible pleasure — warrants a closer look.',
+
+    case6_tag: 'Boundaries', case6_age: 'Age 3–6', case6_title: 'Extreme reaction to "no" — every single time',
+    case6_sit: '"I\'ve started avoiding saying no just to have peace."',
+    case6_why: 'Some children have a lower frustration tolerance threshold — partly temperament, partly developmental. Avoiding "no" teaches that intensity = outcome, which can entrench the behavior.',
+    case6_step1: 'Reintroduce low-stakes "nos" consistently. Build her tolerance in small doses.',
+    case6_step2: 'Offer "yes, later" when possible — validates desire while holding the boundary.',
+    case6_step3: `After the storm: <em>"What could you do next time when that feeling comes?"</em>`,
+    case6_watch: 'Consistent parental avoidance of limit-setting is worth exploring with a family therapist.',
+
+    privacy_h: "Your child's data stays private.",
+    privacy_sub: "You're sharing sensitive information about your child. We take that seriously — not just legally, but as a core design principle.",
+    privacy_card1_h: 'Never sold or shared', privacy_card1_p: "Your child's profile and entries are never shared with third parties, advertisers, or researchers. Ever.",
+    privacy_card2_h: 'Encrypted, no human reads', privacy_card2_p: 'AI processing happens server-side but your profile data is encrypted and only accessible by your account.',
+    privacy_card3_h: 'Delete anytime', privacy_card3_p: "Export or permanently delete your child's entire profile at any time. Your data disappears completely.",
+
+    how_eyebrow: 'How it works', how_h2: 'Not advice. Memory.',
+    how_lead: 'The difference between ParentMind and reading an article is that ParentMind remembers your child — and comes back to check.',
+    how_step1_h: 'Describe in your words', how_step1_p: 'Write what happened however feels natural. No forms, no checkboxes — just your words.',
+    how_step2_h: 'Get specific guidance', how_step2_p: "Not generic articles. Guidance specific to your child's age, history, and what's happening right now.",
+    how_step3_h: 'Everything is saved', how_step3_p: "Each entry builds your child's portfolio — a developmental picture that grows clearer over time.",
+    how_step4_h: 'ParentMind follows up', how_step4_p: 'Two weeks later: "How is the morning routine going?" This continuity separates tracking from understanding.',
+
+    schools_eyebrow: 'For Schools & Kindergartens', schools_h2: 'Every classroom. Every child.',
+    schools_lead: "ParentMind can be licensed as a standard tool for early childhood education — giving teachers context they've never had before.",
+    sf1_h: 'Child portfolio per student', sf1_p: "Teachers see each child's emotional baseline and known triggers before the first day.",
+    sf2_h: 'Parent-teacher coordination', sf2_p: 'Both sides log observations. AI synthesizes patterns across home and school.',
+    sf3_h: 'Class-level insights', sf3_p: 'Anonymized patterns across a classroom help teachers identify systemic issues.',
+    sf4_h: 'Interested in licensing?', sf4_p: '<a href="#">Contact us →</a> We work with kindergartens and primary schools directly.',
+    classroom_title: 'Classroom view',
+    class_tag1: 'Transition sensitive', class_tag2: 'Separation anxiety ↓', class_tag3: 'High energy · needs structure',
+    class_tag4: 'Thriving ✓', class_tag5: 'New — monitoring',
+
+    free_eyebrow: 'Free plan', free_h2: 'Start without paying anything.',
+    free_lead: "Good psychological guidance shouldn't be a luxury. The core of ParentMind is free.",
+    free_item1_h: 'Unlimited questions', free_item1_p: 'Describe any situation, get full psychological explanation and actionable steps',
+    free_item2_h: 'Full cases library', free_item2_p: 'Browse all solved cases with evidence-based responses',
+    free_item3_h: 'Child portfolio — 1 child', free_item3_p: 'All entries saved, milestones tracked, patterns noted',
+    free_item4_h: 'Follow-up reminders', free_item4_p: 'ParentMind checks back on unresolved situations after 2 weeks',
+    free_item5_h: 'Multiple children + school sharing', free_item5_p: 'Share portfolio with teachers and pediatricians',
+    free_always_badge: 'Always free', free_pro_badge: 'Pro plan',
+
+    cta_h2: 'Ready to understand your child better?', cta_p: 'Start a conversation right now — no account, no credit card.',
+    cta_btn: 'Talk to ParentMind →',
+    footer_credit: 'Made by Angelish · Built on child developmental psychology · © 2026'
+  },
+  ru: {
+    nav_cases: 'Кейсы', nav_how: 'Как это работает', nav_schools: 'Для школ', nav_free: 'Бесплатно',
+    hero_kicker: 'Детская психология · Бесплатный старт',
+    hero_title: `Понимайте своего ребёнка<br>раньше, чем понадобится <em>психолог.</em>`,
+    hero_sub: 'Опишите, что произошло сегодня. ParentMind объяснит причину, подскажет, что делать, и со временем составит полную картину вашего ребёнка.',
+    night_hint: 'Пишете в 2 часа ночи, потому что что-то тревожит? Попробуйте ночной режим ↑',
+    chat_tab_child: '👶 Ваш ребёнок', chat_tab_profile: '⚙️ Профиль',
+    input_placeholder: 'Что произошло сегодня с вашим ребёнком...', send_btn: 'Отправить →',
+    footer_note: '🔒 Надёжно сохранено в вашем аккаунте',
+    pill_meltdown: 'Истерика', pill_refuses_school: 'Отказ от садика', pill_sleep_issues: 'Проблемы со сном',
+    hero_note: 'Аккаунт не обязателен. Базовые функции бесплатны навсегда.',
+    filter_all: 'Все возрасты', filter_toddler: 'Малыши 2–4', filter_preschool: 'Дошкольники 4–6',
+    filter_school: 'Школьники 6–10', filter_emotions: 'Эмоции', filter_sleep: 'Сон',
+    auth_title_login: 'С возвращением', auth_title_signup: 'Создайте аккаунт',
+    auth_subtitle_login: 'Войдите, чтобы увидеть сохранённый профиль и историю чата.',
+    auth_subtitle_signup: 'Сохраняйте профиль и историю чата на всех устройствах.',
+    auth_email_label: 'Email', auth_password_label: 'Пароль',
+    auth_password_placeholder: 'Минимум 6 символов',
+    auth_submit_login: 'Войти', auth_submit_signup: 'Зарегистрироваться',
+    auth_toggle_text_login: 'Ещё нет аккаунта?', auth_toggle_text_signup: 'Уже есть аккаунт?',
+    auth_toggle_link_login: 'Зарегистрироваться', auth_toggle_link_signup: 'Войти',
+    onboarding_title: 'Добро пожаловать в ParentMind',
+    onboarding_subtitle: 'Расскажите о своём ребёнке, чтобы мы могли дать персональные советы.',
+    ob_name_label: 'Имя ребёнка *', ob_name_placeholder: 'например, София',
+    ob_age_label: 'Возраст', ob_age_placeholder: 'например, 4',
+    ob_notes_label: 'Что ещё стоит знать ParentMind? (необязательно)',
+    ob_notes_placeholder: 'например: очень чувствительный(ая), долго привыкает к новым местам...',
+    ob_start_btn: 'Начать →',
+    profile_title: 'Профиль ребёнка', pr_name_label: 'Имя', pr_age_label: 'Возраст',
+    pr_notes_label: 'Общие заметки и контекст', pr_notes_placeholder: 'Темперамент, семейная ситуация, недавние изменения...',
+    pr_interests_label: 'Интересы и что успокаивает', pr_interests_placeholder: 'например: лего, рисование, игры с водой, музыка...',
+    pr_triggers_label: 'Известные триггеры', pr_triggers_placeholder: 'например: переходы между занятиями, громкие звуки, голод...',
+    pr_strengths_label: 'Замеченные сильные стороны', pr_strengths_placeholder: 'например: эмпатия, творчество, упорство...',
+    pr_clear_btn: 'Очистить историю чата', pr_save_btn: 'Сохранить профиль',
+    greeting_template: `Здравствуйте — я здесь, чтобы помочь вам лучше понять {name}. Опишите своими словами всё, что произошло сегодня. Правильного способа начать не существует.`,
+
+    cases_eyebrow: 'Разобранные случаи', cases_h2: 'Реальные ситуации. Реальные советы.',
+    cases_lead: 'Прочитайте полный психологический разбор до создания аккаунта. Доверие строится раньше, чем мы просим ваш email.',
+    case_why_label: 'Почему так происходит', case_what_label: 'Что делать', case_watch_label: 'На что обратить внимание',
+    case_read_btn: 'Читать разбор →', case_log_btn: 'Сохранить в ParentMind',
+
+    case1_tag: 'Эмоции', case1_age: '3–5 лет', case1_title: 'Истерика в общественном месте — ничего не помогает',
+    case1_sit: '«Он кричал 20 минут в супермаркете. Люди оборачивались.»',
+    case1_why: 'В 3–5 лет префронтальная кора ещё почти не развита. Когда ребёнок слышит «нет», эмоциональный мозг захлёстывает раньше, чем включается рациональная обработка. Это неврологическое событие, а не непослушание.',
+    case1_step1: 'Не пытайтесь договориться или объяснить логически. Опуститесь на уровень ребёнка.',
+    case1_step2: '<em>Назовите чувство: «Ты правда этого хотел(а). Ты очень расстроен(а)».</em>',
+    case1_step3: 'Создайте безопасность, а не стыд. По возможности перейдите куда-то потише.',
+    case1_watch: 'Истерики дольше 30 минут или ежедневные — повод показаться педиатру.',
+
+    case2_tag: 'Поведение', case2_age: '4–7 лет', case2_title: 'Отказывается идти в садик — плачет каждое утро',
+    case2_sit: '«Она держится за дверь. Воспитатель говорит, что через 10 минут после моего ухода всё в порядке.»',
+    case2_why: 'Тревога расставания — нормальный этап развития. Боль в животе реальна: тревога активирует ось «кишечник–мозг». Быстрое успокоение после вашего ухода — хороший знак: у неё надёжная привязанность.',
+    case2_step1: 'Заведите постоянный ритуал прощания — одни и те же слова, объятие, каждый день.',
+    case2_step2: 'Не затягивайте прощание. Долгое прощание сигнализирует, что что-то не так.',
+    case2_step3: 'Дайте ей что-то из ваших вещей, чтобы держать в течение дня.',
+    case2_watch: 'Усиливающееся избегание после 4+ недель стабильного режима.',
+
+    case3_tag: 'Сон', case3_age: '2–6 лет', case3_title: 'Не засыпает один — нужен родитель в комнате',
+    case3_sit: '«Ему 5, и он до сих пор не может заснуть, если я не сижу рядом.»',
+    case3_why: 'Сон — неврологически самое уязвимое состояние для ребёнка. Его нервной системе нужна ко-регуляция — спокойное присутствие взрослого, чтобы «сбавить обороты». Это не манипуляция.',
+    case3_step1: 'Постепенное отдаление: у кровати → у двери → снаружи. Один шаг каждые 3–5 ночей.',
+    case3_step2: 'Введите 10-минутное «время тревог» перед сном — названные страхи спят лучше.',
+    case3_step3: 'Дайте ему выбор: цвет ночника, одеяло. Контроль снижает тревогу.',
+    case3_watch: 'Ночные ужасы (крик без реакции на обращение) требуют отдельного подхода.',
+
+    case4_tag: 'Самооценка', case4_age: '6–10 лет', case4_title: '«Я себя ненавижу» — после одной неправильной ошибки',
+    case4_sit: '«Сын ошибся в одном ответе и сказал: "Я такой глупый, я себя ненавижу".»',
+    case4_why: 'Дети школьного возраста проходят стадию Эриксона «Трудолюбие против неполноценности» — проверяют «компетентен ли я?». Неудача может ощущаться экзистенциально. «Я себя ненавижу» — катастрофизация, но заслуживает серьёзного ответа.',
+    case4_step1: '<em>Не исправляйте сразу. Сначала: «Это правда очень неприятно».</em>',
+    case4_step2: '<em>Отделите событие от личности: «Одна ошибка ничего не говорит о том, кто ты».</em>',
+    case4_step3: 'Расскажите о своей собственной неудаче — нормализация трудностей — один из самых доказанных способов укрепить устойчивость.',
+    case4_watch: 'Частая самокритика или уход от занятий — стоит обратиться к школьному психологу.',
+
+    case5_tag: 'Поведение', case5_age: '2–5 лет', case5_title: 'Бьёт других детей — особенно в саду',
+    case5_sit: '«Дочь дважды ударила другого ребёнка на этой неделе. Дома мы не бьём.»',
+    case5_why: 'До 5 лет удар почти всегда — ограничение речи, а не агрессия. У ребёнка есть чувство, которое он не успевает выразить словами. Детский сад усиливает это — высокая стимуляция, низкий контроль.',
+    case5_step1: '<em>Реагируйте спокойно: «Удар причиняет боль. Когда злишься — используй слова».</em>',
+    case5_step2: 'Тренируйте недостающие слова дома в спокойные моменты — дайте словарь заранее.',
+    case5_step3: 'Отследите закономерность — перед обедом? При заборе из сада? Голод и усталость сильно усиливают это.',
+    case5_watch: 'Если удары сопровождаются укусами или явным удовольствием — стоит присмотреться внимательнее.',
+
+    case6_tag: 'Границы', case6_age: '3–6 лет', case6_title: 'Крайняя реакция на «нет» — каждый раз',
+    case6_sit: '«Я начал(а) избегать слова "нет", просто чтобы был покой.»',
+    case6_why: 'У некоторых детей порог переносимости фрустрации ниже — частично темперамент, частично развитие. Избегание «нет» учит, что интенсивность = результат, что закрепляет поведение.',
+    case6_step1: 'Снова вводите «нет» в ситуациях с низкими ставками, постепенно наращивая переносимость.',
+    case6_step2: 'Предлагайте «да, но позже» — подтверждает желание, сохраняя границу.',
+    case6_step3: '<em>После бури: «Что ты можешь сделать в следующий раз, когда придёт это чувство?»</em>',
+    case6_watch: 'Постоянное избегание родителем установления границ стоит обсудить с семейным терапевтом.',
+
+    privacy_h: 'Данные вашего ребёнка остаются приватными.',
+    privacy_sub: 'Вы делитесь чувствительной информацией о своём ребёнке. Мы относимся к этому серьёзно — не только юридически, но и как к базовому принципу проектирования.',
+    privacy_card1_h: 'Никогда не продаётся и не передаётся', privacy_card1_p: 'Профиль и записи о вашем ребёнке никогда не передаются третьим лицам, рекламодателям или исследователям. Никогда.',
+    privacy_card2_h: 'Зашифровано, никто не читает', privacy_card2_p: 'ИИ обрабатывает данные на сервере, но данные профиля зашифрованы и доступны только вашему аккаунту.',
+    privacy_card3_h: 'Удаление в любой момент', privacy_card3_p: 'Экспортируйте или навсегда удалите весь профиль ребёнка в любое время. Данные исчезают полностью.',
+
+    how_eyebrow: 'Как это работает', how_h2: 'Не советы. Память.',
+    how_lead: 'Разница между ParentMind и чтением статьи в том, что ParentMind запоминает вашего ребёнка — и возвращается, чтобы уточнить.',
+    how_step1_h: 'Опишите своими словами', how_step1_p: 'Напишите, что произошло, как удобно. Без форм и галочек — просто ваши слова.',
+    how_step2_h: 'Получите конкретный совет', how_step2_p: 'Не общие статьи. Советы, учитывающие возраст, историю вашего ребёнка и то, что происходит прямо сейчас.',
+    how_step3_h: 'Всё сохраняется', how_step3_p: 'Каждая запись пополняет портфолио вашего ребёнка — картина развития становится яснее со временем.',
+    how_step4_h: 'ParentMind напоминает о себе', how_step4_p: 'Через две недели: «Как дела с утренним режимом?» Эта непрерывность отличает отслеживание от понимания.',
+
+    schools_eyebrow: 'Для школ и садов', schools_h2: 'Каждый класс. Каждый ребёнок.',
+    schools_lead: 'ParentMind можно лицензировать как стандартный инструмент для дошкольного образования — давая учителям контекст, которого у них раньше не было.',
+    sf1_h: 'Портфолио на каждого ученика', sf1_p: 'Учителя видят эмоциональный фон и известные триггеры каждого ребёнка ещё до первого дня.',
+    sf2_h: 'Координация родитель–учитель', sf2_p: 'Обе стороны записывают наблюдения. ИИ находит закономерности между домом и школой.',
+    sf3_h: 'Аналитика по классу', sf3_p: 'Обезличенные закономерности по классу помогают учителям выявлять системные проблемы.',
+    sf4_h: 'Интересует лицензирование?', sf4_p: '<a href="#">Свяжитесь с нами →</a> Мы работаем напрямую с детскими садами и начальными школами.',
+    classroom_title: 'Вид по классу',
+    class_tag1: 'Чувствителен к переходам', class_tag2: 'Тревога расставания ↓', class_tag3: 'Высокая энергия · нужна структура',
+    class_tag4: 'Прогрессирует ✓', class_tag5: 'Новенький(ая) — наблюдение',
+
+    free_eyebrow: 'Бесплатный план', free_h2: 'Начните, не платя ничего.',
+    free_lead: 'Хорошая психологическая поддержка не должна быть роскошью. Ядро ParentMind бесплатно.',
+    free_item1_h: 'Неограниченные вопросы', free_item1_p: 'Опишите любую ситуацию, получите полное психологическое объяснение и конкретные шаги',
+    free_item2_h: 'Полная библиотека кейсов', free_item2_p: 'Просматривайте все разобранные случаи с научно обоснованными ответами',
+    free_item3_h: 'Портфолио ребёнка — 1 ребёнок', free_item3_p: 'Все записи сохраняются, отслеживаются вехи развития и закономерности',
+    free_item4_h: 'Напоминания-уточнения', free_item4_p: 'ParentMind возвращается к нерешённым ситуациям через 2 недели',
+    free_item5_h: 'Несколько детей + доступ для школы', free_item5_p: 'Делитесь портфолио с учителями и педиатрами',
+    free_always_badge: 'Всегда бесплатно', free_pro_badge: 'Тариф Pro',
+
+    cta_h2: 'Готовы лучше понимать своего ребёнка?', cta_p: 'Начните разговор прямо сейчас — без аккаунта, без карты.',
+    cta_btn: 'Написать в ParentMind →',
+    footer_credit: 'Сделано Angelish · Основано на детской психологии развития · © 2026'
+  },
+  ko: {
+    nav_cases: '사례', nav_how: '이용 방법', nav_schools: '학교용', nav_free: '무료 플랜',
+    hero_kicker: '아동 발달 · 무료로 시작',
+    hero_title: `심리 상담사가 필요해지기 전에<br><em>내 아이를 먼저 이해하세요.</em>`,
+    hero_sub: '오늘 있었던 일을 적어보세요. ParentMind가 이유를 설명하고, 어떻게 해야 할지 알려주며, 시간이 지날수록 아이에 대한 이해를 쌓아갑니다.',
+    night_hint: '새벽 2시에 마음이 불편해서 글을 쓰고 계신가요? 나이트 모드를 써보세요 ↑',
+    chat_tab_child: '👶 우리 아이', chat_tab_profile: '⚙️ 프로필',
+    input_placeholder: '오늘 아이에게 무슨 일이 있었나요...', send_btn: '보내기 →',
+    footer_note: '🔒 계정에 안전하게 저장됩니다',
+    pill_meltdown: '떼쓰기', pill_refuses_school: '등원 거부', pill_sleep_issues: '수면 문제',
+    hero_note: '계정 없이도 이용 가능합니다. 기본 기능은 영구 무료입니다.',
+    filter_all: '전체 연령', filter_toddler: '영유아 2–4세', filter_preschool: '유치원생 4–6세',
+    filter_school: '초등학생 6–10세', filter_emotions: '감정', filter_sleep: '수면',
+    auth_title_login: '다시 오신 것을 환영합니다', auth_title_signup: '계정 만들기',
+    auth_subtitle_login: '저장된 프로필과 대화 기록을 보려면 로그인하세요.',
+    auth_subtitle_signup: '모든 기기에서 프로필과 대화 기록을 저장하세요.',
+    auth_email_label: '이메일', auth_password_label: '비밀번호',
+    auth_password_placeholder: '6자 이상 입력하세요',
+    auth_submit_login: '로그인', auth_submit_signup: '회원가입',
+    auth_toggle_text_login: '계정이 없으신가요?', auth_toggle_text_signup: '이미 계정이 있으신가요?',
+    auth_toggle_link_login: '회원가입', auth_toggle_link_signup: '로그인',
+    onboarding_title: 'ParentMind에 오신 것을 환영합니다',
+    onboarding_subtitle: '맞춤 조언을 드릴 수 있도록 아이에 대해 알려주세요.',
+    ob_name_label: '아이 이름 *', ob_name_placeholder: '예: 소피아',
+    ob_age_label: '나이', ob_age_placeholder: '예: 4',
+    ob_notes_label: 'ParentMind가 알아야 할 점이 있나요? (선택 사항)',
+    ob_notes_placeholder: '예: 매우 예민함, 새로운 장소에 적응하는 데 시간이 걸림...',
+    ob_start_btn: '시작하기 →',
+    profile_title: '아이 프로필', pr_name_label: '이름', pr_age_label: '나이',
+    pr_notes_label: '일반 메모 및 배경 정보', pr_notes_placeholder: '기질, 가족 상황, 최근 변화...',
+    pr_interests_label: '관심사 및 진정에 도움되는 것', pr_interests_placeholder: '예: 레고, 그림 그리기, 물놀이, 음악...',
+    pr_triggers_label: '알려진 트리거', pr_triggers_placeholder: '예: 활동 전환, 큰 소리, 배고픔...',
+    pr_strengths_label: '발견한 강점', pr_strengths_placeholder: '예: 공감력, 창의력, 끈기...',
+    pr_clear_btn: '대화 기록 지우기', pr_save_btn: '프로필 저장',
+    greeting_template: `안녕하세요 — {name}를(을) 이해하도록 도와드릴게요. 오늘 있었던 일을 편하게 자신의 말로 설명해 주세요. 정해진 시작 방법은 없어요.`,
+
+    cases_eyebrow: '해결된 사례', cases_h2: '실제 상황. 실제 조언.',
+    cases_lead: '계정을 만들기 전에 전체 심리 분석을 읽어보세요. 이메일을 요청하기 전에 신뢰를 먼저 쌓습니다.',
+    case_why_label: '왜 이런 일이 일어날까요', case_what_label: '어떻게 해야 할까요', case_watch_label: '주의할 점',
+    case_read_btn: '심리 분석 읽기 →', case_log_btn: 'ParentMind에 기록하기',
+
+    case1_tag: '감정', case1_age: '3–5세', case1_title: '공공장소에서의 떼쓰기 — 아무것도 통하지 않아요',
+    case1_sit: '"마트에서 20분 동안 소리를 질렀어요. 사람들이 쳐다봤어요."',
+    case1_why: '3–5세에는 전전두피질이 아직 거의 발달하지 않았습니다. 아이가 "안 돼"라는 말을 들으면, 이성적 처리가 시작되기도 전에 감정의 뇌가 먼저 압도당합니다. 이는 신경학적 현상이지 반항이 아닙니다.',
+    case1_step1: '설득하거나 협상하려 하지 마세요. 아이의 눈높이로 몸을 낮추세요.',
+    case1_step2: `<em>감정에 이름을 붙여주세요: "정말 그게 갖고 싶었구나. 많이 속상하겠다."</em>`,
+    case1_step3: '수치심이 아닌 안전감을 만드세요. 가능하면 더 조용한 곳으로 이동하세요.',
+    case1_watch: '30분 이상 지속되거나 매일 반복되는 떼쓰기는 소아과 상담을 고려하세요.',
+
+    case2_tag: '행동', case2_age: '4–7세', case2_title: '유치원 거부 — 매일 아침 울어요',
+    case2_sit: '"문을 붙잡고 놓지 않아요. 선생님은 제가 떠난 지 10분이면 괜찮아진다고 해요."',
+    case2_why: '분리 불안은 발달상 정상적인 현상입니다. 배가 아픈 것도 실제입니다 — 불안이 장-뇌 축을 활성화시키기 때문이죠. 당신이 떠난 후 빨리 진정되는 것은 좋은 신호입니다: 안정 애착이 형성되어 있다는 뜻이에요.',
+    case2_step1: '매일 똑같은 말과 포옹으로 이루어진 일관된 작별 의식을 만드세요.',
+    case2_step2: '오래 머물지 마세요. 긴 작별은 뭔가 잘못됐다는 신호를 줍니다.',
+    case2_step3: '낮 동안 지닐 수 있도록 당신의 물건을 하나 주세요.',
+    case2_watch: '4주 이상 일관된 루틴 후에도 회피가 심해진다면 주의가 필요합니다.',
+
+    case3_tag: '수면', case3_age: '2–6세', case3_title: '혼자 못 자요 — 부모가 방에 있어야 해요',
+    case3_sit: '"5살인데 제가 옆에 앉아 있지 않으면 잠을 못 자요."',
+    case3_why: '수면은 신경학적으로 아이에게 가장 취약한 상태입니다. 아이의 신경계는 공동 조절이 필요합니다 — 진정시켜줄 차분한 어른의 존재 말이죠. 이것은 조종이 아닙니다.',
+    case3_step1: '점진적 거리두기: 침대 옆 → 문가 → 밖. 3–5일마다 한 단계씩 이동하세요.',
+    case3_step2: '자기 전 10분 "걱정 시간"을 도입하세요 — 이름 붙여진 두려움은 더 잘 잠듭니다.',
+    case3_step3: '주도권을 주세요: 야간등 색깔, 이불 선택. 통제감이 불안을 줄여줍니다.',
+    case3_watch: '야경증(비명을 지르지만 반응이 없는 경우)은 별도의 접근이 필요합니다.',
+
+    case4_tag: '자존감', case4_age: '6–10세', case4_title: '"난 내가 싫어" — 하나 틀린 후에',
+    case4_sit: '"아들이 답 하나를 틀리고 \'난 너무 바보 같아, 내가 싫어\'라고 말했어요."',
+    case4_why: '학령기 아이들은 에릭슨의 근면성 대 열등감 단계에 있습니다 — "내가 유능한가?"를 시험하는 시기죠. 실패가 존재론적으로 느껴질 수 있습니다. "내가 싫어"는 과장된 표현이지만 진지하게 다뤄야 합니다.',
+    case4_step1: `<em>바로 고쳐주지 마세요. 먼저: "그거 정말 속상하겠다."</em>`,
+    case4_step2: `<em>사건과 정체성을 분리하세요: "하나 틀렸다고 네가 어떤 사람인지가 정해지는 건 아니야."</em>`,
+    case4_step3: '자신의 실패담을 들려주세요 — 어려움을 정상화하는 것은 가장 근거 있는 회복탄력성 형성 방법 중 하나입니다.',
+    case4_watch: '잦은 자기비판적 말이나 활동 회피가 보이면 학교 상담사를 고려하세요.',
+
+    case5_tag: '행동', case5_age: '2–5세', case5_title: '다른 아이를 때려요 — 특히 어린이집에서',
+    case5_sit: '"딸이 이번 주에 다른 아이를 두 번 때렸어요. 집에서는 안 때리는데요."',
+    case5_why: '5세 이전에 때리는 행동은 거의 항상 언어의 한계이지 공격성이 아닙니다. 아이는 말로 빠르게 표현하지 못하는 감정을 느끼고 있는 것입니다. 어린이집은 이를 증폭시킵니다 — 자극은 많고 통제는 적으니까요.',
+    case5_step1: `<em>차분하게 반응하세요: "때리면 아파. 화가 나면 말로 해보자."</em>`,
+    case5_step2: '평온할 때 집에서 부족한 표현을 연습시켜, 필요해지기 전에 어휘를 마련해 주세요.',
+    case5_step3: '패턴을 관찰하세요 — 점심 전인가요? 하원 시간인가요? 배고픔과 피로가 크게 영향을 미칩니다.',
+    case5_watch: '때리는 행동에 물기가 동반되거나 명백한 즐거움이 보인다면 더 자세히 살펴볼 필요가 있습니다.',
+
+    case6_tag: '경계 설정', case6_age: '3–6세', case6_title: '"안 돼"에 대한 극단적 반응 — 매번',
+    case6_sit: '"그냥 평화를 위해 \'안 돼\'라는 말을 피하기 시작했어요."',
+    case6_why: '어떤 아이들은 좌절 인내 임계값이 낮습니다 — 일부는 기질, 일부는 발달 단계 때문입니다. "안 돼"를 피하는 것은 강도가 결과를 바꾼다는 것을 학습시켜 행동을 고착시킬 수 있습니다.',
+    case6_step1: '부담이 적은 상황에서 "안 돼"를 꾸준히 다시 도입하며 조금씩 인내력을 키워주세요.',
+    case6_step2: '가능하면 "그래, 나중에"를 제안하세요 — 욕구는 인정하면서 경계는 유지합니다.',
+    case6_step3: `<em>폭풍이 지나간 후: "다음에 그런 감정이 들 때 어떻게 할 수 있을까?"</em>`,
+    case6_watch: '부모가 지속적으로 한계 설정을 회피한다면 가족 치료사와 상담해볼 가치가 있습니다.',
+
+    privacy_h: '아이의 데이터는 비공개로 유지됩니다.',
+    privacy_sub: '당신은 아이에 대한 민감한 정보를 공유하고 있습니다. 저희는 이를 법적으로뿐 아니라 핵심 설계 원칙으로서 진지하게 다룹니다.',
+    privacy_card1_h: '판매·공유하지 않음', privacy_card1_p: '아이의 프로필과 기록은 제3자, 광고주, 연구자와 절대 공유되지 않습니다.',
+    privacy_card2_h: '암호화, 사람이 읽지 않음', privacy_card2_p: 'AI 처리는 서버에서 이루어지지만 프로필 데이터는 암호화되어 있으며 본인 계정에서만 접근 가능합니다.',
+    privacy_card3_h: '언제든지 삭제 가능', privacy_card3_p: '언제든 아이의 전체 프로필을 내보내거나 영구 삭제할 수 있습니다. 데이터는 완전히 사라집니다.',
+
+    how_eyebrow: '이용 방법', how_h2: '조언이 아니라 기억입니다.',
+    how_lead: 'ParentMind와 단순히 글을 읽는 것의 차이는, ParentMind가 아이를 기억하고 다시 돌아와 확인한다는 점입니다.',
+    how_step1_h: '자신의 말로 설명하세요', how_step1_p: '자연스럽게 느껴지는 대로 무슨 일이 있었는지 적어보세요. 양식도, 체크박스도 없이 — 그냥 당신의 말로요.',
+    how_step2_h: '구체적인 조언을 받으세요', how_step2_p: '일반적인 글이 아닙니다. 아이의 나이, 이력, 지금 일어나고 있는 일에 맞춘 조언입니다.',
+    how_step3_h: '모든 것이 저장됩니다', how_step3_p: '각 기록이 아이의 포트폴리오를 만듭니다 — 시간이 지날수록 더 선명해지는 발달 그림이죠.',
+    how_step4_h: 'ParentMind가 다시 확인합니다', how_step4_p: '2주 후: "아침 루틴은 어떻게 되어가고 있나요?" 이 연속성이 단순 기록과 이해를 구분짓습니다.',
+
+    schools_eyebrow: '학교 및 유치원용', schools_h2: '모든 교실. 모든 아이.',
+    schools_lead: 'ParentMind는 유아 교육의 표준 도구로 라이선스될 수 있습니다 — 교사들에게 이전에 없던 맥락을 제공합니다.',
+    sf1_h: '학생별 아이 포트폴리오', sf1_p: '교사는 첫날이 되기 전에 각 아이의 정서적 기준선과 알려진 트리거를 확인할 수 있습니다.',
+    sf2_h: '부모-교사 협력', sf2_p: '양쪽 모두 관찰 내용을 기록합니다. AI가 가정과 학교의 패턴을 종합합니다.',
+    sf3_h: '학급 단위 인사이트', sf3_p: '학급 전체의 익명화된 패턴이 교사가 시스템적 문제를 파악하는 데 도움을 줍니다.',
+    sf4_h: '라이선스에 관심이 있으신가요?', sf4_p: '<a href="#">문의하기 →</a> 저희는 유치원 및 초등학교와 직접 협력합니다.',
+    classroom_title: '학급 보기',
+    class_tag1: '전환에 민감함', class_tag2: '분리 불안 ↓', class_tag3: '에너지 높음 · 구조 필요',
+    class_tag4: '잘 지내고 있음 ✓', class_tag5: '신입 — 관찰 중',
+
+    free_eyebrow: '무료 플랜', free_h2: '아무 비용 없이 시작하세요.',
+    free_lead: '좋은 심리적 조언은 사치가 아니어야 합니다. ParentMind의 핵심 기능은 무료입니다.',
+    free_item1_h: '무제한 질문', free_item1_p: '어떤 상황이든 설명하고, 전체 심리 분석과 실행 가능한 단계를 받아보세요',
+    free_item2_h: '전체 사례 라이브러리', free_item2_p: '근거 기반 답변이 담긴 모든 해결 사례를 살펴보세요',
+    free_item3_h: '아이 포트폴리오 — 1명', free_item3_p: '모든 기록이 저장되고, 발달 이정표와 패턴이 기록됩니다',
+    free_item4_h: '후속 확인 알림', free_item4_p: 'ParentMind가 2주 후 미해결 상황을 다시 확인합니다',
+    free_item5_h: '여러 자녀 + 학교 공유', free_item5_p: '교사 및 소아과 의사와 포트폴리오를 공유하세요',
+    free_always_badge: '항상 무료', free_pro_badge: 'Pro 플랜',
+
+    cta_h2: '아이를 더 잘 이해할 준비가 되셨나요?', cta_p: '지금 바로 대화를 시작하세요 — 계정도, 카드도 필요 없어요.',
+    cta_btn: 'ParentMind와 대화하기 →',
+    footer_credit: 'Angelish 제작 · 아동 발달 심리학 기반 · © 2026'
+  }
+};
+
+function t(key) {
+  return (translations[currentLang] && translations[currentLang][key]) || translations.en[key] || key;
+}
+
+function updateWelcomeGreeting() {
+  const welcomeEl = document.getElementById('welcome-msg');
+  if (welcomeEl) {
+    welcomeEl.innerHTML = t('greeting_template').replace('{name}', currentChild.name);
+  }
+}
+
+function applyLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('parentmind_lang', lang);
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = t(el.getAttribute('data-i18n-html'));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+
+  updateWelcomeGreeting();
+  if (typeof authMode !== 'undefined') {
+    document.getElementById('auth-title').textContent = authMode === 'signup' ? t('auth_title_signup') : t('auth_title_login');
+    document.getElementById('auth-subtitle').textContent = authMode === 'signup' ? t('auth_subtitle_signup') : t('auth_subtitle_login');
+    document.getElementById('auth-submit-btn').textContent = authMode === 'signup' ? t('auth_submit_signup') : t('auth_submit_login');
+    document.getElementById('auth-toggle-text').textContent = authMode === 'signup' ? t('auth_toggle_text_signup') : t('auth_toggle_text_login');
+    document.getElementById('auth-toggle-link').textContent = authMode === 'signup' ? t('auth_toggle_link_signup') : t('auth_toggle_link_login');
+  }
+}
 
 // ⚠️ REPLACE these two with your own Supabase project values
 // (Project Settings → API in your Supabase dashboard)
@@ -721,13 +1148,11 @@ function hideAuthModal() {
 function toggleAuthMode() {
   authMode = authMode === 'login' ? 'signup' : 'login';
   const isSignup = authMode === 'signup';
-  document.getElementById('auth-title').textContent = isSignup ? 'Create your account' : 'Welcome back';
-  document.getElementById('auth-subtitle').textContent = isSignup
-    ? 'Save your profile and chat history across devices.'
-    : 'Log in to see your saved profile and chat history.';
-  document.getElementById('auth-submit-btn').textContent = isSignup ? 'Sign up' : 'Log in';
-  document.getElementById('auth-toggle-text').textContent = isSignup ? 'Already have an account?' : "Don't have an account?";
-  document.getElementById('auth-toggle-link').textContent = isSignup ? 'Log in' : 'Sign up';
+  document.getElementById('auth-title').textContent = isSignup ? t('auth_title_signup') : t('auth_title_login');
+  document.getElementById('auth-subtitle').textContent = isSignup ? t('auth_subtitle_signup') : t('auth_subtitle_login');
+  document.getElementById('auth-submit-btn').textContent = isSignup ? t('auth_submit_signup') : t('auth_submit_login');
+  document.getElementById('auth-toggle-text').textContent = isSignup ? t('auth_toggle_text_signup') : t('auth_toggle_text_login');
+  document.getElementById('auth-toggle-link').textContent = isSignup ? t('auth_toggle_link_signup') : t('auth_toggle_link_login');
   document.getElementById('auth-error').style.display = 'none';
 }
 
@@ -834,7 +1259,7 @@ async function resetChat(profile, alsoClearSaved = true) {
   if (alsoClearSaved) await saveHistory(history);
   const msgs = document.getElementById('messages');
   msgs.innerHTML = '';
-  addMsg('ai', `Hello — I'm here to help you understand <strong>${profile.name}</strong>. Describe anything that happened today, in your own words. There's no right way to start.`);
+  addMsg('ai', t('greeting_template').replace('{name}', `<strong>${profile.name}</strong>`));
 }
 
 // ══════════════════════════════════════
@@ -931,8 +1356,11 @@ Extra context about ${profile.name}: ${profile.notes}` +
     (profile.triggers ? ` Known triggers: ${profile.triggers}.` : '') +
     (profile.strengths ? ` Strengths: ${profile.strengths}.` : '') : '';
 
+  const langNames = { en: 'English', ru: 'Russian (русский)', ko: 'Korean (한국어)' };
+  const langInstruction = ` IMPORTANT: Respond ONLY in ${langNames[currentLang] || 'English'}, regardless of what language the parent writes in.`;
+
   try {
-    const TONE = `You are ParentMind — a warm, calm AI assistant for parents. Speak like a trusted friend who has a psychology degree. Always acknowledge the parent feeling first before giving advice. Short paragraphs, no bullet points, no walls of text. Never make parent feel judged or like they failed. End with one gentle question. Under 200 words. You are helping a parent understand their child ${currentChild.name}, who is ${currentChild.age} years old.${profileContext}`;
+    const TONE = `You are ParentMind — a warm, calm AI assistant for parents. Speak like a trusted friend who has a psychology degree. Always acknowledge the parent feeling first before giving advice. Short paragraphs, no bullet points, no walls of text. Never make parent feel judged or like they failed. End with one gentle question. Under 200 words. You are helping a parent understand their child ${currentChild.name}, who is ${currentChild.age} years old.${profileContext}${langInstruction}`;
 
     const res = await fetch('/api/chat', {
       method: 'POST',
@@ -1015,6 +1443,9 @@ function toggleCase(btn) {
 // INIT on page load
 // ══════════════════════════════════════
 window.addEventListener('load', async () => {
+  // language
+  applyLanguage(currentLang);
+
   // night mode
   if (localStorage.getItem('parentmind_night') === '1') {
     document.body.classList.add('night');
@@ -1043,12 +1474,12 @@ window.addEventListener('load', async () => {
     </div>
     <div style="display:flex;flex-direction:column;gap:12px;">
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Email</label>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="auth_email_label">Email</label>
         <input id="auth-email" type="email" placeholder="you@example.com" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
       </div>
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Password</label>
-        <input id="auth-password" type="password" placeholder="At least 6 characters" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="auth_password_label">Password</label>
+        <input id="auth-password" type="password" data-i18n-placeholder="auth_password_placeholder" placeholder="At least 6 characters" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
       </div>
       <p id="auth-error" style="font-size:12.5px;color:#C0392B;display:none;"></p>
       <button onclick="handleAuthSubmit()" id="auth-submit-btn" style="background:#C97080;color:white;border:none;border-radius:10px;padding:13px;font-size:15px;font-family:'Inter',sans-serif;cursor:pointer;margin-top:4px;">Log in</button>
@@ -1065,23 +1496,23 @@ window.addEventListener('load', async () => {
   <div style="background:var(--surface,#fff);border-radius:20px;padding:36px;max-width:420px;width:90%;border:1px solid var(--border,#EDE0E3);">
     <div style="text-align:center;margin-bottom:24px;">
       <svg width="48" height="48" viewBox="0 0 64 64" fill="none" style="margin:0 auto 12px;display:block;"><circle cx="32" cy="32" r="31" fill="#FBF0F2" stroke="#E8C4CC" stroke-width="1.5"/><ellipse cx="32" cy="15" rx="10" ry="10" fill="#C8906A" opacity="0.85"/><ellipse cx="32" cy="18" rx="8" ry="7" fill="#F5E6DC"/><ellipse cx="28" cy="36" rx="6.5" ry="6" fill="#6B4535" opacity="0.9"/><ellipse cx="28" cy="38" rx="5.5" ry="5" fill="#F5E6DC"/><path d="M18 42 Q22 50 32 52 Q42 50 46 42" stroke="#F0D0C0" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.75"/></svg>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--text,#2E2226);margin-bottom:6px;">Welcome to ParentMind</h2>
-      <p style="font-size:14px;color:var(--text-mid,#7A6068);line-height:1.6;">Tell us about your child so we can give you personalized guidance.</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--text,#2E2226);margin-bottom:6px;" data-i18n="onboarding_title">Welcome to ParentMind</h2>
+      <p style="font-size:14px;color:var(--text-mid,#7A6068);line-height:1.6;" data-i18n="onboarding_subtitle">Tell us about your child so we can give you personalized guidance.</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:12px;">
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Child's name *</label>
-        <input id="ob-name" type="text" placeholder="e.g. Sofia" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="ob_name_label">Child's name *</label>
+        <input id="ob-name" type="text" data-i18n-placeholder="ob_name_placeholder" placeholder="e.g. Sofia" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
       </div>
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Age</label>
-        <input id="ob-age" type="number" placeholder="e.g. 4" min="0" max="18" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="ob_age_label">Age</label>
+        <input id="ob-age" type="number" data-i18n-placeholder="ob_age_placeholder" placeholder="e.g. 4" min="0" max="18" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:14px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
       </div>
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Anything ParentMind should know? (optional)</label>
-        <textarea id="ob-notes" placeholder="e.g. very sensitive, slow to warm up to new places..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:70px;line-height:1.5;"></textarea>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="ob_notes_label">Anything ParentMind should know? (optional)</label>
+        <textarea id="ob-notes" data-i18n-placeholder="ob_notes_placeholder" placeholder="e.g. very sensitive, slow to warm up to new places..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 14px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:70px;line-height:1.5;"></textarea>
       </div>
-      <button onclick="closeOnboarding()" style="background:#C97080;color:white;border:none;border-radius:10px;padding:13px;font-size:15px;font-family:'Inter',sans-serif;cursor:pointer;margin-top:4px;">Start →</button>
+      <button onclick="closeOnboarding()" style="background:#C97080;color:white;border:none;border-radius:10px;padding:13px;font-size:15px;font-family:'Inter',sans-serif;cursor:pointer;margin-top:4px;" data-i18n="ob_start_btn">Start →</button>
     </div>
   </div>
 </div>
@@ -1090,39 +1521,39 @@ window.addEventListener('load', async () => {
 <div id="profile-modal" style="display:none;position:fixed;inset:0;background:rgba(46,34,38,0.7);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);overflow-y:auto;">
   <div style="background:var(--surface,#fff);border-radius:20px;padding:32px;max-width:480px;width:90%;border:1px solid var(--border,#EDE0E3);margin:20px auto;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text,#2E2226);">Child Profile</h2>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--text,#2E2226);" data-i18n="profile_title">Child Profile</h2>
       <button onclick="closeProfileModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-light,#B09AA0);">×</button>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div>
-          <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Name</label>
+          <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="pr_name_label">Name</label>
           <input id="pr-name" type="text" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
         </div>
         <div>
-          <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Age</label>
+          <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="pr_age_label">Age</label>
           <input id="pr-age" type="number" min="0" max="18" style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;">
         </div>
       </div>
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">General notes & context</label>
-        <textarea id="pr-notes" placeholder="Temperament, family situation, recent changes..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:70px;line-height:1.5;"></textarea>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="pr_notes_label">General notes & context</label>
+        <textarea id="pr-notes" data-i18n-placeholder="pr_notes_placeholder" placeholder="Temperament, family situation, recent changes..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:70px;line-height:1.5;"></textarea>
       </div>
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Interests & what calms them</label>
-        <textarea id="pr-interests" placeholder="e.g. Legos, drawing, water play, music..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="pr_interests_label">Interests & what calms them</label>
+        <textarea id="pr-interests" data-i18n-placeholder="pr_interests_placeholder" placeholder="e.g. Legos, drawing, water play, music..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
       </div>
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Known triggers</label>
-        <textarea id="pr-triggers" placeholder="e.g. transitions, loud sounds, hunger..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="pr_triggers_label">Known triggers</label>
+        <textarea id="pr-triggers" data-i18n-placeholder="pr_triggers_placeholder" placeholder="e.g. transitions, loud sounds, hunger..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
       </div>
       <div>
-        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;">Strengths you've noticed</label>
-        <textarea id="pr-strengths" placeholder="e.g. empathy, creativity, persistence..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
+        <label style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--light,#B09AA0);display:block;margin-bottom:5px;" data-i18n="pr_strengths_label">Strengths you've noticed</label>
+        <textarea id="pr-strengths" data-i18n-placeholder="pr_strengths_placeholder" placeholder="e.g. empathy, creativity, persistence..." style="width:100%;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:'Inter',sans-serif;background:var(--bg,#FDFAFA);color:var(--text,#2E2226);outline:none;resize:none;min-height:55px;line-height:1.5;"></textarea>
       </div>
       <div style="display:flex;gap:10px;margin-top:4px;">
-        <button onclick="clearHistory()" style="flex:1;background:none;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;color:var(--text-mid,#7A6068);">Clear chat history</button>
-        <button onclick="saveProfileModal()" style="flex:2;background:#C97080;color:white;border:none;border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;">Save profile</button>
+        <button onclick="clearHistory()" style="flex:1;background:none;border:1px solid var(--border,#EDE0E3);border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;color:var(--text-mid,#7A6068);" data-i18n="pr_clear_btn">Clear chat history</button>
+        <button onclick="saveProfileModal()" style="flex:2;background:#C97080;color:white;border:none;border-radius:10px;padding:11px;font-size:13px;font-family:'Inter',sans-serif;cursor:pointer;" data-i18n="pr_save_btn">Save profile</button>
       </div>
     </div>
   </div>
